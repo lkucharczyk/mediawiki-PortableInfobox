@@ -12,6 +12,9 @@
 	"descriptionmsg": "portable-infobox-desc",
 	"version": "0.1",
 	"type": "parserhook",
+	"MessagesDirs": {
+		"PortableInfobox": "i18n"
+	},
 	"AutoloadClasses": {
 		"PortableInfoboxQueryService": "services/PortableInfoboxQueryService.class.php",
 		"PortableInfoboxRenderService": "services/PortableInfoboxRenderService.class.php",

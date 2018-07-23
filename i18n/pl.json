@@ -1,0 +1,16 @@
+{
+	"portable-infobox-desc": "Twórz przenośne infoboksy używając prostej do zrozumienia i zarazem potężnej składni podobnej do XML. W efekcie powstanie czysta semantyczna składnia HTML, która pozwoli na wyświetlanie infoboksu na każdej skórce i platformie",
+	"portable-infobox-unimplemented-infobox-tag": "Niezaimplementowany tag infoboksa: <$1>",
+	"portable-infobox-xml-parse-error": "Błędna składnia XML. Proszę sprawdź kod XML",
+	"portable-infobox-xml-parse-error-info": "Wystąpił problem z parsowaniem infoboksu",
+	"portable-infobox-xml-parse-error-document-end": "Dodatkowa treść na końcu dokumentu",
+	"portable-infobox-xml-parse-error-undeclared-entity": "Niezadeklarowany obiekt (na przykład: &nbsp;)",
+	"portable-infobox-xml-parse-error-attribute-not-started": "Wartość atrybutu powinna być zawarta wewnątrz cudzysłowów",
+	"portable-infobox-xml-parse-error-attribute-without-value": "Atrybut znacznika musi mieć wartość",
+	"portable-infobox-xml-parse-error-space-required": "Błąd konstrukcji atrybutu",
+	"portable-infobox-xml-parse-error-name-required": "Błąd parsowania nazwy atrybutu",
+	"portable-infobox-xml-parse-error-gt-required": "Definicja tagu nie jest zakończona prawidłowo",
+	"portable-infobox-xml-parse-error-tag-name-mismatch": "Niezgodność otwierającego i kończącego znacznika",
+	"portable-infobox-xml-parse-error-tag-not-finished": "Przedwczesny koniec znacznika",
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "Atrybut \"$1\" nie jest obsługiwana w tagu <infobox>"
+}

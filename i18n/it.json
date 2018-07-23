@@ -1,0 +1,16 @@
+{
+	"portable-infobox-desc": "Crea profili portatili con potenti codici tipo XML facili da capire che possono essere processati su qualunque skin o piattaforma usando semplici codici semantici HTML",
+	"portable-infobox-unimplemented-infobox-tag": "Tag profilo non inclusi: <$1>",
+	"portable-infobox-xml-parse-error": "Sintassi XML non corretta. Per favore, controlla il tuo XML",
+	"portable-infobox-xml-parse-error-info": "C'è un problema con l'analisi sintattica del profilo",
+	"portable-infobox-xml-parse-error-document-end": "Contenuto extra alla fine del documento",
+	"portable-infobox-xml-parse-error-undeclared-entity": "Entità non dichiarata (ad esempio: &nbsp;)",
+	"portable-infobox-xml-parse-error-attribute-not-started": "Il valore dell'attributo deve essere racchiuso tra virgolette",
+	"portable-infobox-xml-parse-error-attribute-without-value": "Specificare il valore dell'attributo del tag",
+	"portable-infobox-xml-parse-error-space-required": "Errore nella costruzione degli attributi",
+	"portable-infobox-xml-parse-error-name-required": "Errore nell'analisi sintattica del nome dell'attributo",
+	"portable-infobox-xml-parse-error-gt-required": "La definizione del tag non è conclusa correttamente",
+	"portable-infobox-xml-parse-error-tag-name-mismatch": "Mancata corrispondenza tra il tag di apertura e quello di chiusura",
+	"portable-infobox-xml-parse-error-tag-not-finished": "Fine prematura del tag",
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "L\'attributo \"$1\" non è supportato nel tag <infobox>",
+}

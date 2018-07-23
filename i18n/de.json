@@ -1,0 +1,16 @@
+{
+	"portable-infobox-desc": "Erstelle in einem einfachen mächtigen XML-Format portable Infoboxen, die in jedem Skin und auf jeder Plattform in sauberem semantischen HTML dargestellt werden.",
+	"portable-infobox-unimplemented-infobox-tag": "Nicht implementiertes Infobox-Tag: <$1>",
+	"portable-infobox-xml-parse-error": "Fehler im XML-Format. Bitte überprüfe deinen XML-Code.",
+	"portable-infobox-xml-parse-error-info": "Beim Parsen der Infobox ist ein Problem aufgetreten",
+	"portable-infobox-xml-parse-error-document-end": "Zusätzlicher Inhalt am Ende des Dokuments",
+	"portable-infobox-xml-parse-error-undeclared-entity": "Nicht deklarierte Entität (zum Beispiel: &nbsp;)",
+	"portable-infobox-xml-parse-error-attribute-not-started": "Attributwert muss in Anführungszeichen stehen",
+	"portable-infobox-xml-parse-error-attribute-without-value": "Das Tag-Attribut muss einen Wert haben",
+	"portable-infobox-xml-parse-error-space-required": "Durch Attribute erzeugter Fehler",
+	"portable-infobox-xml-parse-error-name-required": "Fehler beim Parsen des Attributnamens",
+	"portable-infobox-xml-parse-error-gt-required": "Die Tag-Definition wurde nicht richtig geschlossen",
+	"portable-infobox-xml-parse-error-tag-name-mismatch": "Keine Übereinstimmung bei öffnendem Tag und Endtag",
+	"portable-infobox-xml-parse-error-tag-not-finished": "Der Tag wurde vorzeitig geschlossen",
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "Das Attribut \"$1\" wird im <infobox>-Tag nicht unterstützt"
+}

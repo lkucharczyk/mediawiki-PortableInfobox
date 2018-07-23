@@ -1,0 +1,16 @@
+{
+	"portable-infobox-desc": "À l'aide d'un balisage de type XML facile à comprendre et simple, permet de créer des infoboxes portables et de les afficher sur n'importe quelle apparence/plateforme",
+	"portable-infobox-unimplemented-infobox-tag": "Balise d'infobox non reconnue : <$1>",
+	"portable-infobox-xml-parse-error": "Code XML incorrect. Veuillez valider votre code.",
+	"portable-infobox-xml-parse-error-info": "Un problème est survenu lors de l'analyse de l’infobox.",
+	"portable-infobox-xml-parse-error-document-end": "Contenu supplémentaire à la fin du document",
+	"portable-infobox-xml-parse-error-undeclared-entity": "Entité non déclarée (par exemple : &nbsp;)",
+	"portable-infobox-xml-parse-error-attribute-not-started": "Vous devez spécifier la valeur de l'attribut entre guillemets.",
+	"portable-infobox-xml-parse-error-attribute-without-value": "Vous devez spécifier une valeur pour l'attribut de la balise.",
+	"portable-infobox-xml-parse-error-space-required": "Erreur de construction des attributs",
+	"portable-infobox-xml-parse-error-name-required": "Erreur d'analyse du nom d'attribut",
+	"portable-infobox-xml-parse-error-gt-required": "Vous devez spécifier une fin à la définition de la balise.",
+	"portable-infobox-xml-parse-error-tag-name-mismatch": "Les balises d'ouverture et de fermeture ne correspondent pas.",
+	"portable-infobox-xml-parse-error-tag-not-finished": "Fin de balise prématurée",
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "L'attribut \"$1\" n'est pas pris en charge dans la balise <infobox>"
+}
