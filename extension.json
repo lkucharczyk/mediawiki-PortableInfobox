@@ -1,0 +1,83 @@
+{
+	"name": "Portable Infobox",
+	"author": [
+		"Adam Robak",
+		"Diana Falkowska",
+		"Jacek Jursza",
+		"Mateusz Rybarski",
+		"Rafał Leszczyński",
+		"Sebastian Marzjan"
+	],
+	"url": "https://github.com/Luqgreg/mediawiki-PortableInfobox",
+	"descriptionmsg": "portable-infobox-desc",
+	"version": "0.1",
+	"type": "parserhook",
+	"AutoloadClasses": {
+		"PortableInfoboxQueryService": "services/PortableInfoboxQueryService.class.php",
+		"PortableInfoboxRenderService": "services/PortableInfoboxRenderService.class.php",
+		"PortableInfoboxMobileRenderService": "services/PortableInfoboxMobileRenderService.class.php",
+		"PortableInfoboxErrorRenderService": "services/PortableInfoboxErrorRenderService.class.php",
+		"Wikia\\PortableInfobox\\Parser\\ExternalParser": "services/Parser/ExternalParser.php",
+		"Wikia\\PortableInfobox\\Parser\\SimpleParser": "services/Parser/SimpleParser.php",
+		"Wikia\\PortableInfobox\\Parser\\XmlParser": "services/Parser/XmlParser.php",
+		"Wikia\\PortableInfobox\\Parser\\DummyParser": "services/Parser/DummyParser.php",
+		"Wikia\\PortableInfobox\\Parser\\MediaWikiParserService": "services/Parser/MediaWikiParserService.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeFactory": "services/Parser/Nodes/NodeFactory.class.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\Node": "services/Parser/Nodes/Node.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeNavigation": "services/Parser/Nodes/NodeNavigation.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeGroup": "services/Parser/Nodes/NodeGroup.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeHeader": "services/Parser/Nodes/NodeHeader.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeImage": "services/Parser/Nodes/NodeImage.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeInfobox": "services/Parser/Nodes/NodeInfobox.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeData": "services/Parser/Nodes/NodeData.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeTitle": "services/Parser/Nodes/NodeTitle.php",
+		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeUnimplemented": "services/Parser/Nodes/NodeUnimplemented.php",
+		"Wikia\\PortableInfobox\\Helpers\\InfoboxParamsValidator": "services/Helpers/InfoboxParamsValidator.php",
+		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxDataBag": "services/Helpers/PortableInfoboxDataBag.php",
+		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxMustacheEngine": "services/Helpers/PortableInfoboxMustacheEngine.php",
+		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxImagesHelper": "services/Helpers/PortableInfoboxImagesHelper.php",
+		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxParsingHelper": "services/Helpers/PortableInfoboxParsingHelper.php",
+		"Wikia\\PortableInfobox\\Helpers\\PagePropsProxy": "services/Helpers/PagePropsProxy.php",
+		"SanitizerBuilder": "services/Sanitizers/SanitizerBuilder.php",
+		"NodeSanitizer": "services/Sanitizers/NodeSanitizer.php",
+		"PassThroughSanitizer": "services/Sanitizers/PassThroughSanitizer.php",
+		"NodeTypeSanitizerInterface": "services/Sanitizers/NodeTypeSanitizerInterface.php",
+		"NodeDataSanitizer": "services/Sanitizers/NodeDataSanitizer.php",
+		"NodeHeroImageSanitizer": "services/Sanitizers/NodeHeroImageSanitizer.php",
+		"NodeHorizontalGroupSanitizer": "services/Sanitizers/NodeHorizontalGroupSanitizer.php",
+		"NodeImageSanitizer": "services/Sanitizers/NodeImageSanitizer.php",
+		"NodeTitleSanitizer": "services/Sanitizers/NodeTitleSanitizer.php",
+		"PortableInfoboxParserTagController": "controllers/PortableInfoboxParserTagController.class.php",
+		"ApiPortableInfobox": "controllers/ApiPortableInfobox.class.php",
+		"ApiQueryPortableInfobox": "controllers/ApiQueryPortableInfobox.class.php",
+		"PortableInfoboxHooks": "PortableInfoboxHooks.class.php",
+		"ApiQueryAllinfoboxes": "controllers/ApiQueryAllinfoboxes.class.php",
+		"AllinfoboxesQueryPage": "querypage/AllinfoboxesQueryPage.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
+		"AfterParserParseImageGallery": "PortableInfoboxHooks::onAfterParserParseImageGallery",
+		"BeforePageDisplay": "PortableInfoboxHooks::onBeforePageDisplay",
+		"ParserAfterTidy": "PortableInfoboxParserTagController::replaceInfoboxMarkers",
+		"ImageServing::buildAndGetIndex": "PortableInfoboxHooks::onImageServingCollectImages",
+		"wgQueryPages": "PortableInfoboxHooks::onWgQueryPages",
+		"AllInfoboxesQueryRecached": "PortableInfoboxHooks::onAllInfoboxesQueryRecached",
+		"ArticlePurge": "PortableInfoboxHooks::onArticlePurge",
+		"ArticleSave": "PortableInfoboxHooks::onArticleSave",
+		"BacklinksPurge": "PortableInfoboxHooks::onBacklinksPurge",
+		"ArticleInsertComplete": "PortableInfoboxHooks::onArticleInsertComplete",
+		"ArticleAsJsonBeforeEncode": "PortableInfoboxHooks::onArticleAsJsonBeforeEncode"
+	},
+	"SpecialPages": {
+		"AllInfoboxes": "AllinfoboxesQueryPage"
+	},
+	"APIModules": {
+		"infobox": "ApiPortableInfobox"
+	},
+	"APIPropModules": {
+		"infobox": "ApiQueryPortableInfobox"
+	},
+	"APIListModules": {
+		"allinfoboxes": "ApiQueryAllinfoboxes"
+	}
+}
