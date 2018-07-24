@@ -76,10 +76,10 @@ class WikiaDispatcher {
 	 * @return WikiaResponse
 	 */
 	public function dispatch( WikiaApp $app, WikiaRequest $request ) {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		global $wgAutoloadClasses;
 		if (empty($wgAutoloadClasses)) {
-			wfProfileOut(__METHOD__);
+			//wfProfileOut(__METHOD__);
 			throw new WikiaException( "wgAutoloadClasses is empty, cannot dispatch Request" );
 		}
 		$format = $request->getVal( 'format', WikiaResponse::FORMAT_HTML );
@@ -127,7 +127,7 @@ class WikiaDispatcher {
 				$method = $response->getMethodName();						// might have been changed
 
 				$profilename = __METHOD__ . " ({$controllerClassName}_{$method})";
-				wfProfileIn($profilename);
+				//wfProfileIn($profilename);
 
 				$controller = new $controllerClassName; /* @var $controller WikiaController */
 				$response->setTemplateEngine($controllerClassName::DEFAULT_TEMPLATE_ENGINE);
@@ -230,17 +230,17 @@ class WikiaDispatcher {
 				// keep the AfterExecute hooks for now, refactor later using "after" dispatching
 				Hooks::run( ( "{$controllerName}{$hookMethod}AfterExecute" ), [ $controller, $params ] );
 
-				wfProfileOut($profilename);
+				//wfProfileOut($profilename);
 
 			} catch ( WikiaHttpException $e ) {
 				if ( $request->isInternal() ) {
 					//if it is internal call rethrow it so we can apply normal handling
 
-					wfProfileOut(__METHOD__);
+					//wfProfileOut(__METHOD__);
 					throw $e;
 
 				} else {
-					wfProfileOut($profilename);
+					//wfProfileOut($profilename);
 					$response->setException($e);
 					$response->setFormat( 'json' );
 					$response->setCode($e->getCode());
@@ -255,7 +255,7 @@ class WikiaDispatcher {
 				}
 			} catch ( Exception $e ) {
 				if ($profilename) {
-					wfProfileOut($profilename);
+					//wfProfileOut($profilename);
 				}
 
 				$response->setException($e);
@@ -293,18 +293,18 @@ class WikiaDispatcher {
 					// noop here
 					break;
 				case WikiaRequest::EXCEPTION_MODE_THROW:
-					wfProfileOut(__METHOD__);
+					//wfProfileOut(__METHOD__);
 					throw $response->getException();
 				case WikiaRequest::EXCEPTION_MODE_WRAP_AND_THROW:
 				default:
-					wfProfileOut(__METHOD__);
+					//wfProfileOut(__METHOD__);
 					$ex = $response->getException();
 					$ex_class = get_class( $ex );
 					throw new WikiaDispatchedException( "Internal Throw ({$ex_class}: {$ex->getMessage()})", $ex );
 			}
 		}
 
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 		return $response;
 	}
 

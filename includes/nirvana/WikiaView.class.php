@@ -108,7 +108,7 @@ class WikiaView {
 	 * @throws WikiaException
 	 */
 	protected function buildTemplatePath( $controllerClass, $methodName, $forceRebuild = false ) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 		if ( ( $this->templatePath == null ) || $forceRebuild ) {
 			if ( !empty( $this->response ) ) {
 				$extension = $this->response->getTemplateEngine();
@@ -137,7 +137,7 @@ class WikiaView {
 
 			$this->setTemplatePath( $templatePath );
 		}
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 	}
 
 	/**
@@ -293,7 +293,7 @@ class WikiaView {
 	}
 
 	protected function renderHtml(): string {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 		$this->buildTemplatePath( $this->response->getControllerName(), $this->response->getMethodName() );
 
 		$data = $this->response->getData();
@@ -302,7 +302,7 @@ class WikiaView {
 			case WikiaResponse::TEMPLATE_ENGINE_MUSTACHE:
 				$m = MustacheService::getInstance();
 				$result = $m->render( $this->getTemplatePath(), $data );
-				wfProfileOut( __METHOD__ );
+				//wfProfileOut( __METHOD__ );
 
 				return $result;
 			case WikiaResponse::TEMPLATE_ENGINE_PHP:
@@ -319,11 +319,11 @@ class WikiaView {
 
 				ob_start();
 				$templatePath = $this->getTemplatePath();
-				wfProfileIn( __METHOD__ . ' - template: ' . $templatePath );
+				//wfProfileIn( __METHOD__ . ' - template: ' . $templatePath );
 				require $templatePath;
-				wfProfileOut( __METHOD__ . ' - template: ' . $templatePath );
+				//wfProfileOut( __METHOD__ . ' - template: ' . $templatePath );
 				$out = ob_get_clean();
-				wfProfileOut( __METHOD__ );
+				//wfProfileOut( __METHOD__ );
 				return $out;
 		}
 

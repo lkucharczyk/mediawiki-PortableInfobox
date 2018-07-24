@@ -20,7 +20,7 @@ class MediaWikiParserService implements ExternalParser {
 	 * @return string HTML outcome
 	 */
 	public function parseRecursive( $wikitext ) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 		$parsed = $this->parser->internalParse( $wikitext, false, $this->frame );
 		if ( in_array( substr( $parsed, 0, 1 ), [ '*', '#' ] ) ) {
 			//fix for first item list elements
@@ -31,7 +31,7 @@ class MediaWikiParserService implements ExternalParser {
 		$this->parser->replaceLinkHolders( $ready );
 		$newlinesstripped = preg_replace( '|[\n\r]|Us', '', $ready );
 		$marksstripped = preg_replace( '|{{{.*}}}|Us', '', $newlinesstripped );
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 
 		return $marksstripped;
 	}

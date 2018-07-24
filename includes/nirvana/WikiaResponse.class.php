@@ -554,13 +554,13 @@ class WikiaResponse {
 	 * @see Wikia::addAssetsToOutput
 	 */
 	public function addAsset( $assetName, $local = false ) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		if ( $this->format == 'html' ) {
 			Wikia::addAssetsToOutput( $assetName, $local );
 		}
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 	}
 
 	public function addModules( $modules ) {

@@ -273,7 +273,7 @@ class WikiaApp {
 	 * @return bool whether the skin is the one (or one of) specified
 	 */
 	public function checkSkin( $skinName, $skinObj = null ) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 		$skinNames = null;
 		$res = null;
 
@@ -299,7 +299,7 @@ class WikiaApp {
 			$res = in_array( $skin->getSkinName(), $skinNames );
 		}
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $res;
 	}
 
@@ -308,11 +308,11 @@ class WikiaApp {
 	 * @return WikiaDispatcher
 	 */
 	public function getDispatcher() {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		if( $this->dispatcher == null ) {
 			$this->dispatcher = (new WikiaDispatcher);
 		}
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 		return $this->dispatcher;
 	}
 
@@ -556,7 +556,7 @@ class WikiaApp {
 	 */
 	public function sendRequest( $controllerName = null, $methodName = null, $params = array(),
 	                             $internal = true, $exceptionMode = null ) {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		$values = array();
 
 		if ( !empty( $controllerName ) && empty( $methodName ) ) {
@@ -592,7 +592,7 @@ class WikiaApp {
 		}
 
 		$out = $this->getDispatcher()->dispatch( $this, $request );
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 		return $out;
 	}
 
@@ -656,9 +656,9 @@ class WikiaApp {
 	 */
 
 	public function renderView( $controllerName, $method, Array $params = null ) {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		$out = $this->sendRequest( $controllerName, $method, $params, true )->toString();
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 		return $out;
 	}
 

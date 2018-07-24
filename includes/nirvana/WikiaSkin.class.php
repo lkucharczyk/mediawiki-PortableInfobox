@@ -76,12 +76,12 @@ abstract class WikiaSkin extends SkinTemplate {
 	 * @return string an html fragment containing the elements
 	 */
 	public function getHeadItems() {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		//filter out elements that will be processed by getScripts or getStyles
 		$res = preg_replace( array( self::SCRIPT_REGEX, self::LINK_REGEX, self::STYLE_REGEX ), '', $this->wg->out->getHeadItems() );
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $res;
 	}
 
@@ -92,7 +92,7 @@ abstract class WikiaSkin extends SkinTemplate {
 	 * array( 'url' => 'asset URL, null if inlined code', 'tag' => 'the original tag found in the HTML output' );
 	 */
 	public function getScripts(){
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		$scriptTags = $this->wg->out->getScriptsOnly() . $this->wg->out->getHeadItems();
 		$matches = array();
@@ -119,7 +119,7 @@ abstract class WikiaSkin extends SkinTemplate {
 			}
 		}
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $res;
 	}
 
@@ -130,7 +130,7 @@ abstract class WikiaSkin extends SkinTemplate {
 	 * array( 'url' => 'asset, null if inlined code', 'tag' => 'the original tag found in the HTML output' );
 	 */
 	public function getStyles(){
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		//there are a number of extension that use addScript to append link tags for stylesheets, need to include those too
 		$stylesTags = $this->wg->out->buildCssLinks(). $this->wg->out->getHeadItems() . $this->wg->out->getScriptsOnly();
@@ -170,7 +170,7 @@ abstract class WikiaSkin extends SkinTemplate {
 			}
 		}
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $res;
 	}
 
@@ -187,7 +187,7 @@ abstract class WikiaSkin extends SkinTemplate {
 	 * @return string CSS links with extracted SASS files and the rest
 	 */
 	public function getStylesWithCombinedSASS(Array &$sassFiles) {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 
 		global $wgAllInOne;
 		$cssLinks = [];
@@ -212,7 +212,7 @@ abstract class WikiaSkin extends SkinTemplate {
 
 		wfDebug( sprintf( "%s: combined %d SASS files\n", __METHOD__, count($sassFiles) ) );
 
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 		return Html::linkedStyle($sassFilesUrl) . implode('', $cssLinks);
 	}
 
@@ -299,7 +299,7 @@ abstract class WikiaSkin extends SkinTemplate {
 	}
 
 	static function makeInlineVariablesScript( $data ) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		if( $data ) {
 			$r = array();
@@ -309,10 +309,10 @@ abstract class WikiaSkin extends SkinTemplate {
 			}
 
 			$js = Html::inlineScript( "\nvar " . implode( ",\n", $r ) . ";\n");
-			wfProfileOut( __METHOD__ );
+			//wfProfileOut( __METHOD__ );
 			return $js;
 		} else {
-			wfProfileOut(__METHOD__ );
+			//wfProfileOut(__METHOD__ );
 			return '';
 		}
 	}
