@@ -1,7 +1,7 @@
 <?php
 namespace Wikia\PortableInfobox\Parser;
 
-use Wikia\Logger\WikiaLogger;
+use MediaWiki\Logger\LoggerFactory;
 
 class XmlParser {
 	protected static $contentTags = [ 'default', 'label', 'format', 'navigation', 'header' ];
@@ -34,7 +34,7 @@ class XmlParser {
 	}
 
 	protected static function logXmlParseError( $level, $code, $message ) {
-		WikiaLogger::instance()->info( "PortableInfobox XML Parser problem", [
+		LoggerFactory::getInstance( 'PortableInfobox' )->info( 'PortableInfobox XML Parser problem: [ level: "{level}", code: "{code}", message: "{message}" ]', [
 			"level" => $level,
 			"code" => $code,
 			"message" => $message ] );

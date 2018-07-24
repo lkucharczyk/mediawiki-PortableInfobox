@@ -2,7 +2,7 @@
 
 namespace Wikia\PortableInfobox\Helpers;
 
-use Wikia\Logger\WikiaLogger;
+use MediaWiki\Logger\LoggerFactory;
 use Wikia\Template\MustacheEngine;
 
 class PortableInfoboxMustacheEngine {
@@ -57,7 +57,7 @@ class PortableInfoboxMustacheEngine {
 	public static function isSupportedType( $type ) {
 		$result = isset( static::$templates[ $type ] );
 		if ( !$result ) {
-			WikiaLogger::instance()->info( self::TYPE_NOT_SUPPORTED_MESSAGE, [ 'type' => $type ] );
+			LoggerFactory::getInstance( 'PortableInfobox' )->info( self::TYPE_NOT_SUPPORTED_MESSAGE, [ 'type' => $type ] );
 		}
 		return $result;
 	}

@@ -2,6 +2,8 @@
 
 namespace Wikia\PortableInfobox\Helpers;
 
+use MediaWiki\Logger\LoggerFactory;
+
 class PortableInfoboxParsingHelper {
 
 	/**
@@ -30,7 +32,7 @@ class PortableInfoboxParsingHelper {
 					try {
 						\PortableInfoboxParserTagController::getInstance()->render( $infobox, $parser, $frame );
 					} catch ( \Exception $e ) {
-						\Wikia\Logger\WikiaLogger::instance()->info( 'Invalid infobox syntax in includeonly tag' );
+						LoggerFactory::getInstance( 'PortableInfobox' )->info( 'Invalid infobox syntax in includeonly tag' );
 					}
 				}
 

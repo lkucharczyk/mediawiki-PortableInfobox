@@ -1,6 +1,6 @@
 <?php
 
-use Wikia\Logger\WikiaLogger;
+use MediaWiki\Logger\LoggerFactory;
 
 abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	private $rootNodeTag = 'body';
@@ -32,8 +32,8 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 		$elementTextAfterTrim = trim( $this->cleanUpDOM( $dom ) );
 
 		if ( $elementTextAfterTrim !== $elementText ) {
-			WikiaLogger::instance()->info(
-				'Stripping HTML tags from infobox element',
+			LoggerFactory::getInstance( 'PortableInfobox' )->info(
+				'Stripping HTML tags from infobox element: [ originalText: "{originalText}", trimmedText: "{trimmedText}" ]',
 				[
 					'originalText' => $elementText,
 					'trimmedText' => $elementTextAfterTrim
