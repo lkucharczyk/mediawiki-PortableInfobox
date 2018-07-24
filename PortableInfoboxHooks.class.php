@@ -5,11 +5,10 @@ class PortableInfoboxHooks {
 	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
 		global $wgEnablePortableInfoboxEuropaTheme;
 
-		Wikia::addAssetsToOutput( 'portable_infobox_js' );
+		$out->addModules( 'ext.PortableInfobox' );
 
-		Wikia::addAssetsToOutput( 'portable_infobox_scss' );
 		if ( !empty( $wgEnablePortableInfoboxEuropaTheme ) ) {
-			Wikia::addAssetsToOutput( 'portable_infobox_europa_theme_scss' );
+			$out->addModules( 'ext.PortableInfoboxEuropaTheme' );
 		}
 
 		return true;
