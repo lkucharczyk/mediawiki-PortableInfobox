@@ -49,6 +49,7 @@
 		"WikiaSkin": "includes/nirvana/WikiaSkin.class.php",
 		"WikiaSkinTemplate": "includes/nirvana/WikiaSkinTemplate.class.php",
 		"WikiaAccessRules": "includes/nirvana/WikiaAccessRules.class.php",
+		"PortableInfoboxDataService": "services/PortableInfoboxDataService.class.php",
 		"PortableInfoboxQueryService": "services/PortableInfoboxQueryService.class.php",
 		"PortableInfoboxRenderService": "services/PortableInfoboxRenderService.class.php",
 		"PortableInfoboxMobileRenderService": "services/PortableInfoboxMobileRenderService.class.php",
