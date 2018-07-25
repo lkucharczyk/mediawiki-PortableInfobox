@@ -6,10 +6,7 @@ use Wikia\PortableInfobox\Helpers\PortableInfoboxMustacheEngine;
 class PortableInfoboxRenderService {
 	// keep synced with scss variables ($infobox-width)
 	const DEFAULT_DESKTOP_INFOBOX_WIDTH = 270;
-	const DEFAULT_EUROPA_INFOBOX_WIDTH = 300;
-
 	const DEFAULT_DESKTOP_THUMBNAIL_WIDTH = 350;
-	const EUROPA_THUMBNAIL_WIDTH = 310;
 
 	protected $templateEngine;
 	protected $imagesWidth = self::DEFAULT_DESKTOP_THUMBNAIL_WIDTH;
@@ -36,20 +33,13 @@ class PortableInfoboxRenderService {
 	public function renderInfobox( array $infoboxdata, $theme, $layout, $accentColor, $accentColorText ) {
 		$this->inlineStyles = $this->getInlineStyles( $accentColor, $accentColorText );
 
-		// decide on image width, if europa go with bigger images! else default size
-		if($this->isEuropaTheme()) {
-			$this->imagesWidth = self::EUROPA_THUMBNAIL_WIDTH;
-			$this->infoboxWidth = self::DEFAULT_EUROPA_INFOBOX_WIDTH;
-		}
-
 		$infoboxHtmlContent = $this->renderChildren( $infoboxdata );
 
 		if ( !empty( $infoboxHtmlContent ) ) {
 			$output = $this->renderItem( 'wrapper', [
 				'content' => $infoboxHtmlContent,
 				'theme' => $theme,
-				'layout' => $layout,
-				'isEuropaEnabled' => $this->isEuropaTheme()
+				'layout' => $layout
 			] );
 		} else {
 			$output = '';
@@ -252,12 +242,6 @@ class PortableInfoboxRenderService {
 		}
 
 		return $horizontalGroupData;
-	}
-
-	private function isEuropaTheme() {
-		global $wgEnablePortableInfoboxEuropaTheme;
-
-		return !empty( $wgEnablePortableInfoboxEuropaTheme );
 	}
 
 	private function createSmartGroups( $groupData, $rowCapacity ) {

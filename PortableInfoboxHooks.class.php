@@ -3,13 +3,7 @@
 class PortableInfoboxHooks {
 
 	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
-		global $wgEnablePortableInfoboxEuropaTheme;
-
 		$out->addModules( 'ext.PortableInfobox' );
-
-		if ( !empty( $wgEnablePortableInfoboxEuropaTheme ) ) {
-			$out->addModules( 'ext.PortableInfoboxEuropaTheme' );
-		}
 
 		return true;
 	}

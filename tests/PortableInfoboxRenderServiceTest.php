@@ -41,23 +41,6 @@ class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
 		return $DOM->saveXML();
 	}
 
-	public function testEuropaThemeEnabled() {
-		$wrapper = new \Wikia\Util\GlobalStateWrapper( [ 'wgEnablePortableInfoboxEuropaTheme' => true ] );
-
-		$infoboxRenderService = new PortableInfoboxRenderService();
-		$output = $wrapper->wrap( function () use ( $infoboxRenderService ) {
-			return $infoboxRenderService->renderInfobox(
-				[ [ 'type' => 'title', 'data' => [ 'value' => 'Test' ] ] ], '', '', '', '' );
-		} );
-
-		$expected = $this->normalizeHTML( '<aside class="portable-infobox pi-background pi-europa">
-								<h2 class="pi-item pi-item-spacing pi-title">Test</h2>
-							</aside>' );
-		$result = $this->normalizeHTML( $output );
-		$this->assertEquals( $expected, $result );
-	}
-
-
 	/**
 	 * @param $data
 	 * @param $expected
