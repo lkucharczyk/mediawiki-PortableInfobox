@@ -99,15 +99,17 @@ class MustacheService {
 	 * @return mixed Parsed data that is safe to be submitted to Mustache PHP extension
 	 */
 	public function parseData( $data ) {
-		if ( is_array( $data )
+		if ( is_string($data) ) {
+			$res = $data != '' ? $data : NULL;
+		} else if ( is_bool($data) || is_int($data) || is_float($data) ) {
+			$res = $data;
+		} else if ( is_array( $data )
 			|| is_object( $data ) && strtolower(get_class($data)) == 'stdclass'
 		) {
 			$res = array();
 			foreach ($data as $k => $v) {
 				$res[$k] = $this->parseData($v);
 			}
-		} else if ( is_bool($data) || is_int($data) || is_float($data) ) {
-			$res = $data;
 		} else {
 			$res = (string)$data;
 		}
@@ -139,7 +141,7 @@ class MustacheService {
 	 */
 	public function render( $fileName, $data ) {
 		$renderer = $this->getRenderer($fileName);
-		return $renderer($data);
+		return $renderer($this->parseData($data));
 	}
 	
 	/**
