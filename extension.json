@@ -18,7 +18,7 @@
 	"ResourceModules": {
 		"ext.PortableInfobox": {
 			"scripts": "js/PortableInfobox.js",
-			"styles": "styles/PortableInfobox.scss"
+			"styles": "styles/PortableInfobox.less"
 		},
 		"ext.PortableInfoboxEuropaTheme": {
 			"styles": "styles/PortableInfoboxEuropaTheme.scss"
