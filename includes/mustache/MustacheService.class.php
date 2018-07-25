@@ -34,10 +34,6 @@ class MustacheService {
 	 * @throws Exception Thrown if any partial cannot be found
 	 */
 	private function getTemplateInfo( $fileName ) {
-		if ( !empty($this->cache[$fileName] ) ) {
-			return $this->cache[$fileName];
-		}
-
 		$dirName = dirname($fileName) . '/';
 		$dependencies = array();
 		$template = file_get_contents($fileName);
@@ -59,7 +55,6 @@ class MustacheService {
 			self::TEMPLATE => $template,
 			self::DEPENDENCIES => $dependencies,
 		);
-		$this->cache[$fileName] = $templateInfo;
 
 		return $templateInfo;
 	}
@@ -143,16 +138,35 @@ class MustacheService {
 	 * @throws Exception Thrown if any partial cannot be found
 	 */
 	public function render( $fileName, $data ) {
+		$renderer = $this->getRenderer($fileName);
+		return $renderer($data);
+	}
+	
+	/**
+	 * Returns a mustache renderer
+	 *
+	 * @param $fileName string File path (absolute)
+	 * @return Closure
+	 * @throws Exception Thrown if any partial cannot be found
+	 */
+	public function getRenderer( $fileName ) {
+		if ( !empty($this->cache[$fileName] ) ) {
+			return $this->cache[$fileName];
+		}
+		
 		list( $template, $partials ) = $this->getTemplateAndPartials( $fileName );
 
-		// Note: php-mustache segfaults when objects are present in data
-		// so pre-process them before sending to renderer
-		$data = $this->parseData($data);
-
-		// PHP extension is used for Mustache rendering
-		// @see https://github.com/jbboehr/php-mustache
-		$mustache = new Mustache();
-		return $mustache->render($template,$data,$partials);
+		// @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy
+		$renderer = LightnCandy::prepare(
+			LightnCandy::compile($template, array(
+				'flags' => LightnCandy::FLAG_MUSTACHE | LightnCandy::FLAG_BESTPERFORMANCE,
+				'partials' => $partials
+			))
+		);
+		
+		$this->cache[$fileName] = $renderer;
+		
+		return $renderer;
 	}
 
 	/**
