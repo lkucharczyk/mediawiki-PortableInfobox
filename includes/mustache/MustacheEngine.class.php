@@ -15,11 +15,11 @@ class MustacheEngine extends Engine {
 	 * @see Engine::exists() for documentation and usage
 	 */
 	public function exists( $template ) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		$found = file_exists( $this->prefix == '' ? $template : $this->prefix . DIRECTORY_SEPARATOR . $template );
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $found;
 	}
 
@@ -27,15 +27,15 @@ class MustacheEngine extends Engine {
 	 * @see Engine::render() for documentation and usage
 	 */
 	public function render( $template ) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		$path = $this->prefix == '' ? $template : $this->prefix . DIRECTORY_SEPARATOR . $template;
 
-		wfProfileIn( __METHOD__ . " - template: {$path}" );
+		//wfProfileIn( __METHOD__ . " - template: {$path}" );
 		$contents = \MustacheService::getInstance()->render( $path, $this->values );
-		wfProfileOut( __METHOD__ . " - template: {$path}" );
+		//wfProfileOut( __METHOD__ . " - template: {$path}" );
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $contents;
 	}
 };
