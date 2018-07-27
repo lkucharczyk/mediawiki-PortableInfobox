@@ -6,7 +6,7 @@ use \Wikia\PortableInfobox\Helpers\InfoboxParamsValidator;
 use \Wikia\PortableInfobox\Parser\XmlMarkupParseErrorException;
 use \Wikia\PortableInfobox\Parser\Nodes\UnimplementedNodeException;
 
-class PortableInfoboxParserTagController extends WikiaController {
+class PortableInfoboxParserTagController extends WikiaObject {
 	const PARSER_TAG_NAME = 'infobox';
 	const PARSER_TAG_VERSION = 2;
 	const DEFAULT_THEME_NAME = 'wikia';

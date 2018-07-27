@@ -1,9 +1,10 @@
 <?php
 class PortableInfoboxQueryService {
 	const MCACHE_KEY = 'unconvertedinfoboxes-list';
+	const CACHE_DURATION = 86400; // 24 hours
 
 	public static function getNonPortableInfoboxes() {
-		$data = WikiaDataAccess::cache( wfMemcKey( self::MCACHE_KEY ), WikiaResponse::CACHE_STANDARD, function () {
+		$data = WikiaDataAccess::cache( wfMemcKey( self::MCACHE_KEY ), CACHE_DURATION, function () {
 			$dbr = wfGetDB( DB_SLAVE );
 			return ( new WikiaSQL() )
 				->SELECT( 'qc_value', 'qc_namespace', 'qc_title' )

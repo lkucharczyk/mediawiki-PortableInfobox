@@ -36,23 +36,4 @@ abstract class WikiaObject {
 		// setting helpers
 		$this->wg = $this->app->wg;
 	}
-
-	/**
-	 * get application
-	 * @return WikiaApp
-	 */
-	public function getApp() {
-		return $this->app;
-	}
-
-	/**
-	 * set application
-	 * @param WikiaApp $app
-	 */
-	public function setApp( WikiaApp $app ) {
-		$this->app = $app;
-
-		// setting helpers
-		$this->wg = $app->wg;
-	}
 }

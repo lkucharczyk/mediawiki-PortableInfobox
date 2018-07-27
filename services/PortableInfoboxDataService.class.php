@@ -6,6 +6,7 @@ use Wikia\PortableInfobox\Parser\Nodes\NodeInfobox;
 
 class PortableInfoboxDataService {
 
+	const CACHE_DURATION = 86400; // 24 hours
 	const IMAGE_FIELD_TYPE = 'image';
 	const INFOBOXES_PROPERTY_NAME = 'infoboxes';
 
@@ -183,7 +184,7 @@ class PortableInfoboxDataService {
 	protected function load() {
 		$id = $this->title->getArticleID();
 		if ( $id ) {
-			return WikiaDataAccess::cache( $this->cachekey, WikiaResponse::CACHE_STANDARD, function () use ( $id ) {
+			return WikiaDataAccess::cache( $this->cachekey, CACHE_DURATION, function () use ( $id ) {
 				return $this->reparseArticleIfNeeded(
 					json_decode( $this->propsProxy->get( $id, self::INFOBOXES_PROPERTY_NAME ), true )
 				);
@@ -223,7 +224,7 @@ class PortableInfoboxDataService {
 		if ( $id ) {
 			WikiaDataAccess::cacheWithOptions( $this->cachekey, function () use ( $data ) {
 				return $data;
-			}, [ 'command' => WikiaDataAccess::REFRESH_CACHE, 'cacheTTL' => WikiaResponse::CACHE_STANDARD ] );
+			}, [ 'command' => WikiaDataAccess::REFRESH_CACHE, 'cacheTTL' => CACHE_DURATION ] );
 			$this->propsProxy->set( $id, [ self::INFOBOXES_PROPERTY_NAME => json_encode( $data ) ] );
 		}
 	}
