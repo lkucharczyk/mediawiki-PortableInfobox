@@ -9,7 +9,7 @@ use \Wikia\PortableInfobox\Parser\Nodes\UnimplementedNodeException;
 class PortableInfoboxParserTagController extends WikiaObject {
 	const PARSER_TAG_NAME = 'infobox';
 	const PARSER_TAG_VERSION = 2;
-	const DEFAULT_THEME_NAME = 'wikia';
+	const DEFAULT_THEME_NAME = 'default';
 	const DEFAULT_LAYOUT_NAME = 'default';
 	const INFOBOX_THEME_PREFIX = 'pi-theme-';
 	const INFOBOX_LAYOUT_PREFIX = 'pi-layout-';
