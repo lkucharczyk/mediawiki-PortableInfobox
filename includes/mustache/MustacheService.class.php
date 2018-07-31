@@ -6,7 +6,7 @@
  * in order to supply Mustache engine (either in PHP or JS) with all necessary
  * dependencies.
  *
- * @see https://github.com/jbboehr/php-mustache
+ * @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy
  *
  * @author Władysław Bodzek <wladek@wikia-inc.com>
  */

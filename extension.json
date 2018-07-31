@@ -31,7 +31,6 @@
 		"WikiaObject": "includes/nirvana/WikiaObject.class.php",
 		"WikiaRegistry": "includes/nirvana/WikiaRegistry.class.php",
 		"WikiaGlobalRegistry": "includes/nirvana/WikiaGlobalRegistry.class.php",
-		"Wikia\\Template\\Engine": "includes/mustache/Engine.class.php",
 		"Wikia\\Template\\MustacheEngine": "includes/mustache/MustacheEngine.class.php",
 		"MustacheService": "includes/mustache/MustacheService.class.php",
 		"HtmlHelper": "includes/filehelpers/HtmlHelper.class.php",
