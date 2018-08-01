@@ -19,6 +19,11 @@
 		"ext.PortableInfobox": {
 			"scripts": "js/PortableInfobox.js",
 			"styles": "styles/PortableInfobox.less"
+		},
+		"ext.PortableInfobox.mobile": {
+			"scripts": "js/PortableInfobox.js",
+			"styles": "styles/PortableInfobox.less",
+			"targets": "mobile"
 		}
 	},
 	"ResourceFileModulePaths": {
@@ -82,6 +87,7 @@
 		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
 		"AfterParserParseImageGallery": "PortableInfoboxHooks::onAfterParserParseImageGallery",
 		"BeforePageDisplay": "PortableInfoboxHooks::onBeforePageDisplay",
+		"BeforePageDisplayMobile": "PortableInfoboxHooks::onBeforePageDisplayMobile",
 		"ParserAfterTidy": "PortableInfoboxParserTagController::replaceInfoboxMarkers",
 		"ImageServing::buildAndGetIndex": "PortableInfoboxHooks::onImageServingCollectImages",
 		"wgQueryPages": "PortableInfoboxHooks::onWgQueryPages",

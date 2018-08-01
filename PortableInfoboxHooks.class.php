@@ -7,6 +7,12 @@ class PortableInfoboxHooks {
 
 		return true;
 	}
+	
+	public static function onBeforePageDisplayMobile( OutputPage $out, Skin $skin ) {
+		$out->addModules( 'ext.PortableInfobox.mobile' );
+		
+		return true;
+	}
 
 	public static function onImageServingCollectImages( &$imageNamesArray, $articleTitle ) {
 		if ( $articleTitle ) {
