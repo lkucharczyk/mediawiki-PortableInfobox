@@ -12,6 +12,7 @@
 	"descriptionmsg": "portable-infobox-desc",
 	"version": "0.1",
 	"type": "parserhook",
+	"license-name": "GPL-3.0-or-later",
 	"MessagesDirs": {
 		"PortableInfobox": "i18n"
 	},
