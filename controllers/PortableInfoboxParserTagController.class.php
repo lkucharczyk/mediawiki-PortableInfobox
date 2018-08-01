@@ -54,11 +54,7 @@ class PortableInfoboxParserTagController extends WikiaObject {
 	 * @return string
 	 */
 	public static function replaceInfoboxMarkers( Parser $parser, &$text ) {
-		global $wgArticleAsJson;
-		// The replacements for ArticleAsJson are handled in PortableInfoboxHooks::onArticleAsJsonBeforeEncode
-		if ( !$wgArticleAsJson ) {
-			$text = static::getInstance()->replaceMarkers( $text );
-		}
+		$text = static::getInstance()->replaceMarkers( $text );
 
 		return true;
 	}
@@ -95,8 +91,7 @@ class PortableInfoboxParserTagController extends WikiaObject {
 		$accentColor = $this->getColor( self::ACCENT_COLOR, $params, $frame );
 		$accentColorText = $this->getColor( self::ACCENT_COLOR_TEXT, $params, $frame );
 
-		$renderService = \F::app()->checkSkin( 'wikiamobile' ) ?
-			new PortableInfoboxMobileRenderService() : new PortableInfoboxRenderService();
+		$renderService = new PortableInfoboxRenderService();
 		return $renderService->renderInfobox( $data, implode( ' ', $themeList ), $layout, $accentColor, $accentColorText );
 
 	}

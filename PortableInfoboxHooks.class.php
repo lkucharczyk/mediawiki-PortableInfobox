@@ -7,6 +7,12 @@ class PortableInfoboxHooks {
 
 		return true;
 	}
+	
+	public static function onBeforePageDisplayMobile( OutputPage $out, Skin $skin ) {
+		$out->addModules( 'ext.PortableInfobox.mobile' );
+		
+		return true;
+	}
 
 	public static function onImageServingCollectImages( &$imageNamesArray, $articleTitle ) {
 		if ( $articleTitle ) {
@@ -115,15 +121,6 @@ class PortableInfoboxHooks {
 		if ( $title->inNamespace( NS_TEMPLATE ) ) {
 			( new AllinfoboxesQueryPage() )->addTitleToCache( $title );
 		}
-
-		return true;
-	}
-
-	public static function onArticleAsJsonBeforeEncode( &$text ) {
-		$tagController = PortableInfoboxParserTagController::getInstance();
-		$tagController->moveFirstMarkerToTop( $text );
-
-		$text = $tagController->replaceMarkers( $text );
 
 		return true;
 	}
