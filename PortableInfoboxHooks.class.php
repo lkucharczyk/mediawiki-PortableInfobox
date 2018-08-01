@@ -124,13 +124,4 @@ class PortableInfoboxHooks {
 
 		return true;
 	}
-
-	public static function onArticleAsJsonBeforeEncode( &$text ) {
-		$tagController = PortableInfoboxParserTagController::getInstance();
-		$tagController->moveFirstMarkerToTop( $text );
-
-		$text = $tagController->replaceMarkers( $text );
-
-		return true;
-	}
 }

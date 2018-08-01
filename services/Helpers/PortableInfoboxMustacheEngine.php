@@ -13,18 +13,12 @@ class PortableInfoboxMustacheEngine {
 		'title' => 'PortableInfoboxItemTitle.mustache',
 		'header' => 'PortableInfoboxItemHeader.mustache',
 		'image' => 'PortableInfoboxItemImage.mustache',
-		'image-mobile' => 'PortableInfoboxItemImageMobile.mustache',
-		'image-mobile-wikiamobile' => 'PortableInfoboxItemImageMobileWikiaMobile.mustache',
 		'data' => 'PortableInfoboxItemData.mustache',
 		'group' => 'PortableInfoboxItemGroup.mustache',
 		'smart-group' => 'PortableInfoboxItemSmartGroup.mustache',
 		'horizontal-group-content' => 'PortableInfoboxHorizontalGroupContent.mustache',
 		'navigation' => 'PortableInfoboxItemNavigation.mustache',
-		'hero-mobile' => 'PortableInfoboxItemHeroMobile.mustache',
-		'hero-mobile-wikiamobile' => 'PortableInfoboxItemHeroMobileWikiaMobile.mustache',
-		'image-collection' => 'PortableInfoboxItemImageCollection.mustache',
-		'image-collection-mobile' => 'PortableInfoboxItemImageCollectionMobile.mustache',
-		'image-collection-mobile-wikiamobile' => 'PortableInfoboxItemImageCollectionMobileWikiaMobile.mustache'
+		'image-collection' => 'PortableInfoboxItemImageCollection.mustache'
 	];
 	protected $templateEngine;
 
