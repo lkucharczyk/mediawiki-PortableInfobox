@@ -15,16 +15,15 @@ class PortableInfoboxParsingHelper {
 	 */
 	public function parseIncludeonlyInfoboxes( $title ) {
 		// for templates we need to check for include tags
-		$templateText = $this->fetchArticleContent( $title );
-		$includeonlyText = $this->getIncludeonlyText( $templateText );
+		$templateText = $this->removeNowikiPre( $this->fetchArticleContent( $title ) );
 
-		if ( $includeonlyText ) {
+		if ( $templateText ) {
 			$parser = new \Parser();
 			$parserOptions = new \ParserOptions();
 			$frame = $parser->getPreprocessor()->newFrame();
 
-			$templateTextWithoutIncludeonly = $parser->getPreloadText( $includeonlyText, $title, $parserOptions );
-			$infoboxes = $this->getInfoboxes( $templateTextWithoutIncludeonly );
+			$includeonlyText = $parser->getPreloadText( $templateText, $title, $parserOptions );
+			$infoboxes = $this->getInfoboxes( $includeonlyText );
 
 			if ( $infoboxes ) {
 				// clear up cache before parsing
@@ -60,10 +59,10 @@ class PortableInfoboxParsingHelper {
 	 */
 	protected function fetchArticleContent( \Title $title ) {
 		if ( $title && $title->exists() ) {
-			$article = \Article::newFromTitle( $title, \RequestContext::getMain() );
+			$wikipage = \WikiPage::factory( $title );
 
-			if ( $article && $article->exists() ) {
-				$content = $article->fetchContent();
+			if ( $wikipage && $wikipage->exists() ) {
+				$content = \ContentHandler::getContentText( $wikipage->getRevision()->getContent( \Revision::RAW ) );
 			}
 		}
 

@@ -64,10 +64,8 @@ class PortableInfoboxDataService {
 	public function getData() {
 		if ( $this->title && $this->title->exists() && $this->title->inNamespace( NS_TEMPLATE ) ) {
 			$incOnlyTemplates = $this->parsingHelper->parseIncludeonlyInfoboxes( $this->title );
-			if ( $incOnlyTemplates ) {
-				$this->delete();
-				$this->set( $incOnlyTemplates );
-			};
+			$this->delete();
+			$this->set( $incOnlyTemplates );
 		}
 		$result = $this->get();
 
