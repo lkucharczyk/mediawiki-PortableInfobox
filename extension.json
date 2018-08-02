@@ -29,7 +29,7 @@
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteExtPath": "extensions/PortableInfobox"
+		"remoteExtPath": "PortableInfobox"
 	},
 	"AutoloadClasses": {
 		"F": "includes/nirvana/WikiaApp.class.php",
