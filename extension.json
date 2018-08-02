@@ -43,7 +43,6 @@
 		"FileNamespaceSanitizeHelper": "includes/filehelpers/FileNamespaceSanitizeHelper.php",
 		"WikiaFileHelper": "includes/filehelpers/WikiaFileHelper.class.php",
 		"PortableInfoboxDataService": "services/PortableInfoboxDataService.class.php",
-		"PortableInfoboxQueryService": "services/PortableInfoboxQueryService.class.php",
 		"PortableInfoboxRenderService": "services/PortableInfoboxRenderService.class.php",
 		"PortableInfoboxErrorRenderService": "services/PortableInfoboxErrorRenderService.class.php",
 		"Wikia\\PortableInfobox\\Parser\\ExternalParser": "services/Parser/ExternalParser.php",
