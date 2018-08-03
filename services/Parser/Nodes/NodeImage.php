@@ -32,20 +32,13 @@ class NodeImage extends Node {
 	}
 
 	public static function getTabberData( $html ) {
-		global $wgArticleAsJson;
 		$data = array();
 		$doc = HtmlHelper::createDOMDocumentFromText( $html );
 		$sxml = simplexml_import_dom( $doc );
 		$divs = $sxml->xpath( '//div[@class=\'tabbertab\']' );
 		foreach ( $divs as $div ) {
-			if ( $wgArticleAsJson ) {
-				if ( preg_match( '/data-ref="([^"]+)"/', $div->asXML(), $out ) ) {
-					$data[] = array( 'label' => (string) $div['title'], 'title' => \ArticleAsJson::$media[$out[1]]['title'] );
-				}
-			} else {
-				if ( preg_match( '/data-(video|image)-key="([^"]+)"/', $div->asXML(), $out ) ) {
-					$data[] = array( 'label' => (string) $div['title'], 'title' => $out[2] );
-				}
+			if ( preg_match( '/data-(video|image)-key="([^"]+)"/', $div->asXML(), $out ) ) {
+				$data[] = array( 'label' => (string) $div['title'], 'title' => $out[2] );
 			}
 		}
 		return $data;

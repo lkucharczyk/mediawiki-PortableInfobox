@@ -12,6 +12,7 @@
 	"descriptionmsg": "portable-infobox-desc",
 	"version": "0.1",
 	"type": "parserhook",
+	"license-name": "GPL-3.0-or-later",
 	"MessagesDirs": {
 		"PortableInfobox": "i18n"
 	},
@@ -19,11 +20,16 @@
 		"ext.PortableInfobox": {
 			"scripts": "js/PortableInfobox.js",
 			"styles": "styles/PortableInfobox.less"
+		},
+		"ext.PortableInfobox.mobile": {
+			"scripts": "js/PortableInfobox.js",
+			"styles": "styles/PortableInfobox.less",
+			"targets": "mobile"
 		}
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteExtPath": "extensions/PortableInfobox"
+		"remoteExtPath": "PortableInfobox"
 	},
 	"AutoloadClasses": {
 		"F": "includes/nirvana/WikiaApp.class.php",
@@ -31,7 +37,6 @@
 		"WikiaObject": "includes/nirvana/WikiaObject.class.php",
 		"WikiaRegistry": "includes/nirvana/WikiaRegistry.class.php",
 		"WikiaGlobalRegistry": "includes/nirvana/WikiaGlobalRegistry.class.php",
-		"Wikia\\Template\\Engine": "includes/mustache/Engine.class.php",
 		"Wikia\\Template\\MustacheEngine": "includes/mustache/MustacheEngine.class.php",
 		"MustacheService": "includes/mustache/MustacheService.class.php",
 		"HtmlHelper": "includes/filehelpers/HtmlHelper.class.php",
@@ -40,7 +45,6 @@
 		"PortableInfoboxDataService": "services/PortableInfoboxDataService.class.php",
 		"PortableInfoboxQueryService": "services/PortableInfoboxQueryService.class.php",
 		"PortableInfoboxRenderService": "services/PortableInfoboxRenderService.class.php",
-		"PortableInfoboxMobileRenderService": "services/PortableInfoboxMobileRenderService.class.php",
 		"PortableInfoboxErrorRenderService": "services/PortableInfoboxErrorRenderService.class.php",
 		"Wikia\\PortableInfobox\\Parser\\ExternalParser": "services/Parser/ExternalParser.php",
 		"Wikia\\PortableInfobox\\Parser\\SimpleParser": "services/Parser/SimpleParser.php",
@@ -68,7 +72,6 @@
 		"PassThroughSanitizer": "services/Sanitizers/PassThroughSanitizer.php",
 		"NodeTypeSanitizerInterface": "services/Sanitizers/NodeTypeSanitizerInterface.php",
 		"NodeDataSanitizer": "services/Sanitizers/NodeDataSanitizer.php",
-		"NodeHeroImageSanitizer": "services/Sanitizers/NodeHeroImageSanitizer.php",
 		"NodeHorizontalGroupSanitizer": "services/Sanitizers/NodeHorizontalGroupSanitizer.php",
 		"NodeImageSanitizer": "services/Sanitizers/NodeImageSanitizer.php",
 		"NodeTitleSanitizer": "services/Sanitizers/NodeTitleSanitizer.php",
@@ -83,6 +86,7 @@
 		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
 		"AfterParserParseImageGallery": "PortableInfoboxHooks::onAfterParserParseImageGallery",
 		"BeforePageDisplay": "PortableInfoboxHooks::onBeforePageDisplay",
+		"BeforePageDisplayMobile": "PortableInfoboxHooks::onBeforePageDisplayMobile",
 		"ParserAfterTidy": "PortableInfoboxParserTagController::replaceInfoboxMarkers",
 		"ImageServing::buildAndGetIndex": "PortableInfoboxHooks::onImageServingCollectImages",
 		"wgQueryPages": "PortableInfoboxHooks::onWgQueryPages",
@@ -90,8 +94,7 @@
 		"ArticlePurge": "PortableInfoboxHooks::onArticlePurge",
 		"ArticleSave": "PortableInfoboxHooks::onArticleSave",
 		"BacklinksPurge": "PortableInfoboxHooks::onBacklinksPurge",
-		"ArticleInsertComplete": "PortableInfoboxHooks::onArticleInsertComplete",
-		"ArticleAsJsonBeforeEncode": "PortableInfoboxHooks::onArticleAsJsonBeforeEncode"
+		"ArticleInsertComplete": "PortableInfoboxHooks::onArticleInsertComplete"
 	},
 	"SpecialPages": {
 		"AllInfoboxes": "AllinfoboxesQueryPage"
