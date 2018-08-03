@@ -37,8 +37,8 @@ class NodeImage extends Node {
 		$sxml = simplexml_import_dom( $doc );
 		$divs = $sxml->xpath( '//div[@class=\'tabbertab\']' );
 		foreach ( $divs as $div ) {
-			if ( preg_match( '/data-(video|image)-key="([^"]+)"/', $div->asXML(), $out ) ) {
-				$data[] = array( 'label' => (string) $div['title'], 'title' => $out[2] );
+			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $div->asXML(), $out ) ) {
+				$data[] = array( 'label' => (string) $div['title'], 'title' => $out[1] );
 			}
 		}
 		return $data;
