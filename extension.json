@@ -16,6 +16,9 @@
 	"MessagesDirs": {
 		"PortableInfobox": "i18n"
 	},
+	"ExtensionMessagesFiles": {
+		"PortableInfoboxAliases": "PortableInfobox.alias.php"
+	},
 	"ResourceModules": {
 		"ext.PortableInfobox": {
 			"scripts": "js/PortableInfobox.js",

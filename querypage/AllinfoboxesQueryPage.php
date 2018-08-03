@@ -9,6 +9,10 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 		parent::__construct( self::ALL_INFOBOXES_TYPE );
 	}
 
+	function getGroupName() {
+		return 'pages';
+  	}
+
 	public function sortDescending() {
 		return false;
 	}
