@@ -71,36 +71,44 @@
 			max-width: var(--pi-width);
 			height: auto;
 		}
-		&-collection-tabs {
-			list-style: none;
-			margin: 0 -1px -1px 0;
+		&-collection {
 			overflow: hidden;
-			padding: 0;
-			text-align: center;
-			li {
-				border: 1px solid var(--pi-border-color);
-				box-sizing: border-box;
-				cursor: pointer;
-				display: inline-block;
-				margin: -1px -1px 0 0;
-				max-width: 50%;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				vertical-align: bottom;
-				white-space: nowrap;
+			margin: var(--pi-item-spacing);
+			margin-left: 0;
+			margin-right: 0;
+			padding-top: 1px;
+			& &-tabs {
+				list-style: none;
+				margin: 0 -1px;
+				padding: 1px 0;
+				text-align: center;
 			}
-			li.current {
-				background: var(--pi-border-color);
-				font-weight: bold;
+			&-tabs {
+				li {
+					border: 1px solid var(--pi-secondary-background);
+					box-sizing: border-box;
+					cursor: pointer;
+					display: inline-block;
+					margin: -1px -1px 0 0;
+					max-width: 50%;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					vertical-align: bottom;
+					white-space: nowrap;
+				}
+				li.current {
+					background: var(--pi-secondary-background);
+					font-weight: bold;
+				}
 			}
-		}
-		&-collection-tab-content {
-			display: none;
-			.video-thumbnail {
-				display: block;
-			}
-			&.current {
-				display: inherit;
+			&-tab-content {
+				display: none;
+				.video-thumbnail {
+					display: block;
+				}
+				&.current {
+					display: inherit;
+				}
 			}
 		}
 	}
@@ -287,14 +295,25 @@
 		.skin-minerva & {
 			margin: 0 -16px;
 		}
-		
-		.pi-title {
-			text-align: center;
-		}
+	}
+
+	.pi-title {
+		text-align: center;
+	}
+
+	.pi-image-collection-tabs {
+		  display: flex;
+		  flex-wrap: wrap;
+
+		  li { flex: 1 50% }
 	}
 }
 
 .skin-minerva {
+	.pi-image-collection-tabs li {
+		margin-bottom: 0;
+	}
+
 	.pi-caption {
 		margin: var(--pi-item-spacing);
 	}
