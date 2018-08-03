@@ -6,6 +6,8 @@ namespace Wikia\PortableInfobox\Helpers;
 class PortableInfoboxImagesHelper {
 	const MAX_DESKTOP_THUMBNAIL_HEIGHT = 500;
 
+	protected static $count = 0;
+
 	/**
 	 * extends image data
 	 *
@@ -56,23 +58,16 @@ class PortableInfoboxImagesHelper {
 		if ( !$thumbnail || $thumbnail->isError() || !$thumbnail2x || $thumbnail2x->isError() ) {
 			return false;
 		}
-		$ref = null;
-
-		$dataAttrs = [];
-		\Hooks::run( 'PortableInfoboxRenderServiceHelper::extendImageData', [ $data, &$ref, &$dataAttrs ] );
 
 		return array_merge( $data, [
-			'ref' => $ref,
+			'ref' => ++$this->count,
 			'height' => intval( $imgTagDimensions['height'] ),
 			'width' => intval( $imgTagDimensions['width'] ),
 			'originalHeight' => $dataAttrs['height'] ?? '',
 			'originalWidth' => $dataAttrs['width'] ?? '',
 			'thumbnail' => $thumbnail->getUrl(),
 			'thumbnail2x' => $thumbnail2x->getUrl(),
-			'key' => urlencode( $data['key'] ?? '' ),
-			'media-type' => isset( $data['isVideo'] ) && $data['isVideo'] ? 'video' : 'image',
-			'fileName' => $dataAttrs['fileName'] ?? '',
-			'dataAttrs' => json_encode( $dataAttrs )
+			'fileName' => $dataAttrs['fileName'] ?? ''
 		] );
 	}
 
@@ -81,13 +76,6 @@ class PortableInfoboxImagesHelper {
 	 * @return array
 	 */
 	public function extendImageCollectionData( $images ) {
-		$dataAttrs = array_map(
-			function ( $image ) {
-				return json_decode( $image['dataAttrs'] );
-			},
-			$images
-		);
-
 		$images = array_map(
 			function ( $image, $index ) {
 				$image['dataRef'] = $index;
@@ -99,12 +87,8 @@ class PortableInfoboxImagesHelper {
 		);
 
 		$images[0]['isFirst'] = true;
-		$images[count($images) - 1]['isLast'] = true;
 		return [
-			'images' => $images,
-			'firstImage' => $images[0],
-			'dataAttrs' => json_encode( $dataAttrs ),
-			'menuControlIcon' => \DesignSystemHelper::renderSvg('wds-icons-menu-control', 'wds-icon')
+			'images' => $images
 		];
 	}
 

@@ -14,7 +14,7 @@ class NodeImage extends Node {
 	const MEDIA_TYPE_VIDEO = 'VIDEO';
 
 	public static function getMarkers( $value, $ext ) {
-		if ( preg_match_all('/\x7f\'"`UNIQ[A-Z0-9]*-' . $ext . '-[A-F0-9]{8}-QINU`"\'\x7f/is', $value, $out ) ) {
+		if ( preg_match_all('/' . \Parser::MARKER_PREFIX . '-' . $ext . '-[A-F0-9]{8}' . \Parser::MARKER_SUFFIX . '/is', $value, $out ) ) {
 			return $out[0];
 		} else {
 			return [];
@@ -37,8 +37,8 @@ class NodeImage extends Node {
 		$sxml = simplexml_import_dom( $doc );
 		$divs = $sxml->xpath( '//div[@class=\'tabbertab\']' );
 		foreach ( $divs as $div ) {
-			if ( preg_match( '/data-(video|image)-key="([^"]+)"/', $div->asXML(), $out ) ) {
-				$data[] = array( 'label' => (string) $div['title'], 'title' => $out[2] );
+			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $div->asXML(), $out ) ) {
+				$data[] = array( 'label' => (string) $div['title'], 'title' => $out[1] );
 			}
 		}
 		return $data;
