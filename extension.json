@@ -62,7 +62,6 @@
 		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeTitle": "services/Parser/Nodes/NodeTitle.php",
 		"Wikia\\PortableInfobox\\Parser\\Nodes\\NodeUnimplemented": "services/Parser/Nodes/NodeUnimplemented.php",
 		"Wikia\\PortableInfobox\\Helpers\\InfoboxParamsValidator": "services/Helpers/InfoboxParamsValidator.php",
-		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxDataBag": "services/Helpers/PortableInfoboxDataBag.php",
 		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxMustacheEngine": "services/Helpers/PortableInfoboxMustacheEngine.php",
 		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxImagesHelper": "services/Helpers/PortableInfoboxImagesHelper.php",
 		"Wikia\\PortableInfobox\\Helpers\\PortableInfoboxParsingHelper": "services/Helpers/PortableInfoboxParsingHelper.php",
@@ -84,7 +83,6 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
-		"AfterParserParseImageGallery": "PortableInfoboxHooks::onAfterParserParseImageGallery",
 		"BeforePageDisplay": "PortableInfoboxHooks::onBeforePageDisplay",
 		"BeforePageDisplayMobile": "PortableInfoboxHooks::onBeforePageDisplayMobile",
 		"ParserAfterTidy": "PortableInfoboxParserTagController::replaceInfoboxMarkers",

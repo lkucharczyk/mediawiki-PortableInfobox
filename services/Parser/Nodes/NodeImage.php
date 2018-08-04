@@ -2,7 +2,6 @@
 namespace Wikia\PortableInfobox\Parser\Nodes;
 
 use HtmlHelper;
-use Wikia\PortableInfobox\Helpers\PortableInfoboxDataBag;
 use WikiaFileHelper;
 
 class NodeImage extends Node {
