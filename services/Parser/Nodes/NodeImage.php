@@ -38,13 +38,16 @@ class NodeImage extends Node {
 	}
 
 	public static function getTabberData( $html ) {
-		$data = array();
+		$data = [];
 		$doc = HtmlHelper::createDOMDocumentFromText( $html );
 		$sxml = simplexml_import_dom( $doc );
 		$divs = $sxml->xpath( '//div[@class=\'tabbertab\']' );
 		foreach ( $divs as $div ) {
 			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $div->asXML(), $out ) ) {
-				$data[] = array( 'label' => (string) $div['title'], 'title' => $out[1] );
+				$data[] = [
+					'label' => (string) $div['title'],
+					'title' => $out[1]
+				];
 			}
 		}
 		return $data;
@@ -52,7 +55,7 @@ class NodeImage extends Node {
 
 	public function getData() {
 		if ( !isset( $this->data ) ) {
-			$this->data = array();
+			$this->data = [];
 
 			// value passed to source parameter (or default)
 			$value = $this->getRawValueWithDefault( $this->xmlNode );
@@ -60,11 +63,11 @@ class NodeImage extends Node {
 			if ( $this->containsTabberOrGallery( $value ) ) {
 				$this->data = $this->getImagesData( $value );
 			} else {
-				$this->data = array( $this->getImageData(
+				$this->data = [ $this->getImageData(
 					$value,
 					$this->getValueWithDefault( $this->xmlNode->{self::ALT_TAG_NAME} ),
 					$this->getValueWithDefault( $this->xmlNode->{self::CAPTION_TAG_NAME} )
-				) );
+				) ];
 			}
 		}
 		return $this->data;
