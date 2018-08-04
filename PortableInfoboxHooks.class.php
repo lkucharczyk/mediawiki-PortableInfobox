@@ -25,20 +25,6 @@ class PortableInfoboxHooks {
 		return true;
 	}
 
-	/**
-	 * Store data of all galleries in article to handle images in infoboxes
-	 *
-	 * @param $marker
-	 * @param WikiaPhotoGallery $gallery
-	 * @return bool
-	 */
-	public static function onAfterParserParseImageGallery( $marker, $gallery ) {
-		if ( $gallery instanceof WikiaPhotoGallery ) {
-			\Wikia\PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery($marker, $gallery->getData());
-		}
-		return true;
-	}
-
 	public static function onWgQueryPages( &$queryPages = [ ] ) {
 		$queryPages[] = [ 'AllinfoboxesQueryPage', 'AllInfoboxes' ];
 
