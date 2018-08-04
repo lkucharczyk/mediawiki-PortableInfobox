@@ -21,14 +21,21 @@ class NodeImage extends Node {
 		}
 	}
 
-	public static function getGalleryData( $marker ) {
-		$galleryData = PortableInfoboxDataBag::getInstance()->getGallery( $marker );
-		return isset( $galleryData['images'] ) ? array_map( function ( $image ) {
-			return [
-				'label' => $image['caption'],
-				'title' => $image['name']
-			];
-		}, $galleryData['images'] ) : [ ];
+	public static function getGalleryData( $html ) {
+		$data = [];
+		$doc = HtmlHelper::createDOMDocumentFromText( $html );
+		$sxml = simplexml_import_dom( $doc );
+		$imgs = $sxml->xpath( '//li[@class=\'gallerybox\']' );
+		foreach ( $imgs as $img ) {
+			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $img->asXML(), $out ) ) {
+				$caption = trim( $img->xpath( 'descendant::div[@class=\'gallerytext\']' )[0] );
+				$data[] = [
+					'label' => $caption ?: $out[1],
+					'title' => $out[1]
+				];
+			}
+		}
+		return $data;
 	}
 
 	public static function getTabberData( $html ) {
@@ -86,8 +93,8 @@ class NodeImage extends Node {
 		$galleryItems = [];
 		$galleryMarkers = self::getMarkers( $value, self::GALLERY );
 		foreach ( $galleryMarkers as $marker ) {
-			$galleryItems = array_merge( $galleryItems, self::getGalleryData( $marker ) );
-
+			$galleryHtml = $this->getExternalParser()->parseRecursive( $marker );
+			$galleryItems = array_merge( $galleryItems, self::getGalleryData( $galleryHtml ) );
 		}
 		return $galleryItems;
 	}
