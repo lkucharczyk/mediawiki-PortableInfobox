@@ -60,7 +60,7 @@ class PortableInfoboxImagesHelper {
 		}
 
 		return array_merge( $data, [
-			'ref' => ++$this->count,
+			'ref' => ++self::$count,
 			'height' => intval( $imgTagDimensions['height'] ),
 			'width' => intval( $imgTagDimensions['width'] ),
 			'originalHeight' => $dataAttrs['height'] ?? '',
