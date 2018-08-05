@@ -20,15 +20,22 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	public function isExpensive() {
 		return true;
 	}
+	
+	public function getOrderFields() {
+		return [ 'title' ];
+	}
 
+	public function getCacheOrderFields() {
+		return $this->getOrderFields();
+	}
+	
 	function getQueryInfo() {
 		return [
 			'tables' => [ 'page' ],
 			'fields' => [
 				'namespace' => 'page_namespace',
 				'title' => 'page_title',
-				'id' => 'page_id',
-				'value' => 'page_title'
+				'value' => 'page_id'
 			],
 			'conds' => [
 				'page_is_redirect' => 0,
@@ -105,7 +112,7 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	}
 
 	private function filterInfoboxes( $tmpl ) {
-		$title = Title::newFromID( $tmpl->id );
+		$title = Title::newFromID( $tmpl->value );
 
 		return $title &&
 			$title->exists() &&
