@@ -13,6 +13,9 @@
 	"version": "0.1",
 	"type": "parserhook",
 	"license-name": "GPL-3.0-or-later",
+	"config": {
+		"PortableInfoboxApiCanTriggerRecache": true
+	},
 	"MessagesDirs": {
 		"PortableInfobox": "i18n"
 	},
