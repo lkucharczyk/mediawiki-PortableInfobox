@@ -89,14 +89,12 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
+		"ParserAfterTidy": "PortableInfoboxParserTagController::replaceInfoboxMarkers",
 		"BeforePageDisplay": "PortableInfoboxHooks::onBeforePageDisplay",
 		"BeforePageDisplayMobile": "PortableInfoboxHooks::onBeforePageDisplayMobile",
-		"ParserAfterTidy": "PortableInfoboxParserTagController::replaceInfoboxMarkers",
-		"ImageServing::buildAndGetIndex": "PortableInfoboxHooks::onImageServingCollectImages",
 		"wgQueryPages": "PortableInfoboxHooks::onWgQueryPages",
 		"AllInfoboxesQueryRecached": "PortableInfoboxHooks::onAllInfoboxesQueryRecached",
 		"ArticlePurge": "PortableInfoboxHooks::onArticlePurge",
-		"BacklinksPurge": "PortableInfoboxHooks::onBacklinksPurge",
 		"PageContentInsertComplete": "PortableInfoboxHooks::onPageContentInsertComplete",
 		"PageContentSave": "PortableInfoboxHooks::onPageContentSave"
 	},

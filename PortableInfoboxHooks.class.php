@@ -14,17 +14,6 @@ class PortableInfoboxHooks {
 		return true;
 	}
 
-	public static function onImageServingCollectImages( &$imageNamesArray, $articleTitle ) {
-		if ( $articleTitle ) {
-			$infoboxImages = PortableInfoboxDataService::newFromTitle( $articleTitle )->getImages();
-			if ( !empty( $infoboxImages ) ) {
-				$imageNamesArray = array_merge( $infoboxImages, (array)$imageNamesArray );
-			}
-		}
-
-		return true;
-	}
-
 	public static function onWgQueryPages( &$queryPages = [ ] ) {
 		$queryPages[] = [ 'AllinfoboxesQueryPage', 'AllInfoboxes' ];
 
@@ -68,21 +57,6 @@ class PortableInfoboxHooks {
 	 */
 	public static function onArticlePurge( Page $article ) {
 		PortableInfoboxDataService::newFromTitle( $article->getTitle() )->purge();
-
-		return true;
-	}
-
-	/**
-	 * Purge articles memcache when template is edited
-	 *
-	 * @param $articles Array of Titles
-	 *
-	 * @return bool
-	 */
-	public static function onBacklinksPurge( Array $articles ) {
-		foreach ( $articles as $title ) {
-			PortableInfoboxDataService::newFromTitle( $title )->delete();
-		}
 
 		return true;
 	}
