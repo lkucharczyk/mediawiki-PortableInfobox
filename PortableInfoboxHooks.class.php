@@ -32,7 +32,8 @@ class PortableInfoboxHooks {
 	}
 
 	public static function onAllInfoboxesQueryRecached() {
-		F::app()->wg->Memc->delete( wfMemcKey( ApiQueryAllinfoboxes::MCACHE_KEY ) );
+		$cache = ObjectCache::getMainWANInstance();
+		$cache->delete( $cache->makeKey( __CLASS__, ApiQueryAllinfoboxes::MCACHE_KEY ) );
 
 		return true;
 	}
@@ -52,7 +53,7 @@ class PortableInfoboxHooks {
 	 *
 	 * @return bool
 	 */
-	public static function onArticleSave( Page $article, User $user, &$text, &$summary, $minor, $watchthis, $sectionanchor, &$flags, Status &$status ): bool {
+	public static function onPageContentSave( Page $article, User $user, &$text, &$summary, $minor, $watchthis, $sectionanchor, &$flags, Status &$status ): bool {
 		PortableInfoboxDataService::newFromTitle( $article->getTitle() )->delete();
 
 		return true;
@@ -101,8 +102,8 @@ class PortableInfoboxHooks {
 	 * @param  Revision $revision      The newly inserted revision object
 	 * @return boolean
 	 */
-	public static function onArticleInsertComplete( Page $page, User $user, $text, $summary, $minoredit,
-	                                                $watchThis, $sectionAnchor, &$flags, Revision $revision ) {
+	public static function onPageContentInsertComplete( Page $page, User $user, $text, $summary, $minoredit,
+	                                                    $watchThis, $sectionAnchor, &$flags, Revision $revision ) {
 		$title = $page->getTitle();
 		if ( $title->inNamespace( NS_TEMPLATE ) ) {
 			( new AllinfoboxesQueryPage() )->addTitleToCache( $title );

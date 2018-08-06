@@ -14,6 +14,7 @@ class PortableInfoboxDataService {
 	protected $parsingHelper;
 	protected $propsProxy;
 	protected $cache;
+	protected $memcached;
 	protected $cachekey;
 
 	/**
@@ -25,7 +26,8 @@ class PortableInfoboxDataService {
 		$this->title = $title !== null ? $title : new Title();
 		$this->parsingHelper = new PortableInfoboxParsingHelper();
 		$this->propsProxy = new PagePropsProxy();
-		$this->cachekey = wfMemcKey(
+		$this->memcached = ObjectCache::getMainWANInstance();
+		$this->cachekey = $this->memcached->makeKey(
 			__CLASS__,
 			$this->title->getArticleID(),
 			self::INFOBOXES_PROPERTY_NAME,
@@ -62,10 +64,8 @@ class PortableInfoboxDataService {
 	public function getData() {
 		if ( $this->title && $this->title->exists() && $this->title->inNamespace( NS_TEMPLATE ) ) {
 			$incOnlyTemplates = $this->parsingHelper->parseIncludeonlyInfoboxes( $this->title );
-			if ( $incOnlyTemplates ) {
-				$this->delete();
-				$this->set( $incOnlyTemplates );
-			};
+			$this->delete();
+			$this->set( $incOnlyTemplates );
 		}
 		$result = $this->get();
 
@@ -160,7 +160,7 @@ class PortableInfoboxDataService {
 	 * Purge mem cache and local cache
 	 */
 	public function purge() {
-		WikiaDataAccess::cachePurge( $this->cachekey );
+		$this->memcached->delete( $this->cachekey );
 		unset( $this->cache );
 
 		return $this;
@@ -184,7 +184,7 @@ class PortableInfoboxDataService {
 	protected function load() {
 		$id = $this->title->getArticleID();
 		if ( $id ) {
-			return WikiaDataAccess::cache( $this->cachekey, CACHE_DURATION, function () use ( $id ) {
+			return $this->memcached->getWithSetCallback( $this->cachekey, CACHE_DURATION, function () use ( $id ) {
 				return $this->reparseArticleIfNeeded(
 					json_decode( $this->propsProxy->get( $id, self::INFOBOXES_PROPERTY_NAME ), true )
 				);
@@ -222,9 +222,7 @@ class PortableInfoboxDataService {
 	protected function store( $data ) {
 		$id = $this->title->getArticleID();
 		if ( $id ) {
-			WikiaDataAccess::cacheWithOptions( $this->cachekey, function () use ( $data ) {
-				return $data;
-			}, [ 'command' => WikiaDataAccess::REFRESH_CACHE, 'cacheTTL' => CACHE_DURATION ] );
+			$this->memcached->set( $this->cachekey, $data, self::CACHE_DURATION );
 			$this->propsProxy->set( $id, [ self::INFOBOXES_PROPERTY_NAME => json_encode( $data ) ] );
 		}
 	}

@@ -2,101 +2,106 @@
 
 class AllinfoboxesQueryPage extends PageQueryPage {
 
-	const LIMIT = 1000;
 	const ALL_INFOBOXES_TYPE = 'AllInfoboxes';
-	private static $subpagesBlacklist = [ 'doc', 'draft', 'test' ];
+	private static $subpagesBlacklist = [];
 
 	function __construct() {
 		parent::__construct( self::ALL_INFOBOXES_TYPE );
+
+		$blacklist = $this->getConfig( 'AllInfoboxesSubpagesBlacklist' );
+		if( is_array( $blacklist ) ) {
+			self::$subpagesBlacklist = $blacklist;
+		}
 	}
 
-	public function isListed() {
-		return false;
+	function getGroupName() {
+		return 'pages';
 	}
 
 	public function sortDescending() {
-		return true;
+		return false;
 	}
 
 	public function isExpensive() {
 		return true;
 	}
 
-	/**
-	 * A wrapper for calling the querycache table
-	 *
-	 * @param bool $offset
-	 * @param int $limit
-	 *
-	 * @return ResultWrapper
-	 */
-	public function doQuery( $offset = false, $limit = self::LIMIT ) {
-		return $this->fetchFromCache( $limit, $offset );
+	public function isCached() {
+		return $this->isExpensive() && (
+			$this->getConfig()->get( 'MiserMode' ) ||
+			$this->getConfig()->get( 'AllInfoboxesMiserMode' )
+		);
+	}
+	
+	public function getOrderFields() {
+		return [ 'title' ];
+	}
+
+	public function getCacheOrderFields() {
+		return $this->getOrderFields();
+	}
+	
+	function getQueryInfo() {
+		return [
+			'tables' => [ 'page' ],
+			'fields' => [
+				'namespace' => 'page_namespace',
+				'title' => 'page_title',
+				'value' => 'page_id'
+			],
+			'conds' => [
+				'page_is_redirect' => 0,
+				'page_namespace' => NS_TEMPLATE
+			]
+		];
 	}
 
 	/**
 	 * Update the querycache table
 	 *
+	 * @see QueryPage::recache
+	 *
 	 * @param bool $limit Only for consistency
-	 * @param bool $ignoreErrors Only for consistency
+	 * @param bool $ignoreErrors Whether to ignore database errors
 	 *
 	 * @return int number of rows updated
 	 */
 	public function recache( $limit = false, $ignoreErrors = true ) {
-		$dbw = wfGetDB( DB_MASTER );
-
-		$infoboxes = $this->reallyDoQuery();
-
-		( new WikiaSQL() )
-			->DELETE( 'querycache' )
-			->WHERE( 'qc_type' )->EQUAL_TO( $this->getName() )
-			->run( $dbw );
-
-		if ( !empty( $infoboxes ) ) {
-			( new WikiaSQL() )
-				->INSERT()->INTO( 'querycache', [
-					'qc_type',
-					'qc_value',
-					'qc_namespace',
-					'qc_title'
-				] )
-				->VALUES( $infoboxes )
-				->run( $dbw );
-		}
+		$res = parent::recache( false, $ignoreErrors );
 
 		Hooks::run( 'AllInfoboxesQueryRecached' );
-
-		return count( $infoboxes );
+		return $res;
 	}
 
 	/**
 	 * Queries all templates and get only those with portable infoboxes
 	 *
-	 * @param bool $limit Only for consistency
-	 * @param bool $offset Only for consistency
+	 * @see QueryPage::reallyDoQuery 
 	 *
-	 * @return bool|mixed
+	 * @param int|bool $limit Numerical limit or false for no limit
+	 * @param int|bool $offset Numerical offset or false for no limit
+	 *
+	 * @return ResultWrapper
 	 */
 	public function reallyDoQuery( $limit = false, $offset = false ) {
-		$dbr = wfGetDB( DB_SLAVE, [ $this->getName(), __METHOD__, 'vslow' ] );
-		$result = ( new WikiaSQL() )
-			->SELECT( 'page_id', 'page_title', 'page_namespace' )
-			->FROM( 'page' )
-			->WHERE( 'page_namespace' )->EQUAL_TO( NS_TEMPLATE )
-			->AND_( 'page_is_redirect' )->EQUAL_TO( 0 )
-			->run( $dbr, function ( ResultWrapper $result ) {
-				$out = [ ];
-				while ( $row = $result->fetchRow() ) {
-					$out[] = [ 'type' => $this->getName(),
-							   'pageid' => $row[ 'page_id' ],
-							   'ns' => $row[ 'page_namespace' ],
-							   'title' => $row[ 'page_title' ] ];
-				}
+		$res = parent::reallyDoQuery( false );
+		$out = [];
 
-				return $out;
-			} );
+		$maxResults = $this->getMaxResults();
+		if ( $limit == 0 ) {
+			$limit = $maxResults;
+		} else {
+			$limit = min( $limit, $maxResults );
+		}
 
-		return array_filter( $result, [ $this, 'filterInfoboxes' ] );
+		while ( $limit >= 0 && $row = $res->fetchObject() ) {
+			if( $this->filterInfoboxes( $row ) && $offset-- <= 0 ) {
+				$out[] = $row;
+				$limit--;
+			} 
+		}
+
+		return new FakeResultWrapper( $out );
 	}
 
 	public function addTitleToCache( Title $title ) {
@@ -105,20 +110,16 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 		}
 
 		$dbw = wfGetDB( DB_MASTER );
-		( new WikiaSQL() )
-			->INSERT()->INTO( 'querycache', [
-				'qc_type',
-				'qc_value',
-				'qc_namespace',
-				'qc_title'
-			] )
-			->VALUES( [ [
-				$this->getName(),
-				$title->getArticleID(),
-				$title->getNamespace(),
-				$title->getDBkey(),
-			] ] )
-			->run( $dbw );
+		$dbw->doAtomicSection(
+			__METHOD__,
+			function ( IDatabase $dbw, $fname ) use ( $title ) {
+				$dbw->insert( 'querycache', [
+					'qc_type' => $this->getName(),
+					'qc_namespace' => $title->getNamespace(),
+					'qc_title' => $title->getDBkey()
+				], $fname );
+			}
+		);
 
 		Hooks::run( 'AllInfoboxesQueryRecached' );
 	}
@@ -133,7 +134,7 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	}
 
 	private function filterInfoboxes( $tmpl ) {
-		$title = Title::newFromID( $tmpl[ 'pageid' ] );
+		$title = Title::newFromID( $tmpl->value );
 
 		return $title &&
 			$title->exists() &&

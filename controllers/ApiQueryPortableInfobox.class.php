@@ -17,6 +17,7 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 
 	protected function runOnPageSet( ApiPageSet $pageSet ) {
 		$articles = $pageSet->getGoodTitles();
+		$res = $pageSet->getResult();
 
 		foreach ( $articles as $id => $articleTitle ) {
 			$parsedInfoboxes = PortableInfoboxDataService::newFromTitle( $articleTitle )->getData();
@@ -28,13 +29,13 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 					$inf[ $k ] = [ ];
 				}
 
-				$pageSet->getResult()->setIndexedTagName( $inf, 'infobox' );
-				$pageSet->getResult()->addValue( [ 'query', 'pages', $id ], 'infoboxes', $inf );
+				$res->setIndexedTagName( $inf, 'infobox' );
+				$res->addValue( [ 'query', 'pages', $id ], 'infoboxes', $inf );
 
 				foreach ( $parsedInfoboxes as $count => $infobox ) {
-					$pageSet->getResult()->addValue( [ 'query', 'pages', $id, 'infoboxes', $count ], 'id', $count );
+					$res->addValue( [ 'query', 'pages', $id, 'infoboxes', $count ], 'id', $count );
 
-					$pageSet->getResult()->addValue(
+					$res->addValue(
 						[ 'query', 'pages', $id, 'infoboxes', $count ],
 						'parser_tag_version',
 						$infobox['parser_tag_version']
@@ -42,17 +43,17 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 
 					$metadata = $infobox['metadata'];
 
-					$pageSet->getResult()->addValue(
+					$res->addValue(
 						[ 'query', 'pages', $id, 'infoboxes', $count ], 'metadata', $metadata
 					);
-					$pageSet->getResult()->setIndexedTagName_internal(
+					$res->addIndexedTagName(
 						[ 'query', 'pages', $id, 'infoboxes', $count, 'metadata' ],
 						'metadata'
 					);
 					$this->setIndexedTagNamesForGroupMetadata(
 						$metadata,
 						[ 'query', 'pages', $id, 'infoboxes', $count, 'metadata' ],
-						$pageSet->getResult()
+						$res
 					);
 				}
 			}
@@ -71,7 +72,7 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 		foreach ( $metadata as $nodeCount => $node ) {
 			if ( $node['type'] === 'group' ) {
 				$path = array_merge( $rootPath, [ $nodeCount, 'metadata' ] );
-				$result->setIndexedTagName_internal( $path, 'metadata' );
+				$result->addIndexedTagName( $path, 'metadata' );
 				$this->setIndexedTagNamesForGroupMetadata( $node[ 'metadata' ], $path, $result );
 			}
 		}

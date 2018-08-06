@@ -13,8 +13,15 @@
 	"version": "0.1",
 	"type": "parserhook",
 	"license-name": "GPL-3.0-or-later",
+	"config": {
+		"AllInfoboxesSubpagesBlacklist": [ "doc", "draft", "test" ],
+		"AllInfoboxesMiserMode": true
+	},
 	"MessagesDirs": {
 		"PortableInfobox": "i18n"
+	},
+	"ExtensionMessagesFiles": {
+		"PortableInfoboxAliases": "PortableInfobox.alias.php"
 	},
 	"ResourceModules": {
 		"ext.PortableInfobox": {
@@ -43,7 +50,6 @@
 		"FileNamespaceSanitizeHelper": "includes/filehelpers/FileNamespaceSanitizeHelper.php",
 		"WikiaFileHelper": "includes/filehelpers/WikiaFileHelper.class.php",
 		"PortableInfoboxDataService": "services/PortableInfoboxDataService.class.php",
-		"PortableInfoboxQueryService": "services/PortableInfoboxQueryService.class.php",
 		"PortableInfoboxRenderService": "services/PortableInfoboxRenderService.class.php",
 		"PortableInfoboxErrorRenderService": "services/PortableInfoboxErrorRenderService.class.php",
 		"Wikia\\PortableInfobox\\Parser\\ExternalParser": "services/Parser/ExternalParser.php",
@@ -90,9 +96,9 @@
 		"wgQueryPages": "PortableInfoboxHooks::onWgQueryPages",
 		"AllInfoboxesQueryRecached": "PortableInfoboxHooks::onAllInfoboxesQueryRecached",
 		"ArticlePurge": "PortableInfoboxHooks::onArticlePurge",
-		"ArticleSave": "PortableInfoboxHooks::onArticleSave",
 		"BacklinksPurge": "PortableInfoboxHooks::onBacklinksPurge",
-		"ArticleInsertComplete": "PortableInfoboxHooks::onArticleInsertComplete"
+		"PageContentInsertComplete": "PortableInfoboxHooks::onPageContentInsertComplete",
+		"PageContentSave": "PortableInfoboxHooks::onPageContentSave"
 	},
 	"SpecialPages": {
 		"AllInfoboxes": "AllinfoboxesQueryPage"

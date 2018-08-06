@@ -6,30 +6,31 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 	const MCACHE_KEY = 'allinfoboxes-list';
 
 	public function execute() {
-		$data = WikiaDataAccess::cache( wfMemcKey( self::MCACHE_KEY ), self::CACHE_TTL, function () {
-			$dbr = wfGetDB( DB_SLAVE );
+		$db = $this->getDB();
+		$res = $this->getResult();
+		$cache = ObjectCache::getMainWANInstance();
+		$cachekey = $cache->makeKey( self::MCACHE_KEY );
 
-			return ( new WikiaSQL() )
-				->SELECT( 'qc_value', 'qc_namespace', 'qc_title' )
-				->FROM( 'querycache' )
-				->WHERE( 'qc_type' )->EQUAL_TO( AllinfoboxesQueryPage::ALL_INFOBOXES_TYPE )
-				->run( $dbr, function ( ResultWrapper $result ) {
-					$out = [ ];
-					while ( $row = $result->fetchRow() ) {
-						$out[] = [ 'pageid' => $row[ 'qc_value' ],
-							'title' => $row[ 'qc_title' ],
-							'label' => $this->createLabel( $row[ 'qc_title' ] ),
-							'ns' => $row[ 'qc_namespace' ] ];
-					}
+		$data = $cache->getWithSetCallback( $cachekey, self::CACHE_TTL, function () use ( $db ) {
+			$out = [];
 
-					return $out;
-				} );
+			$res = ( new AllinfoboxesQueryPage() )->doQuery();
+			while( $row = $res->fetchObject() ) {
+				$out[] = [
+					'pageid' => $row->value,
+					'title' => $row->title,
+					'label' => $this->createLabel( $row->title ),
+					'ns' => $row->namespace
+				];
+			}
+
+			return $out;
 		} );
 
 		foreach ( $data as $id => $infobox ) {
-			$this->getResult()->addValue( [ 'query', 'allinfoboxes' ], null, $infobox );
+			$res->addValue( [ 'query', 'allinfoboxes' ], null, $infobox );
 		}
-		$this->getResult()->setIndexedTagName_internal( [ 'query', 'allinfoboxes' ], 'i' );
+		$res->addIndexedTagName( [ 'query', 'allinfoboxes' ], 'i' );
 	}
 
 	public function getVersion() {

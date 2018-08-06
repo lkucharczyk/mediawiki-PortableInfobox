@@ -12,5 +12,6 @@
 	"portable-infobox-xml-parse-error-gt-required": "Definicja tagu nie jest zakończona prawidłowo",
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "Niezgodność otwierającego i kończącego znacznika",
 	"portable-infobox-xml-parse-error-tag-not-finished": "Przedwczesny koniec znacznika",
-	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "Atrybut \"$1\" nie jest obsługiwana w tagu <infobox>"
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "Atrybut \"$1\" nie jest obsługiwana w tagu <infobox>",
+	"allinfoboxes": "Wszystkie infoboksy"
 }
