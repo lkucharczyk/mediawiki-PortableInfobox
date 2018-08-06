@@ -6,11 +6,10 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 	const MCACHE_KEY = 'allinfoboxes-list';
 
 	public function execute() {
-		
 		$db = $this->getDB();
 		$res = $this->getResult();
 		$cache = ObjectCache::getMainWANInstance();
-		$cachekey = $cache->makeKey( __CLASS__, self::MCACHE_KEY );
+		$cachekey = $cache->makeKey( self::MCACHE_KEY );
 
 		$data = $cache->getWithSetCallback( $cachekey, self::CACHE_TTL, function () use ( $db ) {
 			global $wgPortableInfoboxApiCanTriggerRecache;
