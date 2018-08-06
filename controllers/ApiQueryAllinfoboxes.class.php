@@ -12,39 +12,15 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 		$cachekey = $cache->makeKey( self::MCACHE_KEY );
 
 		$data = $cache->getWithSetCallback( $cachekey, self::CACHE_TTL, function () use ( $db ) {
-			global $wgPortableInfoboxApiCanTriggerRecache;
-
 			$out = [];
 
-			if( $wgPortableInfoboxApiCanTriggerRecache ) {
-				$res = $db->select(
-					'querycache_info',
-					[ 'timestamp' => 'qci_timestamp' ], 
-					[ 'qci_type' => AllinfoboxesQueryPage::ALL_INFOBOXES_TYPE ],
-					__METHOD__
-				);
-
-				$recache = intval( wfTimestamp( TS_UNIX, wfTimestampNow() ) ) - self::CACHE_TTL;
-				$lastcache = wfTimestamp( TS_UNIX, $res->fetchObject()->timestamp );
-
-				if( $lastcache < $recache ) {
-					(new AllinfoboxesQueryPage())->recache();
-				}
-			}
-
-			$res = $db->select(
-				'querycache',
-				[ 'qc_value', 'qc_title', 'qc_namespace' ], 
-				[ 'qc_type' => AllinfoboxesQueryPage::ALL_INFOBOXES_TYPE ],
-				__METHOD__
-			);
-
+			$res = ( new AllinfoboxesQueryPage() )->doQuery();
 			while( $row = $res->fetchObject() ) {
 				$out[] = [
-					'pageid' => $row->qc_value,
-					'title' => $row->qc_title,
-					'label' => $this->createLabel( $row->qc_title ),
-					'ns' => $row->qc_namespace
+					'pageid' => $row->value,
+					'title' => $row->title,
+					'label' => $this->createLabel( $row->title ),
+					'ns' => $row->namespace
 				];
 			}
 

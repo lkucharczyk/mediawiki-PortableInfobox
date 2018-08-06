@@ -3,15 +3,20 @@
 class AllinfoboxesQueryPage extends PageQueryPage {
 
 	const ALL_INFOBOXES_TYPE = 'AllInfoboxes';
-	private static $subpagesBlacklist = [ 'doc', 'draft', 'test' ];
+	private static $subpagesBlacklist = [];
 
 	function __construct() {
 		parent::__construct( self::ALL_INFOBOXES_TYPE );
+
+		$blacklist = $this->getConfig( 'AllInfoboxesSubpagesBlacklist' );
+		if( is_array( $blacklist ) ) {
+			self::$subpagesBlacklist = $blacklist;
+		}
 	}
 
 	function getGroupName() {
 		return 'pages';
-  	}
+	}
 
 	public function sortDescending() {
 		return false;
@@ -19,6 +24,13 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 
 	public function isExpensive() {
 		return true;
+	}
+
+	public function isCached() {
+		return $this->isExpensive() && (
+			$this->getConfig()->get( 'MiserMode' ) ||
+			$this->getConfig()->get( 'AllInfoboxesMiserMode' )
+		);
 	}
 	
 	public function getOrderFields() {
@@ -47,8 +59,10 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	/**
 	 * Update the querycache table
 	 *
+	 * @see QueryPage::recache
+	 *
 	 * @param bool $limit Only for consistency
-	 * @param bool $ignoreErrors Only for consistency
+	 * @param bool $ignoreErrors Whether to ignore database errors
 	 *
 	 * @return int number of rows updated
 	 */
@@ -64,8 +78,8 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	 *
 	 * @see QueryPage::reallyDoQuery 
 	 *
-	 * @param bool $limit Only for consistency
-	 * @param bool $offset Only for consistency
+	 * @param int|bool $limit Numerical limit or false for no limit
+	 * @param int|bool $offset Numerical offset or false for no limit
 	 *
 	 * @return ResultWrapper
 	 */
@@ -73,13 +87,21 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 		$res = parent::reallyDoQuery( false );
 		$out = [];
 
-		while ( $row = $res->fetchObject() ) {
-			if($this->filterInfoboxes( $row )) {
+		$maxResults = $this->getMaxResults();
+		if ( $limit == 0 ) {
+			$limit = $maxResults;
+		} else {
+			$limit = min( $limit, $maxResults );
+		}
+
+		while ( $limit >= 0 && $row = $res->fetchObject() ) {
+			if( $this->filterInfoboxes( $row ) && $offset-- <= 0 ) {
 				$out[] = $row;
+				$limit--;
 			} 
 		}
 
-		return new FakeResultWrapper($out);
+		return new FakeResultWrapper( $out );
 	}
 
 	public function addTitleToCache( Title $title ) {

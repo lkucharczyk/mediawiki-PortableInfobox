@@ -14,7 +14,8 @@
 	"type": "parserhook",
 	"license-name": "GPL-3.0-or-later",
 	"config": {
-		"PortableInfoboxApiCanTriggerRecache": true
+		"AllInfoboxesSubpagesBlacklist": [ "doc", "draft", "test" ],
+		"AllInfoboxesMiserMode": true
 	},
 	"MessagesDirs": {
 		"PortableInfobox": "i18n"
