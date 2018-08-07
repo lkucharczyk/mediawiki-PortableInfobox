@@ -30,6 +30,13 @@ class PortableInfoboxImagesHelper {
 			return false;
 		}
 
+		// we don't need failing thumbnail creation for videos
+		if( $file->getMediaType() == MEDIATYPE_VIDEO ) {
+			return array_merge( $data, [
+				'ref' => ++self::$count
+			] );
+		}
+
 		// get dimensions
 		$originalWidth = $file->getWidth();
 		// we need to have different thumbnail file dimensions to support (not to have pixelated images) wider infoboxes than default width
@@ -63,11 +70,8 @@ class PortableInfoboxImagesHelper {
 			'ref' => ++self::$count,
 			'height' => intval( $imgTagDimensions['height'] ),
 			'width' => intval( $imgTagDimensions['width'] ),
-			'originalHeight' => $dataAttrs['height'] ?? '',
-			'originalWidth' => $dataAttrs['width'] ?? '',
 			'thumbnail' => $thumbnail->getUrl(),
-			'thumbnail2x' => $thumbnail2x->getUrl(),
-			'fileName' => $dataAttrs['fileName'] ?? ''
+			'thumbnail2x' => $thumbnail2x->getUrl()
 		] );
 	}
 

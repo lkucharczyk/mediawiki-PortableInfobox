@@ -131,15 +131,11 @@ class NodeImage extends Node {
 			'url' => $this->resolveImageUrl( $fileObj ),
 			'name' => $titleObj ? $titleObj->getText() : '',
 			'key' => $titleObj ? $titleObj->getDBKey() : '',
-			'alt' => $alt,
+			'alt' => $alt ?: $titleObj ? $titleObj->getText() : '',
 			'caption' => \SanitizerBuilder::createFromType( 'image' )
 				->sanitize( [ 'caption' => $caption ] )['caption'],
-			'isVideo' => false
+			'isVideo' => $this->isVideo( $fileObj )
 		];
-
-		if ( $this->isVideo( $fileObj ) ) {
-			$image = $this->videoDataDecorator( $image, $fileObj );
-		}
 
 		return $image;
 	}
@@ -203,24 +199,5 @@ class NodeImage extends Node {
 	 */
 	private function isVideo( $file ) {
 		return $file ? $file->getMediaType() === self::MEDIA_TYPE_VIDEO : false;
-	}
-
-	/**
-	 * @desc add addtional data required for video media type
-	 * @param array $data
-	 * @param File $file
-	 * @return array
-	 */
-	private function videoDataDecorator( $data, $file ) {
-		$title = $file->getTitle();
-
-		if ( $title ) {
-			$data[ 'url' ] = $title->getFullURL();
-		}
-
-		$data[ 'isVideo' ] = true;
-		$data[ 'duration' ] = WikiaFileHelper::formatDuration( $file->getMetadataDuration());
-
-		return $data;
 	}
 }

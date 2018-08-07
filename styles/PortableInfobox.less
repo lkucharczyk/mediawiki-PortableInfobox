@@ -14,7 +14,7 @@
 	font-size: .85em;
 	margin: 0 0 var(--pi-margin) var(--pi-margin);
 	width: var(--pi-width);
-	
+
 	.pi-border-color {
 		border-color: var(--pi-border-color);
 	}
@@ -28,7 +28,7 @@
 	.pi-item-spacing {
 		padding: var(--pi-item-spacing);
 	}
-	
+
 	.pi-title {
 		border: 0;
 		margin: 0;
@@ -48,6 +48,11 @@
 		margin: 0;
 		max-width: 100%;
 		text-align: center;
+
+		a {
+			display: block;
+			line-height: 0;
+		}
 	}
 	.pi-data-label {
 		font-size: inherit;
@@ -67,7 +72,7 @@
 }
 .pi {
 	&-image {
-		&-thumbnail{
+		&-thumbnail {
 			max-width: var(--pi-width);
 			height: auto;
 		}
@@ -111,6 +116,10 @@
 				}
 			}
 		}
+	}
+	&-video-player {
+		width: var(--pi-width);
+		height: auto;
 	}
 	&-caption {
 		-webkit-hyphens: auto;
@@ -241,7 +250,7 @@
 			padding-left: 10px;
 		}
 	}
-	
+
 }
 @media screen and (min-width: 720px) {
 	.pi-collapse .pi-header:first-child {
@@ -286,12 +295,16 @@
 }
 
 @media screen and (max-width: 720px) {
+	:root {
+		--pi-width: 100%;
+	}
+
 	.portable-infobox {
 		float: none;
 		width: initial;
 		font-size: initial;
 		margin: 0;
-		
+
 		.skin-minerva & {
 			margin: 0 -16px;
 		}
@@ -317,7 +330,7 @@
 	.pi-caption {
 		margin: var(--pi-item-spacing);
 	}
-	
+
 	.pi-horizontal-group {
 		display: table;
 		margin: 0;
