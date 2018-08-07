@@ -19,6 +19,16 @@ class PortableInfoboxHooks {
 
 		return true;
 	}
+	public static function onBeforeParserrenderImageGallery ( $parser, $gallery ) {
+		if ( $gallery instanceof ImageGalleryBase ) {
+			\Wikia\PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
+				Parser::MARKER_PREFIX . "-gallery-" . sprintf( '%08X', $parser->mMarkerIndex-1 ) . Parser::MARKER_SUFFIX,
+				$gallery
+			);
+		}
+
+		return true;
+	}
 
 	public static function onAllInfoboxesQueryRecached() {
 		$cache = ObjectCache::getMainWANInstance();
