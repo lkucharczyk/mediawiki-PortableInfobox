@@ -6,7 +6,7 @@ use Wikia\PortableInfobox\Parser\Nodes\NodeInfobox;
 
 class PortableInfoboxDataService {
 
-	const CACHE_DURATION = 86400; // 24 hours
+	const CACHE_TTL = 86400; // 24 hours
 	const IMAGE_FIELD_TYPE = 'image';
 	const INFOBOXES_PROPERTY_NAME = 'infoboxes';
 
@@ -184,7 +184,7 @@ class PortableInfoboxDataService {
 	protected function load() {
 		$id = $this->title->getArticleID();
 		if ( $id ) {
-			return $this->memcached->getWithSetCallback( $this->cachekey, CACHE_DURATION, function () use ( $id ) {
+			return $this->memcached->getWithSetCallback( $this->cachekey, self::CACHE_TTL, function () use ( $id ) {
 				return $this->reparseArticleIfNeeded(
 					json_decode( $this->propsProxy->get( $id, self::INFOBOXES_PROPERTY_NAME ), true )
 				);
@@ -222,7 +222,7 @@ class PortableInfoboxDataService {
 	protected function store( $data ) {
 		$id = $this->title->getArticleID();
 		if ( $id ) {
-			$this->memcached->set( $this->cachekey, $data, self::CACHE_DURATION );
+			$this->memcached->set( $this->cachekey, $data, self::CACHE_TTL );
 			$this->propsProxy->set( $id, [ self::INFOBOXES_PROPERTY_NAME => json_encode( $data ) ] );
 		}
 	}

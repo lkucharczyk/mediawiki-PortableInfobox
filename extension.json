@@ -111,5 +111,6 @@
 	},
 	"APIListModules": {
 		"allinfoboxes": "ApiQueryAllinfoboxes"
-	}
+	},
+	"manifest_version": 1
 }
