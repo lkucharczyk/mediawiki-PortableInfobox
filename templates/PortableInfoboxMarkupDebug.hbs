@@ -1,18 +1,18 @@
 <p class="pi-error-info">{{info}}</p>
 <ul class="pi-debug">
-	{{#code}}
+	{{#each code}}
 	<li>
-		<div class="pi-debug-line{{#error}} error{{/error}}">
+		<div class="pi-debug-line{{#if error}} error{{/if}}">
 			<div class="pi-debug-line-number">{{line}}</div>
 			<div class="pi-debug-line-code">{{codeLine}}</div>
 		</div>
-		{{#error}}
+		{{#if error}}
 		<div class="pi-debug-error-message">
-			{{#error_messages}}
+			{{#each error_messages}}
 				<p class="pi-debug-error-message-item">{{{message}}}</p>
-			{{/error_messages}}
+			{{/each}}
 		</div>
-		{{/error}}
+		{{/if}}
 	</li>
-	{{/code}}
+	{{/each}}
 </ul>

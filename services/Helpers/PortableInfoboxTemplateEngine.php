@@ -3,27 +3,27 @@
 namespace Wikia\PortableInfobox\Helpers;
 
 use MediaWiki\Logger\LoggerFactory;
-use Wikia\Template\MustacheEngine;
+use Wikia\Template\TemplateEngine;
 
-class PortableInfoboxMustacheEngine {
+class PortableInfoboxTemplateEngine {
 	const TYPE_NOT_SUPPORTED_MESSAGE = 'portable-infobox-render-not-supported-type';
 
 	protected static $templates = [
-		'wrapper' => 'PortableInfoboxWrapper.mustache',
-		'title' => 'PortableInfoboxItemTitle.mustache',
-		'header' => 'PortableInfoboxItemHeader.mustache',
-		'image' => 'PortableInfoboxItemImage.mustache',
-		'data' => 'PortableInfoboxItemData.mustache',
-		'group' => 'PortableInfoboxItemGroup.mustache',
-		'smart-group' => 'PortableInfoboxItemSmartGroup.mustache',
-		'horizontal-group-content' => 'PortableInfoboxHorizontalGroupContent.mustache',
-		'navigation' => 'PortableInfoboxItemNavigation.mustache',
-		'image-collection' => 'PortableInfoboxItemImageCollection.mustache'
+		'wrapper' => 'PortableInfoboxWrapper.hbs',
+		'title' => 'PortableInfoboxItemTitle.hbs',
+		'header' => 'PortableInfoboxItemHeader.hbs',
+		'image' => 'PortableInfoboxItemImage.hbs',
+		'data' => 'PortableInfoboxItemData.hbs',
+		'group' => 'PortableInfoboxItemGroup.hbs',
+		'smart-group' => 'PortableInfoboxItemSmartGroup.hbs',
+		'horizontal-group-content' => 'PortableInfoboxHorizontalGroupContent.hbs',
+		'navigation' => 'PortableInfoboxItemNavigation.hbs',
+		'image-collection' => 'PortableInfoboxItemImageCollection.hbs'
 	];
 	protected $templateEngine;
 
 	public function __construct() {
-		$this->templateEngine = ( new MustacheEngine )
+		$this->templateEngine = ( new TemplateEngine )
 			->setPrefix( self::getTemplatesDir() );
 	}
 

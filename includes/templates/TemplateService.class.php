@@ -1,16 +1,16 @@
 <?php
 
 /**
- * MustacheService is a wrapper for actual Mustache implementation
+ * TemplateService is a wrapper for actual Mustache/Handlebars implementation
  * that automatically searches for all required partials and prefetches them
- * in order to supply Mustache engine (either in PHP or JS) with all necessary
+ * in order to supply the engine (either in PHP or JS) with all necessary
  * dependencies.
  *
  * @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy
  *
  * @author Władysław Bodzek <wladek@wikia-inc.com>
  */
-class MustacheService {
+class TemplateService {
 
 	const REGEX_PARTIALS = '/{{>\s*([^{}]*?)}}/';
 
@@ -20,7 +20,7 @@ class MustacheService {
 	private $cache = array();
 
 	/**
-	 * Singleton - use MustacheService::getInstance() instead
+	 * Singleton - use TemplateService::getInstance() instead
 	 */
 	private function __construct() {}
 
@@ -29,8 +29,8 @@ class MustacheService {
 	 *
 	 * @param $fileName string File path (absolute)
 	 * @return array Array containing requested data, keys are:
-	 * - MustacheService::TEMPLATE - contains template contents
-	 * - MustacheService::DEPENDENCIES - list of all partials that may be included
+	 * - TemplateService::TEMPLATE - contains template contents
+	 * - TemplateService::DEPENDENCIES - list of all partials that may be included
 	 * @throws Exception Thrown if any partial cannot be found
 	 */
 	private function getTemplateInfo( $fileName ) {
@@ -140,10 +140,10 @@ class MustacheService {
 	 * @throws Exception Thrown if any partial cannot be found
 	 */
 	public function render( $fileName, $data ) {
-		$renderer = $this->getRenderer($fileName);
-		return $renderer($this->parseData($data));
+		$renderer = $this->getRenderer( $fileName );
+		return $renderer( $data );
 	}
-	
+
 	/**
 	 * Returns a mustache renderer
 	 *
@@ -155,19 +155,19 @@ class MustacheService {
 		if ( !empty($this->cache[$fileName] ) ) {
 			return $this->cache[$fileName];
 		}
-		
+
 		list( $template, $partials ) = $this->getTemplateAndPartials( $fileName );
 
 		// @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy
 		$renderer = LightnCandy::prepare(
 			LightnCandy::compile($template, array(
-				'flags' => LightnCandy::FLAG_MUSTACHE | LightnCandy::FLAG_BESTPERFORMANCE,
+				'flags' => LightnCandy::FLAG_BESTPERFORMANCE,
 				'partials' => $partials
 			))
 		);
-		
+
 		$this->cache[$fileName] = $renderer;
-		
+
 		return $renderer;
 	}
 
@@ -190,9 +190,9 @@ class MustacheService {
 	}
 
 	/**
-	 * Get a singleton instance of MustacheService
+	 * Get a singleton instance of TemplateService
 	 *
-	 * @return MustacheService Singleton
+	 * @return TemplateService Singleton
 	 */
 	public static function getInstance() {
 		static $instance;

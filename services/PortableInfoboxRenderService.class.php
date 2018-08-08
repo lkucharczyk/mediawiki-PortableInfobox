@@ -1,7 +1,7 @@
 <?php
 
 use Wikia\PortableInfobox\Helpers\PortableInfoboxImagesHelper;
-use Wikia\PortableInfobox\Helpers\PortableInfoboxMustacheEngine;
+use Wikia\PortableInfobox\Helpers\PortableInfoboxTemplateEngine;
 
 class PortableInfoboxRenderService {
 	// keep synced with scss variables ($infobox-width)
@@ -16,7 +16,7 @@ class PortableInfoboxRenderService {
 	private $helper;
 
 	public function __construct() {
-		$this->templateEngine = new PortableInfoboxMustacheEngine();
+		$this->templateEngine = new PortableInfoboxTemplateEngine();
 	}
 
 	/**

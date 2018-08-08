@@ -1,0 +1,15 @@
+<div class="pi-image-collection">
+	<ul class="pi-image-collection-tabs">
+		{{#each images}}<li class="pi-tab-link pi-item-spacing{{#if isFirst}} current{{/if}}" data-pi-tab="pi-tab-{{ref}}">{{{caption}}}</li>{{/each}}
+	</ul>
+	{{#each images}}
+		<div class="pi-image-collection-tab-content{{#if isFirst}} current{{/if}}" id="pi-tab-{{ref}}">
+			<figure class="pi-item pi-image{{#if isVideo}} pi-video{{/if}}">
+				<a href="{{url}}" class="image image-thumbnail{{#isVideo}} video video-thumbnail{{/isVideo}}" title="{{alt}}">
+					{{#unless isVideo}}<img src="{{thumbnail}}" srcset="{{thumbnail}} 1x, {{thumbnail2x}} 2x" class="pi-image-thumbnail" alt="{{alt}}" width="{{{width}}}" height="{{{height}}}"/>
+					{{else}}<video src="{{url}}" class="pi-video-player" controls="true" controlsList="nodownload" preload="metadata">{{alt}}</video>{{/unless}}
+				</a>
+			</figure>
+		</div>
+	{{/each}}
+</div>

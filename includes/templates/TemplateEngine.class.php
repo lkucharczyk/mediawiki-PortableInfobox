@@ -2,13 +2,13 @@
 namespace Wikia\Template;
 
 /**
- * Mustache FileSystem-based engine for Wikia Templating System.
+ * Template FileSystem-based engine for Wikia Templating System.
  *
  * @package Wikia\Template
  * @author Federico "Lox" Lucignano <federico@wikia-inc.com>
  */
 
-class MustacheEngine {
+class TemplateEngine {
 	protected $values = [];
 	protected $prefix = '';
 
@@ -16,9 +16,9 @@ class MustacheEngine {
 	 * Checks if a template exists.
 	 *
 	 * @param string $template The name of the template, will be combined with
-	 * the value passed to MustacheEngine::setPrefix().
+	 * the value passed to TemplateEngine::setPrefix().
 	 * In case of FileSystem-based engines it should be the filename
-	 * either alone (MustacheEngine::setPrefix()) or the full path, both need to
+	 * either alone (TemplateEngine::setPrefix()) or the full path, both need to
 	 * include the file's extension.
 	 *
 	 * @return bool Wether the template was found or not
@@ -36,9 +36,9 @@ class MustacheEngine {
 	 * Renders the template as a string.
 	 *
 	 * @param string $template The name of the template, will be combined with
-	 * the value passed to MustacheEngine::setPrefix().
+	 * the value passed to TemplateEngine::setPrefix().
 	 * In case of FileSystem-based engines it should be the filename
-	 * either alone (MustacheEngine::setPrefix()) or the full path, both need to
+	 * either alone (TemplateEngine::setPrefix()) or the full path, both need to
 	 * include the file's extension.
 	 *
 	 * @return string The rendered template
@@ -49,7 +49,7 @@ class MustacheEngine {
 		$path = $this->prefix == '' ? $template : $this->prefix . DIRECTORY_SEPARATOR . $template;
 
 		//wfProfileIn( __METHOD__ . " - template: {$path}" );
-		$contents = \MustacheService::getInstance()->render( $path, $this->values );
+		$contents = \TemplateService::getInstance()->render( $path, $this->values );
 		//wfProfileOut( __METHOD__ . " - template: {$path}" );
 
 		//wfProfileOut( __METHOD__ );
@@ -60,11 +60,11 @@ class MustacheEngine {
 	 * Sets the base path for this instance.
 	 *
 	 * @param string $prefix The prefix to append to the template
-	 * name passed as a parameter to MustacheEngine::render(), e.g. the path
+	 * name passed as a parameter to TemplateEngine::render(), e.g. the path
 	 * to a folder containing template files for filesystem-based
 	 * engines.
 	 *
-	 * @return MustacheEngine The current instance
+	 * @return TemplateEngine The current instance
 	 */
 	public function setPrefix ( $prefix ) {
 		$this->prefix = (string) $prefix;
@@ -86,9 +86,9 @@ class MustacheEngine {
 	 * @param array $values The values to be passed to a template
 	 * in the form of an associative array, i.e. [IDENTIFIER => VALUE]
 	 *
-	 * @return MustacheEngine The current instance
+	 * @return TemplateEngine The current instance
 	 *
-	 * @see MustacheEngine::setVal() if you need to set only one value
+	 * @see TemplateEngine::setVal() if you need to set only one value
 	 */
 	public function setData( Array $values ) {
 		$this->values = $values;
@@ -102,9 +102,9 @@ class MustacheEngine {
 	 * @param array $values The values to be added/updated in the form of an
 	 * associative array, i.e. [IDENTIFIER => VALUE]
 	 *
-	 * @return MustacheEngine The current instance
+	 * @return TemplateEngine The current instance
 	 *
-	 * * @see MustacheEngine::setVal() if you need to add/overwrite only one value
+	 * * @see TemplateEngine::setVal() if you need to add/overwrite only one value
 	 */
 	public function updateData( Array $values ) {
 		wfProfileIn( __METHOD__ );
@@ -118,9 +118,9 @@ class MustacheEngine {
 	/**
 	 * Empties the collection of values stored in an instance
 	 *
-	 * @return MustacheEngine The current instance
+	 * @return TemplateEngine The current instance
 	 *
-	 * @see MustacheEngine::clearVal() if you need to clear only one value
+	 * @see TemplateEngine::clearVal() if you need to clear only one value
 	 */
 	public function clearData(){
 		$this->values = [];
@@ -133,7 +133,7 @@ class MustacheEngine {
 	 * @return array The values set for this instance, null if the collection
 	 * wasn't set
 	 *
-	 * @see MustacheEngine::getVal() if you need to get only one value
+	 * @see TemplateEngine::getVal() if you need to get only one value
 	 */
 	public function getData() {
 		return $this->values;
@@ -145,9 +145,9 @@ class MustacheEngine {
 	 * @param string $name The name of the value
 	 * @param mixed $value The real value
 	 *
-	 * @return MustacheEngine The current instance
+	 * @return TemplateEngine The current instance
 	 *
-	 * @see MustacheEngine::setData() if you need to set multiple values instead
+	 * @see TemplateEngine::setData() if you need to set multiple values instead
 	 * of calling this method multiple times
 	 */
 	public function setVal( $name, $value ) {
@@ -160,9 +160,9 @@ class MustacheEngine {
 	 *
 	 * @param string $name The name of the value
 	 *
-	 * @return MustacheEngine The current instance
+	 * @return TemplateEngine The current instance
 	 *
-	 * @see MustacheEngine::clearData() if you need to clear the whole collection
+	 * @see TemplateEngine::clearData() if you need to clear the whole collection
 	 * instead of calling this method multiple times
 	 */
 	public function clearVal( $name ){
@@ -177,7 +177,7 @@ class MustacheEngine {
 	 *
 	 * @return mixed|null The current instance
 	 *
-	 * @see MustacheEngine::setData() if you need to get multiple values instead
+	 * @see TemplateEngine::setData() if you need to get multiple values instead
 	 * of calling this method multiple times
 	 */
 	public function getVal( $name ) {
