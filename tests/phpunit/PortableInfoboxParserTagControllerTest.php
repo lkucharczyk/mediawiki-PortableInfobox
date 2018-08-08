@@ -1,7 +1,9 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class PortableInfoboxParserTagControllerTest extends TestCase {
+/**
+ * @group PortableInfobox
+ * @covers PortableInfoboxParserTagController
+ */
+class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 
 	/** @var Parser */
 	protected $parser;
@@ -11,11 +13,6 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		require_once __DIR__ . '/../controllers/PortableInfoboxParserTagController.class.php';
-
-		if ( !extension_loaded( 'mustache' ) ) {
-			$this->markTestSkipped( '"mustache" PHP extension needs to be loaded!' );
-		}
 
 		$this->parser = $this->setUpParser();
 		$this->controller = new PortableInfoboxParserTagController();
@@ -191,7 +188,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 		return [
 			[
 				'params' => [ 'accent-color-default' => '#fff' ],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#fff;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -200,7 +197,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 			],
 			[
 				'params' => [ 'accent-color-source' => 'color-source' ],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#000;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -214,7 +211,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 					'accent-color-default' => '#fff' ,
 					'accent-color-source' => 'color-source'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#000;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -225,7 +222,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 			],
 			[
 				'params' => [ 'accent-color-text-default' => '#fff' ],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="color:#fff;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -237,7 +234,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 					'accent-color-text-default' => '#fff' ,
 					'accent-color-text-source' => 'color-source'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="color:#000;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -251,7 +248,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 					'accent-color-text-default' => '#fff' ,
 					'accent-color-text-source' => 'color-source'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="color:#000;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -267,7 +264,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 					'accent-color-default' => '#fff' ,
 					'accent-color-source' => 'color-source2'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#001;color:#000;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -284,7 +281,7 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 					'accent-color-default' => 'fff' ,
 					'accent-color-source' => 'color-source2'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-wikia pi-layout-default">
+				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
 										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#001;color:#000;">test</h2>
 									</aside>',
 				'text' => '<title><default>test</default></title>',
@@ -343,7 +340,11 @@ class PortableInfoboxParserTagControllerTest extends TestCase {
 	 * @dataProvider moveFirstMarkerToTopDataProvider
 	 */
 	public function testMoveFirstMarkerToTop( $markers, $text, $expected ) {
-		$this->controller->markers = $markers;
+		$reflection = new ReflectionClass( $this->controller );
+		$reflection_property = $reflection->getProperty( 'markers' );
+		$reflection_property->setAccessible( true );
+		$reflection_property->setValue( $this->controller, $markers );
+
 		$this->controller->moveFirstMarkerToTop( $text );
 		$this->assertEquals( $expected, $text );
 	}

@@ -1,12 +1,9 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class PortableInfoboxParsingHelperTest extends TestCase {
-
-	protected function setUp() {
-		parent::setUp();
-		require_once __DIR__ . '/../services/Helpers/PortableInfoboxParsingHelper.php';
-	}
+/**
+ * @group PortableInfobox
+ * @covers Wikia\PortableInfobox\Helpers\PortableInfoboxParsingHelper
+ */
+class PortableInfoboxParsingHelperTest extends MediaWikiTestCase {
 
 	/**
 	 * @dataProvider parsingIncludeonlyInfoboxesDataProvider
@@ -48,9 +45,10 @@ class PortableInfoboxParsingHelperTest extends TestCase {
 					]
 				]
 			],
-			[ '<includeonly></includeonly><infobox></infobox>', false ],
+			[ '<noinclude><infobox></infobox></noinclude>', false ],
+			[ '<onlyinclude></onlyinclude><infobox></infobox>', false ],
 			[
-				'<includeonly><infobox></infobox></includeonly> ',
+				'<includeonly></includeonly><infobox></infobox>',
 				[
 					[
 						'parser_tag_version' => PortableInfoboxParserTagController::PARSER_TAG_VERSION,

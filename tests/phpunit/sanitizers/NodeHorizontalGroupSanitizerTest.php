@@ -1,14 +1,20 @@
 <?php
-
-class NodeHorizontalGroupSanitizerTest extends WikiaBaseTest {
+/**
+ * @group PortableInfobox
+ * @covers NodeDataSanitizer
+ */
+class NodeHorizontalGroupSanitizerTest extends MediaWikiTestCase {
 	/** @var NodeHorizontalGroupSanitizer $sanitizer */
 	private $sanitizer;
 
 	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
-
 		$this->sanitizer = SanitizerBuilder::createFromType('horizontal-group-content');
 		parent::setUp();
+	}
+
+	protected function tearDown() {
+		unset( $sanitizer );
+		parent::tearDown();
 	}
 
 	/**

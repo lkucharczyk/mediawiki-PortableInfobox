@@ -2,16 +2,24 @@
 
 use Wikia\PortableInfobox\Helpers\PortableInfoboxImagesHelper;
 
-class PortableInfoboxImagesHelperTest extends WikiaBaseTest {
+/**
+ * @group PortableInfobox
+ * @covers Wikia\PortableInfobox\Helpers\PortableInfoboxImagesHelper
+ */
+class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 	private $helper;
+	private static $testCustomWidthLogicCount;
 
 	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../PortableInfobox.setup.php';
 		parent::setUp();
-
 		$this->helper = new PortableInfoboxImagesHelper();
 	}
 
+	protected function tearDown() {
+		unset( $this->helper );
+		parent::tearDown();
+	}
+	
 	/**
 	 * @desc mocks WikiaFileHelper methods
 	 * @param array $input
@@ -32,7 +40,7 @@ class PortableInfoboxImagesHelperTest extends WikiaBaseTest {
 			->method( 'getHeight' )
 			->will( $this->returnValue( $fileHeight ) );
 
-		$this->mockStaticMethod( 'WikiaFileHelper', 'getFileFromTitle', $fileMock );
+		//$this->mockStaticMethod( 'WikiaFileHelper', 'getFileFromTitle', $fileMock );
 
 		return $fileMock;
 	}
@@ -110,19 +118,14 @@ class PortableInfoboxImagesHelperTest extends WikiaBaseTest {
 	 * @dataProvider customWidthProvider
 	 */
 	public function testCustomWidthLogic( $customWidth, $preferredWidth, $resultDimensions, $thumbnailDimensions, $thumbnail2xDimensions, $originalDimension ) {
+		self::$testCustomWidthLogicCount++;
 		$expected = [
 			'name' => 'test',
-			'ref' => null,
+			'ref' => self::$testCustomWidthLogicCount,
 			'thumbnail' => null,
 			'thumbnail2x' => null,
-			'key' => '',
-			'media-type' => 'image',
 			'width' => $resultDimensions[ 'width' ],
-			'height' => $resultDimensions[ 'height' ],
-			'originalHeight' => '',
-			'originalWidth' => '',
-			'fileName' => '',
-			'dataAttrs' => '[]'
+			'height' => $resultDimensions[ 'height' ]
 		];
 		$thumb = $this->getMockBuilder( 'ThumbnailImage' )
 			->disableOriginalConstructor()
@@ -135,23 +138,22 @@ class PortableInfoboxImagesHelperTest extends WikiaBaseTest {
 		$file->expects( $this->once() )->method( 'exists' )->will( $this->returnValue( true ) );
 		$file->expects( $this->once() )->method( 'getWidth' )->will( $this->returnValue( $originalDimension[ 'width' ] ) );
 		$file->expects( $this->once() )->method( 'getHeight' )->will( $this->returnValue( $originalDimension[ 'height' ] ) );
-		$file->expects( $this->once() )->method( 'getMediaType' )->will( $this->returnValue( MEDIATYPE_BITMAP ) );
+		$file->expects( $this->any() )->method( 'getMediaType' )->will( $this->returnValue( MEDIATYPE_BITMAP ) );
 
 		$file->expects( $this->any() )
 			->method( 'transform' )
 			->with( $this->logicalOr ( $this->equalTo( $thumbnailDimensions ), $this->equalTo( $thumbnail2xDimensions ) ) )
 			->will( $this->returnValue( $thumb ) );
-		$this->mockStaticMethod( 'WikiaFileHelper', 'getFileFromTitle', $file );
-		$this->mockStaticMethod( 'Hooks', 'run', true );
+		
+		$helper = $this->getMock( PortableInfoboxImagesHelper::class, [ 'getFileFromTitle' ] );
+		$helper->expects( $this->any() )
+			->method( 'getFileFromTitle' )
+			->willReturn( $file );
 
-		$globals = new \Wikia\Util\GlobalStateWrapper( [
-			'wgPortableInfoboxCustomImageWidth' => $customWidth
-		] );
+		global $wgPortableInfoboxCustomImageWidth;
+		$wgPortableInfoboxCustomImageWidth = $customWidth;
 
-		$helper = new PortableInfoboxImagesHelper();
-		$result = $globals->wrap( function () use ( $helper, $preferredWidth ) {
-			return $helper->extendImageData( [ 'name' => 'test' ], $preferredWidth );
-		} );
+		$result = $helper->extendImageData( [ 'name' => 'test' ], $preferredWidth );
 
 		$this->assertEquals( $expected, $result );
 	}

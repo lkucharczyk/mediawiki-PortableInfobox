@@ -21,7 +21,7 @@ class PortableInfoboxImagesHelper {
 
 		// title param is provided through reference in WikiaFileHelper::getFileFromTitle
 		$title = $data['name'];
-		$file = \WikiaFileHelper::getFileFromTitle( $title );
+		$file = $this->getFileFromTitle( $title );
 
 		if (
 			!$file || !$file->exists() ||
@@ -129,5 +129,14 @@ class PortableInfoboxImagesHelper {
 			return $file->getWidth();
 		}
 		return 0;
+	}
+
+	/**
+	 * Separated for overriding in unit testing
+	 * @param \Title|string $title
+	 * @return \File file
+	 */
+	protected function getFileFromTitle( $title ) {
+		return \WikiaFileHelper::getFileFromTitle( $title );
 	}
 }

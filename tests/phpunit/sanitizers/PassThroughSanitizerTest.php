@@ -1,14 +1,20 @@
 <?php
-
-class PassThroughSanitizerTest extends WikiaBaseTest {
+/**
+ * @group PortableInfobox
+ * @covers PassThroughSanitizer
+ */
+class PassThroughSanitizerTest extends MediaWikiTestCase {
 	/** @var PassThroughSanitizer $sanitizer */
 	private $sanitizer;
 
 	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
-
 		$this->sanitizer = SanitizerBuilder::createFromType('invalid-type');
 		parent::setUp();
+	}
+
+	protected function tearDown() {
+		unset( $sanitizer );
+		parent::tearDown();
 	}
 
 	/**

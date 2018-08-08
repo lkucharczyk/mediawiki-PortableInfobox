@@ -1,14 +1,20 @@
 <?php
-
-class NodeDataSanitizerTest extends WikiaBaseTest {
+/**
+ * @group PortableInfobox
+ * @covers NodeDataSanitizer
+ */
+class NodeDataSanitizerTest extends MediaWikiTestCase {
 	/** @var NodeDataSanitizer $sanitizer */
 	private $sanitizer;
 
 	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
-
 		$this->sanitizer = SanitizerBuilder::createFromType('data');
 		parent::setUp();
+	}
+
+	protected function tearDown() {
+		unset( $sanitizer );
+		parent::tearDown();
 	}
 
 	/**

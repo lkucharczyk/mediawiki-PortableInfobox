@@ -1,10 +1,10 @@
 <?php
 
-class NodeInfoboxTest extends WikiaBaseTest {
-	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
-		parent::setUp();
-	}
+/**
+ * @group PortableInfobox
+ * @covers \Wikia\PortableInfobox\Parser\Nodes\NodeInfobox
+ */
+class NodeInfoboxTest extends MediaWikiTestCase {
 
 	/**
 	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeInfobox::getParams

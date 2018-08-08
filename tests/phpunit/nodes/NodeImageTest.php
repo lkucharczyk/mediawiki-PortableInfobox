@@ -3,10 +3,17 @@
 use Wikia\PortableInfobox\Helpers\PortableInfoboxDataBag;
 use Wikia\PortableInfobox\Parser\Nodes\NodeImage;
 
-class NodeImageTest extends WikiaBaseTest {
+/**
+ * @group PortableInfobox
+ * @covers \Wikia\PortableInfobox\Parser\Nodes\NodeImage
+ */
+class NodeImageTest extends MediaWikiTestCase {
+
 	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
 		parent::setUp();
+
+		global $wgUseInstantCommons;
+		$wgUseInstantCommons = false;
 	}
 
 	/**
@@ -26,24 +33,24 @@ class NodeImageTest extends WikiaBaseTest {
 			"'\"`UNIQabcd-gAlLeRy-3-QINU`\"'"
 		];
 		PortableInfoboxDataBag::getInstance()->setGallery( $markers[0],
-				['images' => [
+				new GalleryMock([
 					[
-						'name' => 'image0_name.jpg',
-						'caption' => 'image0_caption'
+						'image0_name.jpg',
+						'image0_caption'
 					],
 					[
-						'name' => 'image01_name.jpg',
-						'caption' => 'image01_caption'
+						'image01_name.jpg',
+						'image01_caption'
 					],
-				]]);
+				]));
 		PortableInfoboxDataBag::getInstance()->setGallery( $markers[1],
-				['images' => [
+				new GalleryMock([
 					[
-						'name' => 'image1_name.jpg',
-						'caption' => 'image1_caption'
+						'image1_name.jpg',
+						'image1_caption'
 					]
-				]]);
-		PortableInfoboxDataBag::getInstance()->setGallery( $markers[2], [ 'images' => [] ]);
+				]));
+		PortableInfoboxDataBag::getInstance()->setGallery( $markers[2], new GalleryMock() );
 
 		return [
 			[
@@ -79,11 +86,11 @@ class NodeImageTest extends WikiaBaseTest {
 	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeImage::getTabberData
 	 */
 	public function testTabberData() {
-		$input = '<div class="tabber"><div class="tabbertab" title="_title_"><p><a><img data-image-key="_data-image-key_"></a></p></div></div>';
+		$input = '<div class="tabber"><div class="tabbertab" title="_title_"><p><a><img src="_src_"></a></p></div></div>';
 		$expected = [
 			[
 				'label' => '_title_',
-				'title' => '_data-image-key_',
+				'title' => '_src_',
 			]
 		];
 		$this->assertEquals( $expected, NodeImage::getTabberData( $input ) );
@@ -104,17 +111,17 @@ class NodeImageTest extends WikiaBaseTest {
 		return [
 			[
 				'TABBER',
-				"<div>\x7f'\"`UNIQ123456789-tAbBeR-12345678-QINU`\"'\x7f</div>",
-				[ "\x7f'\"`UNIQ123456789-tAbBeR-12345678-QINU`\"'\x7f" ]
+				"<div>\x7f'\"`UNIQ--tAbBeR-12345678-QINU`\"'\x7f</div>",
+				[ "\x7f'\"`UNIQ--tAbBeR-12345678-QINU`\"'\x7f" ]
 			],
 			[
 				'GALLERY',
-				"\x7f'\"`UNIQ123456789-tAbBeR-12345678-QINU`\"'\x7f<center>\x7f'\"`UNIQabcd-gAlLeRy-12345678-QINU`\"'\x7f</center>\x7f'\"`UNIQabcd-gAlLeRy-87654321-QINU`\"'\x7f",
-				[ "\x7f'\"`UNIQabcd-gAlLeRy-12345678-QINU`\"'\x7f", "\x7f'\"`UNIQabcd-gAlLeRy-87654321-QINU`\"'\x7f" ]
+				"\x7f'\"`UNIQ--tAbBeR-12345678-QINU`\"'\x7f<center>\x7f'\"`UNIQ--gAlLeRy-12345678-QINU`\"'\x7f</center>\x7f'\"`UNIQ--gAlLeRy-87654321-QINU`\"'\x7f",
+				[ "\x7f'\"`UNIQ--gAlLeRy-12345678-QINU`\"'\x7f", "\x7f'\"`UNIQ--gAlLeRy-87654321-QINU`\"'\x7f" ]
 			],
 			[
 				'GALLERY',
-				"\x7f'\"`UNIQ123456789-somethingelse-12345678-QINU`\"'\x7f",
+				"\x7f'\"`UNIQ--somethingelse-12345678-QINU`\"'\x7f",
 				[ ]
 			]
 		];
@@ -146,7 +153,7 @@ class NodeImageTest extends WikiaBaseTest {
 			[
 				'<image source="img"></image>',
 				[ 'img' => 'test.jpg' ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'key' => 'Test.jpg', 'alt' => null, 'caption' => null, 'isVideo' => false ] ]
+				[ [ 'url' => '', 'name' => 'Test.jpg', 'key' => 'Test.jpg', 'alt' => 'Test.jpg', 'caption' => null, 'isVideo' => false ] ]
 			],
 			[
 				'<image source="img"><alt><default>test alt</default></alt></image>',
@@ -258,10 +265,12 @@ class NodeImageTest extends WikiaBaseTest {
 		$fileMock = new FileMock();
 		$xmlObj = Wikia\PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
-		$this->mockStaticMethod( 'WikiaFileHelper', 'getFileFromTitle', $fileMock );
-		$nodeImage = new NodeImage( $xmlObj, $params );
+		$mock = $this->getMock(NodeImage::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
+		$mock->expects( $this->any( ))
+			->method( 'getFilefromTitle' )
+			->willReturn( $fileMock );
 
-		$this->assertEquals( $expected, $nodeImage->getData() );
+		$this->assertEquals( $expected, $mock->getData() );
 	}
 
 	public function videoProvider() {
@@ -274,10 +283,9 @@ class NodeImageTest extends WikiaBaseTest {
 						'url' => 'http://test.url',
 						'name' => 'Test.jpg',
 						'key' => 'Test.jpg',
-						'alt' => null,
+						'alt' => 'Test.jpg',
 						'caption' => null,
-						'isVideo' => true,
-						'duration' => '00:10'
+						'isVideo' => true
 					]
 				]
 			]
@@ -290,21 +298,18 @@ class FileMock {
 		return "VIDEO";
 	}
 
-	public function getMetadataDuration() {
-		return 10;
-	}
-
 	public function getUrl() {
-		return '';
-	}
-
-	public function getTitle() {
-		return new TitleMock();
+		return 'http://test.url';
 	}
 }
 
-class TitleMock {
-	public function getFullURL() {
-		return 'http://test.url';
+class GalleryMock {
+	private $images;
+	public function __construct( Array $images = [] ) {
+		$this->images = $images;
+	}
+
+	public function getImages() {
+		return $this->images;
 	}
 }

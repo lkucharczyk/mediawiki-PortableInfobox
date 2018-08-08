@@ -124,9 +124,9 @@ class NodeImage extends Node {
 			'url' => $this->resolveImageUrl( $fileObj ),
 			'name' => $titleObj ? $titleObj->getText() : '',
 			'key' => $titleObj ? $titleObj->getDBKey() : '',
-			'alt' => $alt ?: $titleObj ? $titleObj->getText() : '',
+			'alt' => $alt ?? ( $titleObj ? $titleObj->getText() : null ),
 			'caption' => \SanitizerBuilder::createFromType( 'image' )
-				->sanitize( [ 'caption' => $caption ] )['caption'],
+				->sanitize( [ 'caption' => $caption ] )['caption'] ?: null,
 			'isVideo' => $this->isVideo( $fileObj )
 		];
 
@@ -168,11 +168,13 @@ class NodeImage extends Node {
 	}
 
 	/**
+	 * NOTE: Protected to override in unit tests
+	 *
 	 * @desc get file object from title object
 	 * @param Title|null $title
 	 * @return File|null
 	 */
-	private function getFilefromTitle( $title ) {
+	protected function getFilefromTitle( $title ) {
 		return $title ? WikiaFileHelper::getFileFromTitle( $title ) : null;
 	}
 

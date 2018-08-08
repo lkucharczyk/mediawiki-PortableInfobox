@@ -1,10 +1,9 @@
 <?php
-
-class NodeNavigationTest extends WikiaBaseTest {
-	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
-		parent::setUp();
-	}
+/**
+ * @group PortableInfobox
+ * @covers \Wikia\PortableInfobox\Parser\Nodes\NodeNavigation
+ */
+class NodeNavigationTest extends MediaWikiTestCase {
 
 	/**
 	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeNavigation::getData

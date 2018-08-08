@@ -1,13 +1,12 @@
 <?php
-
-class NodeDataTest extends WikiaBaseTest {
-	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
-		parent::setUp();
-	}
+/**
+ * @group PortableInfobox
+ * @covers \Wikia\PortableInfobox\Parser\Nodes\Node
+ */
+class NodeDataTest extends MediaWikiTestCase {
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getSource
+	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getSources
 	 * @dataProvider sourceDataProvider
 	 *
 	 * @param $markup

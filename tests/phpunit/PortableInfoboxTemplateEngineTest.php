@@ -1,22 +1,18 @@
 <?php
-use PHPUnit\Framework\TestCase;
-use Wikia\PortableInfobox\Helpers\PortableInfoboxMustacheEngine;
-
-class PortableInfoboxMustacheEngineTest extends TestCase {
-
-	protected function setUp() {
-		parent::setUp();
-		require_once __DIR__ . '/../services/Helpers/PortableInfoboxMustacheEngine.php';
-	}
+/**
+ * @group PortableInfobox
+ * @covers Wikia\PortableInfobox\Helpers\PortableInfoboxTemplateEngine
+ */
+class PortableInfoboxTemplateEngineTest extends MediaWikiTestCase {
 
 	/**
-	 * @covers PortableInfoboxMustacheEngine::isSupportedType
+	 * @covers Wikia\PortableInfobox\Helpers\PortableInfoboxTemplateEngine::isSupportedType
 	 * @dataProvider isTypeSupportedInTemplatesDataProvider
 	 */
 	public function testIsTypeSupportedInTemplates( $type, $result, $description ) {
 		$this->assertEquals(
 			$result,
-			PortableInfoboxMustacheEngine::isSupportedType( $type ),
+			Wikia\PortableInfobox\Helpers\PortableInfoboxTemplateEngine::isSupportedType( $type ),
 			$description
 		);
 	}
@@ -35,6 +31,5 @@ class PortableInfoboxMustacheEngineTest extends TestCase {
 			]
 		];
 	}
-
 
 }

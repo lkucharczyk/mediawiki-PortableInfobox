@@ -1,28 +1,9 @@
 <?php
-
-class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
-
-	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../PortableInfobox.setup.php';
-		parent::setUp();
-
-		if ( !extension_loaded( 'mustache' ) ) {
-			$this->markTestSkipped( '"mustache" PHP extension needs to be loaded!' );
-		}
-	}
-
-	private function mockInfoboxRenderServiceHelper( $input ) {
-		$extendImageData = isset( $input['extendImageData'] ) ? $input['extendImageData'] : null;
-
-		$mock = $this->getMockBuilder( 'Wikia\PortableInfobox\Helpers\PortableInfoboxImagesHelper' )
-			->setMethods( [ 'extendImageData' ] )
-			->getMock();
-		$mock->expects( $this->any() )
-			->method( 'extendImageData' )
-			->will( $this->returnValue( $extendImageData ) );
-
-		$this->mockClass( 'Wikia\PortableInfobox\Helpers\PortableInfoboxImagesHelper', $mock );
-	}
+/**
+ * @group PortableInfobox
+ * @covers PortableInfoboxParserTagController
+ */
+class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 
 	/**
 	 * @param $html
@@ -215,9 +196,14 @@ class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
 	 * @dataProvider renderInfoboxDataProvider
 	 */
 	public function testRenderInfobox( $input, $expectedOutput, $description, $mockParams, $accentColor, $accentColorText ) {
-		$this->mockInfoboxRenderServiceHelper( $mockParams );
-
 		$infoboxRenderService = new PortableInfoboxRenderService();
+		DummyPIImageHelper::$imageData = $mockParams ? $mockParams[ 'extendImageData' ] : [];
+
+		$reflection = new ReflectionClass( $infoboxRenderService );
+		$reflection_property = $reflection->getProperty( 'helper' );
+		$reflection_property->setAccessible( true );
+		$reflection_property->setValue( $infoboxRenderService, new DummyPIImageHelper() );
+
 		$actualOutput = $infoboxRenderService->renderInfobox( $input, '', '', $accentColor, $accentColorText );
 		$expectedHtml = $this->normalizeHTML( $expectedOutput );
 		$actualHtml = $this->normalizeHTML( $actualOutput );
@@ -289,7 +275,7 @@ class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
 								<figure class="pi-item pi-image">
 									<a href="http://image.jpg" class="image image-thumbnail" title="image alt">
 										<img src="http://thumbnail.jpg" srcset="http://thumbnail.jpg 1x, http://thumbnail2x.jpg 2x" class="pi-image-thumbnail" alt="image alt"
-										width="400" height="200" data-image-key="image" data-image-name="image"/>
+										width="400" height="200"/>
 									</a>
 									<figcaption class="pi-item-spacing pi-caption">Lorem ipsum dolor</figcaption>
 								</figure>
@@ -331,24 +317,11 @@ class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
 					]
 				],
 				'output' => '<aside class="portable-infobox pi-background">
-								<figure class="pi-item pi-image">
+								<figure class="pi-item pi-image pi-video">
 									<a href="http://image.jpg"
 									class="image image-thumbnail video video-thumbnail"
 									title="image alt">
-										<img src="http://thumbnail.jpg" srcset="http://thumbnail.jpg 1x, http://thumbnail2x.jpg 2x" class="pi-image-thumbnail"
-										alt="image alt" width="400" height="200" data-video-key="image"
-										data-video-name="image"/>
-										<span class="thumbnail-play-icon-container">
-											<svg class="thumbnail-play-icon" viewBox="0 0 180 180" width="100%" height="100%">
-												<g fill="none" fill-rule="evenodd">
-													<g opacity=".9" transform="rotate(90 75 90)">
-														<g fill="#000" filter="url(#a)"><rect id="b" width="150" height="150" rx="75"></rect></g>
-														<g fill="#FFF"><rect id="b" width="150" height="150" rx="75"></rect></g>
-													</g>
-													<path fill="#00D6D6" fill-rule="nonzero" d="M80.87 58.006l34.32 25.523c3.052 2.27 3.722 6.633 1.496 9.746a6.91 6.91 0 0 1-1.497 1.527l-34.32 25.523c-3.053 2.27-7.33 1.586-9.558-1.527A7.07 7.07 0 0 1 70 114.69V63.643c0-3.854 3.063-6.977 6.84-6.977 1.45 0 2.86.47 4.03 1.34z"></path>
-												</g>
-											</svg>
-										</span>
+										<video src="http://image.jpg" class="pi-video-player" controls="true" controlsList="nodownload" preload="metadata">image alt</video>
 									</a>
 									<figcaption class="pi-item-spacing pi-caption">Lorem ipsum dolor</figcaption>
 								</figure>
@@ -359,15 +332,7 @@ class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
 						'alt' => 'image alt',
 						'url' => 'http://image.jpg',
 						'caption' => 'Lorem ipsum dolor',
-						'name' => 'image',
-						'key' => 'image',
-						'width' => '400',
-						'height' => '200',
-						'thumbnail' => 'http://thumbnail.jpg',
-						'thumbnail2x' => 'http://thumbnail2x.jpg',
-						'media-type' => 'video',
-						'isVideo' => true,
-						'duration' => '1:20'
+						'isVideo' => true
 					]
 				],
 				'accentColor' => '',
@@ -444,7 +409,7 @@ class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
 								<figure class="pi-item pi-image">
 									<a href="http://image.jpg" class="image image-thumbnail" title="image alt">
 										<img src="http://thumbnail.jpg" srcset="http://thumbnail.jpg 1x, http://thumbnail2x.jpg 2x" class="pi-image-thumbnail" alt="image alt"
-										width="400" height="200" data-image-key="image" data-image-name="image"/>
+										width="400" height="200"/>
 									</a>
 								</figure>
 								<div class="pi-item pi-data pi-item-spacing pi-border-color">
@@ -1804,5 +1769,12 @@ class PortableInfoboxRenderServiceTest extends WikiaBaseTest {
 				'accentColorText' => ''
 			],
 		];
+	}
+}
+
+class DummyPIImageHelper {
+	static $imageData = [];
+	public function extendImageData( $imageData ) {
+		return self::$imageData;
 	}
 }

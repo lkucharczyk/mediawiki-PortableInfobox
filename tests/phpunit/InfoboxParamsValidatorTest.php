@@ -1,15 +1,20 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class InfoboxParamsValidatorTest extends TestCase {
+/**
+ * @group PortableInfobox
+ * @covers Wikia\PortableInfobox\Helpers\InfoboxParamsValidator
+ */
+class InfoboxParamsValidatorTest extends MediaWikiTestCase {
 	/** @var \Wikia\PortableInfobox\Helpers\InfoboxParamsValidator $InfoboxParamsValidator */
 	private $InfoboxParamsValidator;
 
 	protected function setUp() {
 		parent::setUp();
-		require_once __DIR__ . '/../services/Helpers/InfoboxParamsValidator.php';
-
 		$this->InfoboxParamsValidator = new \Wikia\PortableInfobox\Helpers\InfoboxParamsValidator();
+	}
+	
+	protected function tearDown() {
+		unset($this->InfoboxParamsValidator);
+		parent::tearDown();
 	}
 
 	/**

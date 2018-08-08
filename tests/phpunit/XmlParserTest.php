@@ -1,11 +1,9 @@
 <?php
-
-class XmlParserTest extends WikiaBaseTest {
-
-	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../PortableInfobox.setup.php';
-		parent::setUp();
-	}
+/**
+ * @group PortableInfobox
+ * @covers \Wikia\PortableInfobox\Parser\XmlParser
+ */
+class XmlParserTest extends MediaWikiTestCase {
 
 	/** @dataProvider contentTagsDataProvider */
 	public function testXHTMLParsing( $tag, $content ) {

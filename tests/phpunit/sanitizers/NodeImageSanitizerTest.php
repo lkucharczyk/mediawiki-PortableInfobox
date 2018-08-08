@@ -1,14 +1,20 @@
 <?php
-
-class NodeImageSanitizerTest extends WikiaBaseTest {
+/**
+ * @group PortableInfobox
+ * @covers NodeImageSanitizer
+ */
+class NodeImageSanitizerTest extends MediaWikiTestCase {
 	/** @var NodeImageSanitizer $sanitizer */
 	private $sanitizer;
 
 	protected function setUp() {
-		$this->setupFile = dirname( __FILE__ ) . '/../../PortableInfobox.setup.php';
-
 		$this->sanitizer = SanitizerBuilder::createFromType( 'image' );
 		parent::setUp();
+	}
+
+	protected function tearDown() {
+		unset( $sanitizer );
+		parent::tearDown();
 	}
 
 	/**
