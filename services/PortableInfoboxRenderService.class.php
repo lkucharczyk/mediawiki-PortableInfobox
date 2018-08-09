@@ -238,6 +238,7 @@ class PortableInfoboxRenderService {
 				}
 			} elseif ( $item['type'] === 'header' ) {
 				$horizontalGroupData['header'] = $data['value'];
+				$horizontalGroupData['inlineStyles'] = $this->inlineStyles;
 			}
 		}
 

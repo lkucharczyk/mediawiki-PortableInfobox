@@ -1,5 +1,5 @@
 <table class="pi-horizontal-group{{#unless renderLabels}} pi-horizontal-group-no-labels{{/unless}}">
-	{{#if header}}<caption class="pi-header pi-secondary-font pi-secondary-background pi-item-spacing">{{{header}}}</caption>{{/if}}
+	{{#if header}}<caption class="pi-header pi-secondary-font pi-secondary-background pi-item-spacing"{{#if inlineStyles}} style="{{inlineStyles}}"{{/if}}>{{{header}}}</caption>{{/if}}
 	{{#if renderLabels}}
 	<thead>
 		<tr>
