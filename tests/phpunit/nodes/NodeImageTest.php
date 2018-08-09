@@ -1,11 +1,11 @@
 <?php
 
-use Wikia\PortableInfobox\Helpers\PortableInfoboxDataBag;
-use Wikia\PortableInfobox\Parser\Nodes\NodeImage;
+use PortableInfobox\Helpers\PortableInfoboxDataBag;
+use PortableInfobox\Parser\Nodes\NodeImage;
 
 /**
  * @group PortableInfobox
- * @covers \Wikia\PortableInfobox\Parser\Nodes\NodeImage
+ * @covers PortableInfobox\Parser\Nodes\NodeImage
  */
 class NodeImageTest extends MediaWikiTestCase {
 
@@ -17,7 +17,7 @@ class NodeImageTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeImage::getGalleryData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getGalleryData
 	 * @dataProvider galleryDataProvider
 	 * @param $marker
 	 * @param $expected
@@ -83,7 +83,7 @@ class NodeImageTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeImage::getTabberData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getTabberData
 	 */
 	public function testTabberData() {
 		$input = '<div class="tabber"><div class="tabbertab" title="_title_"><p><a><img src="_src_"></a></p></div></div>';
@@ -97,14 +97,14 @@ class NodeImageTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeImage::getMarkers
+	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getMarkers
 	 * @dataProvider markersProvider
 	 * @param $ext
 	 * @param $value
 	 * @param $expected
 	 */
 	public function testMarkers( $ext, $value, $expected ) {
-		$this->assertEquals( $expected, Wikia\PortableInfobox\Parser\Nodes\NodeImage::getMarkers( $value, $ext ) );
+		$this->assertEquals( $expected, PortableInfobox\Parser\Nodes\NodeImage::getMarkers( $value, $ext ) );
 	}
 
 	public function markersProvider() {
@@ -129,7 +129,7 @@ class NodeImageTest extends MediaWikiTestCase {
 
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeImage::getData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getData
 	 * @dataProvider dataProvider
 	 *
 	 * @param $markup
@@ -137,7 +137,7 @@ class NodeImageTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testData( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getData() );
 	}
@@ -174,7 +174,7 @@ class NodeImageTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeImage::isEmpty
+	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::isEmpty
 	 * @dataProvider isEmptyProvider
 	 *
 	 * @param $markup
@@ -182,7 +182,7 @@ class NodeImageTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testIsEmpty( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->isEmpty() );
 	}
@@ -194,14 +194,14 @@ class NodeImageTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeImage::getSources
+	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getSources
 	 * @dataProvider sourcesProvider
 	 *
 	 * @param $markup
 	 * @param $expected
 	 */
 	public function testSources( $markup, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
 
 		$this->assertEquals( $expected, $node->getSources() );
 	}
@@ -236,7 +236,7 @@ class NodeImageTest extends MediaWikiTestCase {
 
 	/** @dataProvider metadataProvider */
 	public function testMetadata( $markup, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
 
 		$this->assertEquals( $expected, $node->getMetadata() );
 	}
@@ -259,11 +259,11 @@ class NodeImageTest extends MediaWikiTestCase {
 	 * @param $markup
 	 * @param $params
 	 * @param $expected
-	 * @throws \Wikia\PortableInfobox\Parser\XmlMarkupParseErrorException
+	 * @throws PortableInfobox\Parser\XmlMarkupParseErrorException
 	 */
 	public function testVideo( $markup, $params, $expected ) {
 		$fileMock = new FileMock();
-		$xmlObj = Wikia\PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
+		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
 		$mock = $this->getMock(NodeImage::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
 		$mock->expects( $this->any( ))

@@ -1,7 +1,7 @@
 <?php
 /**
  * @group PortableInfobox
- * @covers Wikia\PortableInfobox\Parser\MediaWikiParserService
+ * @covers PortableInfobox\Parser\MediaWikiParserService
  */
 class MediaWikiParserTest extends MediaWikiTestCase {
 
@@ -48,7 +48,7 @@ class MediaWikiParserTest extends MediaWikiTestCase {
 	 */
 	public function testWrapper( $wikitext, $params, $newline ) {
 		$frame = $this->parser->getPreprocessor()->newCustomFrame( $params );
-		$wrapper = new \Wikia\PortableInfobox\Parser\MediaWikiParserService( $this->parser, $frame );
+		$wrapper = new PortableInfobox\Parser\MediaWikiParserService( $this->parser, $frame );
 
 		$output = $wrapper->parseRecursive( $wikitext );
 

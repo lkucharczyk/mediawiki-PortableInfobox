@@ -1,12 +1,12 @@
 <?php
 /**
  * @group PortableInfobox
- * @covers \Wikia\PortableInfobox\Parser\Nodes\Node
+ * @covers PortableInfobox\Parser\Nodes\Node
  */
 class NodeDataTest extends MediaWikiTestCase {
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getSources
+	 * @covers       PortableInfobox\Parser\Nodes\Node::getSources
 	 * @dataProvider sourceDataProvider
 	 *
 	 * @param $markup
@@ -14,7 +14,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testSource( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getSources() );
 	}
@@ -38,7 +38,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getSourcesMetadata
+	 * @covers       PortableInfobox\Parser\Nodes\Node::getSourcesMetadata
 	 * @dataProvider sourcesMetadataDataProvider
 	 *
 	 * @param $markup
@@ -46,7 +46,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testSourcesMetadata( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getSourcesMetadata() );
 	}
@@ -287,7 +287,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getMetadata
+	 * @covers       PortableInfobox\Parser\Nodes\Node::getMetadata
 	 * @dataProvider metadataDataProvider
 	 *
 	 * @param $markup
@@ -295,7 +295,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testMetadata( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getMetadata() );
 	}
@@ -447,28 +447,28 @@ class NodeDataTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getExternalParser
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::setExternalParser
+	 * @covers       PortableInfobox\Parser\Nodes\Node::getExternalParser
+	 * @covers       PortableInfobox\Parser\Nodes\Node::setExternalParser
 	 * @dataProvider parserTestDataProvider
 	 *
 	 * @param $parser
 	 * @param $expected
 	 */
 	public function testExternalParserSetUp( $parser, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( '<data></data>', [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( '<data></data>', [ ] );
 
 		$this->assertEquals( $expected, $node->setExternalParser( $parser )->getExternalParser() );
 	}
 
 	public function parserTestDataProvider() {
 		return [
-			[ null, new \Wikia\PortableInfobox\Parser\SimpleParser() ],
-			[ new \Wikia\PortableInfobox\Parser\SimpleParser(), new \Wikia\PortableInfobox\Parser\SimpleParser() ]
+			[ null, new PortableInfobox\Parser\SimpleParser() ],
+			[ new PortableInfobox\Parser\SimpleParser(), new PortableInfobox\Parser\SimpleParser() ]
 		];
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeData::getData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeData::getData
 	 * @dataProvider dataProvider
 	 *
 	 * @param $markup
@@ -476,7 +476,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testData( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getData() );
 	}
@@ -511,7 +511,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getRenderData
+	 * @covers       PortableInfobox\Parser\Nodes\Node::getRenderData
 	 * @dataProvider dataRenderProvider
 	 *
 	 * @param $markup
@@ -519,7 +519,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testRenderData( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getRenderData() );
 	}
@@ -554,7 +554,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::isType
+	 * @covers       PortableInfobox\Parser\Nodes\Node::isType
 	 * @dataProvider isTypeDataProvider
 	 *
 	 * @param $markup
@@ -562,7 +562,7 @@ class NodeDataTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testIsType( $markup, $typeToCheck, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
 
 		$this->assertEquals( $expected, $node->isType( $typeToCheck ) );
 	}
@@ -576,14 +576,14 @@ class NodeDataTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getType
+	 * @covers       PortableInfobox\Parser\Nodes\Node::getType
 	 * @dataProvider typeDataProvider
 	 *
 	 * @param $markup
 	 * @param $expected
 	 */
 	public function testType( $markup, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
 
 		$this->assertEquals( $expected, $node->getType() );
 	}
@@ -602,7 +602,7 @@ class NodeDataTest extends MediaWikiTestCase {
 		$string = '<data source="season"><label>Season</label></data>';
 		$xml = simplexml_load_string( $string );
 
-		$node = new Wikia\PortableInfobox\Parser\Nodes\NodeData( $xml, [ 'season' => $season ] );
+		$node = new PortableInfobox\Parser\Nodes\NodeData( $xml, [ 'season' => $season ] );
 		$nodeData = $node->getData();
 		$this->assertTrue( $node->isEmpty( $nodeData ) == $expectedOutput );
 	}

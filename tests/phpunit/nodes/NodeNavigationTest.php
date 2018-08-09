@@ -1,13 +1,13 @@
 <?php
 /**
  * @group PortableInfobox
- * @covers \Wikia\PortableInfobox\Parser\Nodes\NodeNavigation
+ * @covers PortableInfobox\Parser\Nodes\NodeNavigation
  */
 class NodeNavigationTest extends MediaWikiTestCase {
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeNavigation::getData
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\Node::getInnerValue
+	 * @covers       PortableInfobox\Parser\Nodes\NodeNavigation::getData
+	 * @covers       PortableInfobox\Parser\Nodes\Node::getInnerValue
 	 * @dataProvider dataProvider
 	 *
 	 * @param $markup
@@ -15,7 +15,7 @@ class NodeNavigationTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testData( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getData() );
 	}
@@ -33,7 +33,7 @@ class NodeNavigationTest extends MediaWikiTestCase {
 	 */
 	public function testIsEmpty( $string, $expectedOutput ) {
 		$xml = simplexml_load_string( $string );
-		$node = new Wikia\PortableInfobox\Parser\Nodes\NodeNavigation( $xml, [ ] );
+		$node = new PortableInfobox\Parser\Nodes\NodeNavigation( $xml, [ ] );
 		$data = $node->getData();
 		$this->assertTrue( $node->isEmpty( $data ) == $expectedOutput );
 	}

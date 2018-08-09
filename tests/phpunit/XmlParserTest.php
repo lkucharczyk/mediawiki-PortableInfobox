@@ -1,14 +1,14 @@
 <?php
 /**
  * @group PortableInfobox
- * @covers \Wikia\PortableInfobox\Parser\XmlParser
+ * @covers PortableInfobox\Parser\XmlParser
  */
 class XmlParserTest extends MediaWikiTestCase {
 
 	/** @dataProvider contentTagsDataProvider */
 	public function testXHTMLParsing( $tag, $content ) {
 		$markup = "<data source=\"asdfd\"><{$tag}>{$content}</{$tag}></data>";
-		$result = \Wikia\PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
+		$result = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
 		$this->assertEquals( $content, (string)$result->{$tag} );
 	}
@@ -86,7 +86,7 @@ class XmlParserTest extends MediaWikiTestCase {
 	 * @dataProvider entitiesTestDataProvider
 	 */
 	public function testHTMLEntities( $markup, $expectedResult ) {
-		$result = \Wikia\PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
+		$result = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 		$this->assertEquals( $expectedResult, $result[ 0 ] );
 	}
 

@@ -1,10 +1,14 @@
 <?php
+
+use PortableInfobox\Sanitizers\SanitizerBuilder;
+use PortableInfobox\Sanitizers\NodeHorizontalGroupSanitizer;
+
 /**
  * @group PortableInfobox
- * @covers NodeDataSanitizer
+ * @covers PortableInfobox\Sanitizers\NodeHorizontalGroupSanitizer
  */
 class NodeHorizontalGroupSanitizerTest extends MediaWikiTestCase {
-	/** @var NodeHorizontalGroupSanitizer $sanitizer */
+	/** @var PortableInfobox\Sanitizers\NodeHorizontalGroupSanitizer $sanitizer */
 	private $sanitizer;
 
 	protected function setUp() {

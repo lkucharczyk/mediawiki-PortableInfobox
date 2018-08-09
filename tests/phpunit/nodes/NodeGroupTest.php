@@ -1,19 +1,19 @@
 <?php
 /**
  * @group PortableInfobox
- * @covers \Wikia\PortableInfobox\Parser\Nodes\NodeGroup
+ * @covers PortableInfobox\Parser\Nodes\NodeGroup
  */
 class NodeGroupTest extends MediaWikiTestCase {
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeGroup::getData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeGroup::getData
 	 * @dataProvider groupNodeCollapseTestProvider
 	 *
 	 * @param $markup
 	 * @param $expected
 	 */
 	public function testNodeGroupCollapse( $markup, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
 		$this->assertEquals( $expected, $node->getData()[ 'collapse' ] );
 	}
 
@@ -27,15 +27,15 @@ class NodeGroupTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeGroup::getData
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeGroup::getRenderData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeGroup::getData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeGroup::getRenderData
 	 * @dataProvider groupNodeRowItemsTestProvider
 	 *
 	 * @param $markup
 	 * @param $expected
 	 */
 	public function testNodeGroupRowItems( $markup, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
 		$this->assertEquals( $expected, $node->getData()[ 'row-items' ] );
 		$this->assertEquals( $expected, $node->getRenderData()[ 'data' ][ 'row-items' ] );
 	}
@@ -52,7 +52,7 @@ class NodeGroupTest extends MediaWikiTestCase {
 
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeGroup::getData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeGroup::getData
 	 * @dataProvider groupNodeTestProvider
 	 *
 	 * @param $markup
@@ -60,7 +60,7 @@ class NodeGroupTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testNodeGroup( $markup, $params, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->getData() );
 	}

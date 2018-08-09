@@ -1,6 +1,6 @@
 <?php
 
-use Wikia\PortableInfobox\Parser\Nodes\NodeFactory;
+use PortableInfobox\Parser\Nodes\NodeFactory;
 
 /**
  * @group PortableInfobox

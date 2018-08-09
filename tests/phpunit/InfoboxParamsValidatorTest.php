@@ -1,15 +1,15 @@
 <?php
 /**
  * @group PortableInfobox
- * @covers Wikia\PortableInfobox\Helpers\InfoboxParamsValidator
+ * @covers PortableInfobox\Helpers\InfoboxParamsValidator
  */
 class InfoboxParamsValidatorTest extends MediaWikiTestCase {
-	/** @var \Wikia\PortableInfobox\Helpers\InfoboxParamsValidator $InfoboxParamsValidator */
+	/** @var PortableInfobox\Helpers\InfoboxParamsValidator $InfoboxParamsValidator */
 	private $InfoboxParamsValidator;
 
 	protected function setUp() {
 		parent::setUp();
-		$this->InfoboxParamsValidator = new \Wikia\PortableInfobox\Helpers\InfoboxParamsValidator();
+		$this->InfoboxParamsValidator = new PortableInfobox\Helpers\InfoboxParamsValidator();
 	}
 	
 	protected function tearDown() {
@@ -21,7 +21,7 @@ class InfoboxParamsValidatorTest extends MediaWikiTestCase {
 	 * @param array $params
 	 * @dataProvider infoboxParamsFailValidationDataProvider
 	 *
-	 * @expectedException Wikia\PortableInfobox\Helpers\InvalidInfoboxParamsException
+	 * @expectedException PortableInfobox\Helpers\InvalidInfoboxParamsException
 	 */
 	public function testInfoboxParamsFailValidation( $params ) {
 		$this->InfoboxParamsValidator->validateParams( $params );

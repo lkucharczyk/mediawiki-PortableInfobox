@@ -2,19 +2,19 @@
 
 /**
  * @group PortableInfobox
- * @covers \Wikia\PortableInfobox\Parser\Nodes\NodeInfobox
+ * @covers PortableInfobox\Parser\Nodes\NodeInfobox
  */
 class NodeInfoboxTest extends MediaWikiTestCase {
 
 	/**
-	 * @covers       \Wikia\PortableInfobox\Parser\Nodes\NodeInfobox::getParams
+	 * @covers       PortableInfobox\Parser\Nodes\NodeInfobox::getParams
 	 * @dataProvider paramsProvider
 	 *
 	 * @param $markup
 	 * @param $expected
 	 */
 	public function testParams( $markup, $expected ) {
-		$node = \Wikia\PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
 
 		$this->assertEquals( $expected, $node->getParams() );
 	}

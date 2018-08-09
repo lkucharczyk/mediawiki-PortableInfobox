@@ -1,10 +1,14 @@
 <?php
+
+use PortableInfobox\Sanitizers\SanitizerBuilder;
+use PortableInfobox\Sanitizers\PassThroughSanitizer;
+
 /**
  * @group PortableInfobox
- * @covers PassThroughSanitizer
+ * @covers PortableInfobox\Sanitizers\PassThroughSanitizer
  */
 class PassThroughSanitizerTest extends MediaWikiTestCase {
-	/** @var PassThroughSanitizer $sanitizer */
+	/** @var PortableInfobox\Sanitizers\PassThroughSanitizer $sanitizer */
 	private $sanitizer;
 
 	protected function setUp() {

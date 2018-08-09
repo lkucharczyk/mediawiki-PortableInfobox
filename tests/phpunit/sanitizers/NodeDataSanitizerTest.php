@@ -1,10 +1,14 @@
 <?php
+
+use PortableInfobox\Sanitizers\SanitizerBuilder;
+use PortableInfobox\Sanitizers\NodeDataSanitizer;
+
 /**
  * @group PortableInfobox
- * @covers NodeDataSanitizer
+ * @covers PortableInfobox\Sanitizers\NodeDataSanitizer
  */
 class NodeDataSanitizerTest extends MediaWikiTestCase {
-	/** @var NodeDataSanitizer $sanitizer */
+	/** @var PortableInfobox\Sanitizers\NodeDataSanitizer $sanitizer */
 	private $sanitizer;
 
 	protected function setUp() {
