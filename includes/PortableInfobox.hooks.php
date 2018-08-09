@@ -7,10 +7,10 @@ class PortableInfoboxHooks {
 
 		return true;
 	}
-	
+
 	public static function onBeforePageDisplayMobile( OutputPage $out, Skin $skin ) {
 		$out->addModules( 'ext.PortableInfobox.mobile' );
-		
+
 		return true;
 	}
 
@@ -21,7 +21,7 @@ class PortableInfoboxHooks {
 	}
 	public static function onBeforeParserrenderImageGallery ( $parser, $gallery ) {
 		if ( $gallery instanceof ImageGalleryBase ) {
-			\Wikia\PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
+			PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
 				Parser::MARKER_PREFIX . "-gallery-" . sprintf( '%08X', $parser->mMarkerIndex-1 ) . Parser::MARKER_SUFFIX,
 				$gallery
 			);
