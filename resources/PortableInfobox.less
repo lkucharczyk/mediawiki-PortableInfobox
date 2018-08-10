@@ -78,9 +78,7 @@
 		}
 		&-collection {
 			overflow: hidden;
-			margin: var(--pi-item-spacing);
-			margin-left: 0;
-			margin-right: 0;
+			margin: 0;
 			padding-top: 1px;
 			& &-tabs {
 				list-style: none;
@@ -322,32 +320,6 @@
 	}
 }
 
-.skin-minerva {
-	.pi-image-collection-tabs li {
-		margin-bottom: 0;
-	}
-
-	.pi-caption {
-		margin: var(--pi-item-spacing);
-	}
-
-	.pi-horizontal-group {
-		display: table;
-		margin: 0;
-		width: 100% !important;
-
-		.pi-header {
-			display: table-caption;
-		}
-	}
-
-	.pi-navigation {
-		box-sizing: border-box;
-		width: 100%;
-		float: none;
-	}
-}
-
 /* PI errors */
 p.pi-error-info {
 	background-color:  #f33;
@@ -414,5 +386,58 @@ ul.pi-debug {
 	}
 	.pi-debug-error-message-item {
 		margin: 5px 0;
+	}
+}
+
+/* Skin specific fixes */
+.skin-minerva {
+	.pi-image-collection-tabs li {
+		margin-bottom: 0;
+	}
+
+	.pi-caption {
+		margin: var(--pi-item-spacing);
+	}
+
+	.pi-horizontal-group {
+		display: table;
+		margin: 0;
+		width: 100% !important;
+
+		.pi-header {
+			display: table-caption;
+		}
+	}
+
+	.pi-navigation {
+		box-sizing: border-box;
+		width: 100%;
+		float: none;
+	}
+}
+
+.skin-timeless #mw-content-text {
+	.pi-title {
+		border: none;
+		font-size: 1.75em;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	.pi-header {
+		border: none;
+		font-family: inherit;
+		font-size: 1.2em;
+		font-weight: bold;
+		line-height: 1.3;
+		margin: 0;
+	}
+
+	.pi-data-label {
+		font-family: inherit;
+		font-size: inherit;
+		font-weight: bold;
+		line-height: inherit;
+		margin: 0;
 	}
 }
