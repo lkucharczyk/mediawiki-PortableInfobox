@@ -3,13 +3,15 @@
 class PortableInfoboxHooks {
 
 	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
-		$out->addModules( 'ext.PortableInfobox' );
+		$out->addModuleStyles( 'ext.PortableInfobox.styles' );
+		$out->addModules( 'ext.PortableInfobox.scripts' );
 
 		return true;
 	}
 
 	public static function onBeforePageDisplayMobile( OutputPage $out, Skin $skin ) {
-		$out->addModules( 'ext.PortableInfobox.mobile' );
+		$out->addModuleStyles( 'ext.PortableInfobox.styles.mobile' );
+		$out->addModules( 'ext.PortableInfobox.scripts.mobile' );
 
 		return true;
 	}

@@ -21,12 +21,17 @@
 		"PortableInfoboxAliases": "includes/PortableInfobox.alias.php"
 	},
 	"ResourceModules": {
-		"ext.PortableInfobox": {
-			"scripts": "resources/PortableInfobox.js",
+		"ext.PortableInfobox.scripts": {
+			"scripts": "resources/PortableInfobox.js"
+		},
+		"ext.PortableInfobox.styles": {
 			"styles": "resources/PortableInfobox.less"
 		},
-		"ext.PortableInfobox.mobile": {
+		"ext.PortableInfobox.scripts.mobile": {
 			"scripts": "resources/PortableInfobox.js",
+			"targets": "mobile"
+		},
+		"ext.PortableInfobox.styles.mobile": {
 			"styles": "resources/PortableInfobox.less",
 			"targets": "mobile"
 		}
