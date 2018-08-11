@@ -6,7 +6,7 @@
 	],
 	"url": "https://github.com/Luqgreg/mediawiki-PortableInfobox",
 	"descriptionmsg": "portable-infobox-desc",
-	"version": "0.2",
+	"version": "0.2.1",
 	"type": "parserhook",
 	"license-name": "GPL-3.0-or-later",
 	"config": {
