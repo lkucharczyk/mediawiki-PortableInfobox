@@ -68,9 +68,8 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 	public function testEmptyInfobox() {
 		$text = '';
 
-		$marker = $this->controller->renderInfobox( $text, [ ], $this->parser,
+		$output = $this->controller->renderInfobox( $text, [], $this->parser,
 			$this->parser->getPreprocessor()->newFrame() )[0];
-		$output = $this->controller->replaceMarkers( $marker );
 
 		$this->assertEquals( $output, '', 'Should be empty' );
 	}
@@ -81,11 +80,10 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 	public function testThemes( $staticTheme, $variableTheme, $classes, $message ) {
 		$text = '<data><default>test</default></data>';
 
-		$marker = $this->controller->renderInfobox( $text,
+		$output = $this->controller->renderInfobox( $text,
 			[ 'theme' => $staticTheme, 'theme-source' => 'testVar' ],
 			$this->parser,
 			$this->parser->getPreprocessor()->newCustomFrame( [ 'testVar' => $variableTheme ] ) )[0];
-		$output = $this->controller->replaceMarkers( $marker );
 
 		$this->assertTrue( array_reduce( $classes, function ( $result, $class ) use ( $output ) {
 			return $result && $this->containsClassName( $output, $class );
@@ -122,9 +120,8 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 	 * @dataProvider getLayoutDataProvider
 	 */
 	public function testGetLayout( $layout, $expectedOutput, $text, $message ) {
-		$marker = $this->controller->renderInfobox( $text, $layout, $this->parser,
+		$output = $this->controller->renderInfobox( $text, $layout, $this->parser,
 			$this->parser->getPreprocessor()->newFrame() )[0];
-		$output = $this->controller->replaceMarkers( $marker );
 
 		$this->assertTrue( $this->containsClassName(
 			$output,
@@ -159,13 +156,13 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 				'message' => 'layout is an integer'
 			],
 			[
-				'layout' => [ 'layout' => [ ] ],
+				'layout' => [ 'layout' => [] ],
 				'expectedOutput' => 'pi-layout-default',
 				'text' => '<data><default>test</default></data>',
 				'message' => 'layout an empty table'
 			],
 			[
-				'layout' => [ ],
+				'layout' => [],
 				'expectedOutput' => 'pi-layout-default',
 				'text' => '<data><default>test</default></data>',
 				'message' => 'layout is not set'
@@ -177,9 +174,8 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 	 * @dataProvider getColorDataProvider
 	 */
 	public function testGetColor( $params, $expectedOutput, $text, $templateInvocation, $message ) {
-		$marker = $this->controller->renderInfobox( $text, $params, $this->parser,
-			$this->parser->getPreprocessor()->newCustomFrame( $templateInvocation ) )[ 0 ];
-		$output = $this->controller->replaceMarkers( $marker );
+		$output = $this->controller->renderInfobox( $text, $params, $this->parser,
+			$this->parser->getPreprocessor()->newCustomFrame( $templateInvocation ) )[0];
 
 		$this->assertEquals($this->normalizeHTML($expectedOutput), $this->normalizeHTML($output), $message);
 	}
@@ -303,11 +299,10 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
     <data source="2"><label>2</label></data>
     <data source="3"><label>3</label></data>';
 
-		$marker = $this->controller->renderInfobox( $text, [ ], $this->parser,
+		$output = $this->controller->renderInfobox( $text, [], $this->parser,
 			$this->parser->getPreprocessor()->newCustomFrame( $params ) )[0];
-		$output = $this->controller->replaceMarkers( $marker );
 
-		$result = [ ];
+		$result = [];
 		$xpath = $this->getXPath( $output );
 		// get all data nodes from parsed infobox
 		$dataNodes = $xpath->query( '//aside/div[contains(@class,\'pi-data\')]' );
@@ -333,68 +328,6 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 				[ '-1' => 'minus one', '0' => 'zero', '1' => 'one', '2' => 'two', '3' => 'three' ] ],
 			[ [ 0 => 'zero', 1 => 'one', 2 => 'two', 3 => 'three' ],
 				[ 'abc' => 'minus one', '0' => 'zero', '1' => 'one', '2' => 'two', '3' => 'three' ] ],
-		];
-	}
-
-	/**
-	 * @dataProvider moveFirstMarkerToTopDataProvider
-	 */
-	public function testMoveFirstMarkerToTop( $markers, $text, $expected ) {
-		$reflection = new ReflectionClass( $this->controller );
-		$reflection_property = $reflection->getProperty( 'markers' );
-		$reflection_property->setAccessible( true );
-		$reflection_property->setValue( $this->controller, $markers );
-
-		$this->controller->moveFirstMarkerToTop( $text );
-		$this->assertEquals( $expected, $text );
-	}
-
-	public function moveFirstMarkerToTopDataProvider() {
-		return [
-			[
-				'markers' => [
-					'infobox-1' => '1',
-					'infobox-2' => '2',
-				],
-				'text' => 'infobox-1 some text infobox-2',
-				'expected' => 'infobox-1 some text infobox-2',
-				'message' => 'first infobox already at the top'
-			],
-			[
-				'markers' => [
-					'infobox-1' => '1',
-					'infobox-2' => '2',
-				],
-				'text' => 'some text infobox-1 infobox-2',
-				'expected' => 'infobox-1 some text infobox-2',
-				'message' => 'first infobox below text'
-			],
-			[
-				'markers' => [
-					'infobox-1' => '1'
-				],
-				'text' => 'nospaceinfobox-1',
-				'expected' => 'infobox-1 nospace',
-				'message' => 'no space between input elements'
-			],
-			[
-				'markers' => [
-					'infobox-1' => '1',
-					'infobox-2' => '2',
-				],
-				'text' => 'some text
-						   some more
-						   infobox-1
-						   more text
-						   infobox-2
-						   and some more',
-				'expected' => 'infobox-1 some text
-						   some more
-						   more text
-						   infobox-2
-						   and some more',
-				'message' => 'multiple lines'
-			],
 		];
 	}
 }

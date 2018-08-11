@@ -47,19 +47,6 @@ class PortableInfoboxParserTagController {
 	}
 
 	/**
-	 * Parser hook: used to replace infobox markes put on rendering
-	 *
-	 * @param $text
-	 *
-	 * @return string
-	 */
-	public static function replaceInfoboxMarkers( Parser $parser, &$text ) {
-		$text = static::getInstance()->replaceMarkers( $text );
-
-		return true;
-	}
-
-	/**
 	 * @param $markup
 	 * @param Parser $parser
 	 * @param PPFrame $frame
@@ -120,32 +107,7 @@ class PortableInfoboxParserTagController {
 			return $this->handleError( wfMessage( 'portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported', [ $e->getMessage() ] )->escaped() );
 		}
 
-		$marker = Parser::MARKER_PREFIX . '-' . self::PARSER_TAG_NAME . '-' . sprintf( '%08X', $this->markerNumber ) . Parser::MARKER_SUFFIX;
-		$this->markers[$marker] = $renderedValue;
-
-		return [ $marker, 'markerType' => 'nowiki' ];
-	}
-
-	/**
-	 * @desc Moves the first marker to the top of article content
-	 *
-	 * @param String $text
-	 */
-	public function moveFirstMarkerToTop( &$text ) {
-		if ( !empty( $this->markers ) ) {
-			$firstMarker = array_keys( $this->markers )[ 0 ];
-
-			// Skip if the first marker is already at the top
-			if ( strpos( $text, $firstMarker ) !== 0 ) {
-				// Remove first marker and the following whitespace
-				$text = preg_replace( '/' . $firstMarker . '\s*/', '', $text, 1 );
-				$text = $firstMarker . ' ' . $text;
-			}
-		}
-	}
-
-	public function replaceMarkers( $text ) {
-		return strtr( $text, $this->markers );
+		return [ $renderedValue, 'markerType' => 'nowiki' ];
 	}
 
 	protected function saveToParserOutput( \ParserOutput $parserOutput, Nodes\NodeInfobox $raw ) {

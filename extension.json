@@ -78,7 +78,6 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
-		"ParserAfterTidy": "PortableInfoboxParserTagController::replaceInfoboxMarkers",
 		"BeforePageDisplay": "PortableInfoboxHooks::onBeforePageDisplay",
 		"BeforePageDisplayMobile": "PortableInfoboxHooks::onBeforePageDisplayMobile",
 		"BeforeParserrenderImageGallery": "PortableInfoboxHooks::onBeforeParserrenderImageGallery",
