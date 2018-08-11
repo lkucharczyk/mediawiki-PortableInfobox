@@ -12,7 +12,6 @@ class NodeImage extends Node {
 
 	const ALT_TAG_NAME = 'alt';
 	const CAPTION_TAG_NAME = 'caption';
-	const MEDIA_TYPE_VIDEO = 'VIDEO';
 
 	public static function getMarkers( $value, $ext ) {
 		if ( preg_match_all('/' . \Parser::MARKER_PREFIX . '-' . $ext . '-[A-F0-9]{8}' . \Parser::MARKER_SUFFIX . '/is', $value, $out ) ) {
@@ -78,7 +77,7 @@ class NodeImage extends Node {
 	}
 
 	private function getImagesData( $value ) {
-		$data = array();
+		$data = [];
 		$items = array_merge( $this->getGalleryItems( $value ), $this->getTabberItems( $value ) );
 		foreach( $items as $item ) {
 			$data[] = $this->getImageData( $item['title'], $item['label'], $item['label'] );
@@ -96,7 +95,7 @@ class NodeImage extends Node {
 	}
 
 	private function getTabberItems( $value ) {
-		$tabberItems = array();
+		$tabberItems = [];
 		$tabberMarkers = self::getMarkers( $value, self::TABBER );
 		foreach ( $tabberMarkers as $marker ) {
 			$tabberHtml = $this->getExternalParser()->parseRecursive( $marker );
@@ -205,6 +204,6 @@ class NodeImage extends Node {
 	 * @return bool
 	 */
 	private function isVideo( $file ) {
-		return $file ? $file->getMediaType() === self::MEDIA_TYPE_VIDEO : false;
+		return $file ? $file->getMediaType() === MEDIATYPE_VIDEO : false;
 	}
 }
