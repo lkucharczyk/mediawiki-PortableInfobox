@@ -19,7 +19,7 @@ class PortableInfoboxParserTagController {
 	private $markerNumber = 0;
 	private $infoboxParamsValidator = null;
 
-	protected $markers = [ ];
+	protected $markers = [];
 	protected static $instance;
 
 	/**
@@ -72,12 +72,12 @@ class PortableInfoboxParserTagController {
 	 */
 	public function render( $markup, Parser $parser, PPFrame $frame, $params = null ) {
 		$frameArguments = $frame->getArguments();
-		$infoboxNode = Nodes\NodeFactory::newFromXML( $markup, $frameArguments ? $frameArguments : [ ] );
+		$infoboxNode = Nodes\NodeFactory::newFromXML( $markup, $frameArguments ? $frameArguments : [] );
 		$infoboxNode->setExternalParser( new PortableInfobox\Parser\MediaWikiParserService( $parser, $frame ) );
 
 		//get params if not overridden
 		if ( !isset( $params ) ) {
-			$params = ( $infoboxNode instanceof Nodes\NodeInfobox ) ? $infoboxNode->getParams() : [ ];
+			$params = ( $infoboxNode instanceof Nodes\NodeInfobox ) ? $infoboxNode->getParams() : [];
 		}
 
 		$this->getParamsValidator()->validateParams( $params );
@@ -120,7 +120,7 @@ class PortableInfoboxParserTagController {
 			return $this->handleError( wfMessage( 'portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported', [ $e->getMessage() ] )->escaped() );
 		}
 
-		$marker = Parser::MARKER_PREFIX . "-" . self::PARSER_TAG_NAME . "-{$this->markerNumber}" . Parser::MARKER_SUFFIX;
+		$marker = Parser::MARKER_PREFIX . '-' . self::PARSER_TAG_NAME . '-' . sprintf( '%08X', $this->markerNumber ) . Parser::MARKER_SUFFIX;
 		$this->markers[$marker] = $renderedValue;
 
 		return [ $marker, 'markerType' => 'nowiki' ];
@@ -191,7 +191,7 @@ class PortableInfoboxParserTagController {
 	}
 
 	private function getThemes( $params, PPFrame $frame ) {
-		$themes = [ ];
+		$themes = [];
 
 		if ( isset( $params['theme'] ) ) {
 			$staticTheme = trim( $params['theme'] );
