@@ -1,13 +1,13 @@
 <?php
 
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
-use PortableInfobox\Parser\Nodes\NodeImage;
+use PortableInfobox\Parser\Nodes\NodeMedia;
 
 /**
  * @group PortableInfobox
- * @covers PortableInfobox\Parser\Nodes\NodeImage
+ * @covers PortableInfobox\Parser\Nodes\NodeMedia
  */
-class NodeImageTest extends MediaWikiTestCase {
+class NodeMediaTest extends MediaWikiTestCase {
 
 	protected function setUp() {
 		parent::setUp();
@@ -17,13 +17,13 @@ class NodeImageTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getGalleryData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getGalleryData
 	 * @dataProvider galleryDataProvider
 	 * @param $marker
 	 * @param $expected
 	 */
 	public function testGalleryData( $marker, $expected ) {
-		$this->assertEquals( $expected, NodeImage::getGalleryData( $marker ) );
+		$this->assertEquals( $expected, NodeMedia::getGalleryData( $marker ) );
 	}
 
 	public function galleryDataProvider() {
@@ -83,7 +83,7 @@ class NodeImageTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getTabberData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getTabberData
 	 */
 	public function testTabberData() {
 		$input = '<div class="tabber"><div class="tabbertab" title="_title_"><p><a><img src="_src_"></a></p></div></div>';
@@ -93,18 +93,18 @@ class NodeImageTest extends MediaWikiTestCase {
 				'title' => '_src_',
 			]
 		];
-		$this->assertEquals( $expected, NodeImage::getTabberData( $input ) );
+		$this->assertEquals( $expected, NodeMedia::getTabberData( $input ) );
 	}
 
 	/**
-	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getMarkers
+	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getMarkers
 	 * @dataProvider markersProvider
 	 * @param $ext
 	 * @param $value
 	 * @param $expected
 	 */
 	public function testMarkers( $ext, $value, $expected ) {
-		$this->assertEquals( $expected, PortableInfobox\Parser\Nodes\NodeImage::getMarkers( $value, $ext ) );
+		$this->assertEquals( $expected, PortableInfobox\Parser\Nodes\NodeMedia::getMarkers( $value, $ext ) );
 	}
 
 	public function markersProvider() {
@@ -129,7 +129,7 @@ class NodeImageTest extends MediaWikiTestCase {
 
 
 	/**
-	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getData
 	 * @dataProvider dataProvider
 	 *
 	 * @param $markup
@@ -137,44 +137,50 @@ class NodeImageTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testData( $markup, $params, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$imageMock = empty( $params ) ? NULL : new ImageMock();
+		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
-		$this->assertEquals( $expected, $node->getData() );
+		$mock = $this->getMock(NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
+		$mock->expects( $this->any( ))
+			->method( 'getFilefromTitle' )
+			->willReturn( $imageMock );
+
+		$this->assertEquals( $expected, $mock->getData() );
 	}
 
 	public function dataProvider() {
 		// markup, params, expected
 		return [
 			[
-				'<image source="img"></image>',
+				'<media source="img"></media>',
 				[ ],
-				[ [ 'url' => '', 'name' => '', 'key' => '', 'alt' => null, 'caption' => null, 'isVideo' => false ] ]
+				[ [ ] ]
 			],
 			[
-				'<image source="img"></image>',
+				'<media source="img"></media>',
 				[ 'img' => 'test.jpg' ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'key' => 'Test.jpg', 'alt' => 'Test.jpg', 'caption' => null, 'isVideo' => false ] ]
+				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 'Test.jpg', 'caption' => null ] ]
 			],
 			[
-				'<image source="img"><alt><default>test alt</default></alt></image>',
+				'<media source="img"><alt><default>test alt</default></alt></media>',
 				[ 'img' => 'test.jpg' ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'key' => 'Test.jpg', 'alt' => 'test alt', 'caption' => null, 'isVideo' => false ] ]
+				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 'test alt', 'caption' => null ] ]
 			],
 			[
-				'<image source="img"><alt source="alt source"><default>test alt</default></alt></image>',
+				'<media source="img"><alt source="alt source"><default>test alt</default></alt></media>',
 				[ 'img' => 'test.jpg', 'alt source' => 2 ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'key' => 'Test.jpg', 'alt' => 2, 'caption' => null, 'isVideo' => false ] ]
+				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 2, 'caption' => null ] ]
 			],
 			[
-				'<image source="img"><alt><default>test alt</default></alt><caption source="img"/></image>',
+				'<media source="img"><alt><default>test alt</default></alt><caption source="img"/></media>',
 				[ 'img' => 'test.jpg' ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'key' => 'Test.jpg', 'alt' => 'test alt', 'caption' => 'test.jpg', 'isVideo' => false ] ]
+				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 'test alt', 'caption' => 'test.jpg' ] ]
 			],
 		];
 	}
 
 	/**
-	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::isEmpty
+	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::isEmpty
 	 * @dataProvider isEmptyProvider
 	 *
 	 * @param $markup
@@ -189,12 +195,12 @@ class NodeImageTest extends MediaWikiTestCase {
 
 	public function isEmptyProvider() {
 		return [
-			[ '<image></image>', [ ], true ],
+			[ '<media></media>', [ ], true ],
 		];
 	}
 
 	/**
-	 * @covers       PortableInfobox\Parser\Nodes\NodeImage::getSources
+	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getSources
 	 * @dataProvider sourcesProvider
 	 *
 	 * @param $markup
@@ -209,22 +215,22 @@ class NodeImageTest extends MediaWikiTestCase {
 	public function sourcesProvider() {
 		return [
 			[
-				'<image source="img"/>',
+				'<media source="img"/>',
 				[ 'img' ]
 			],
 			[
-				'<image source="img"><default>{{{img}}}</default><alt source="img" /></image>',
+				'<media source="img"><default>{{{img}}}</default><alt source="img" /></media>',
 				[ 'img' ]
 			],
 			[
-				'<image source="img"><alt source="alt"/><caption source="cap"/></image>',
+				'<media source="img"><alt source="alt"/><caption source="cap"/></media>',
 				[ 'img', 'alt', 'cap' ]
 			],
 			[
-				'<image source="img"><alt source="alt"><default>{{{def}}}</default></alt><caption source="cap"/></image>',
+				'<media source="img"><alt source="alt"><default>{{{def}}}</default></alt><caption source="cap"/></media>',
 				[ 'img', 'alt', 'def', 'cap' ] ],
 			[
-				'<image/>',
+				'<media/>',
 				[ ]
 			],
 			[
@@ -244,8 +250,8 @@ class NodeImageTest extends MediaWikiTestCase {
 	public function metadataProvider() {
 		return [
 			[
-				'<image source="img"><caption source="cap"><format>Test {{{cap}}} and {{{fcap}}}</format></caption></image>',
-				[ 'type' => 'image', 'sources' => [
+				'<media source="img"><caption source="cap"><format>Test {{{cap}}} and {{{fcap}}}</format></caption></media>',
+				[ 'type' => 'media', 'sources' => [
 					'img' => [ 'label' => '', 'primary' => true ],
 					'cap' => [ 'label' => '' ],
 					'fcap' => [ 'label' => '' ]
@@ -262,13 +268,13 @@ class NodeImageTest extends MediaWikiTestCase {
 	 * @throws PortableInfobox\Parser\XmlMarkupParseErrorException
 	 */
 	public function testVideo( $markup, $params, $expected ) {
-		$fileMock = new FileMock();
+		$videoMock = new VideoMock();
 		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
-		$mock = $this->getMock(NodeImage::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
+		$mock = $this->getMock(NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
 		$mock->expects( $this->any( ))
 			->method( 'getFilefromTitle' )
-			->willReturn( $fileMock );
+			->willReturn( $videoMock );
 
 		$this->assertEquals( $expected, $mock->getData() );
 	}
@@ -276,26 +282,90 @@ class NodeImageTest extends MediaWikiTestCase {
 	public function videoProvider() {
 		return [
 			[
-				'<image source="img" />',
-				[ 'img' => 'test.jpg' ],
+				'<media source="media" />',
+				[ 'media' => 'test.webm' ],
 				[
 					[
 						'url' => 'http://test.url',
-						'name' => 'Test.jpg',
-						'key' => 'Test.jpg',
-						'alt' => 'Test.jpg',
-						'caption' => null,
-						'isVideo' => true
+						'name' => 'Test.webm',
+						'alt' => 'Test.webm',
+						'caption' => null
 					]
 				]
+			],
+			[
+				'<media source="media" video="false" />',
+				[ 'media' => 'test.webm' ],
+				[ [ ] ]
+			]
+		];
+	}
+
+	/**
+	 * @dataProvider audioProvider
+	 * @param $markup
+	 * @param $params
+	 * @param $expected
+	 * @throws PortableInfobox\Parser\XmlMarkupParseErrorException
+	 */
+	public function testAudio( $markup, $params, $expected ) {
+		$audioMock = new AudioMock();
+		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
+
+		$mock = $this->getMock(NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
+		$mock->expects( $this->any( ))
+			->method( 'getFilefromTitle' )
+			->willReturn( $audioMock );
+
+		$this->assertEquals( $expected, $mock->getData() );
+	}
+
+	public function audioProvider() {
+		return [
+			[
+				'<media source="media" />',
+				[ 'media' => 'test.ogg' ],
+				[
+					[
+						'url' => 'http://test.url',
+						'name' => 'Test.ogg',
+						'alt' => 'Test.ogg',
+						'caption' => null
+					]
+				]
+			],
+			[
+				'<media source="media" audio="false" />',
+				[ 'media' => 'test.ogg' ],
+				[ [ ] ]
 			]
 		];
 	}
 }
 
-class FileMock {
+class ImageMock {
 	public function getMediaType() {
-		return "VIDEO";
+		return MEDIATYPE_BITMAP;
+	}
+
+	public function getUrl() {
+		return '';
+	}
+}
+
+class VideoMock {
+	public function getMediaType() {
+		return MEDIATYPE_VIDEO;
+	}
+
+	public function getUrl() {
+		return 'http://test.url';
+	}
+}
+
+class AudioMock {
+	public function getMediaType() {
+		return MEDIATYPE_AUDIO;
 	}
 
 	public function getUrl() {
@@ -305,7 +375,7 @@ class FileMock {
 
 class GalleryMock {
 	private $images;
-	public function __construct( Array $images = [] ) {
+	public function __construct( array $images = [] ) {
 		$this->images = $images;
 	}
 

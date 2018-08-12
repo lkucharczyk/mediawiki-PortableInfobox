@@ -100,7 +100,10 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 			'thumbnail' => null,
 			'thumbnail2x' => null,
 			'width' => $resultDimensions[ 'width' ],
-			'height' => $resultDimensions[ 'height' ]
+			'height' => $resultDimensions[ 'height' ],
+			'isImage' => true,
+			'isVideo' => false,
+			'isAudio' => false
 		];
 		$thumb = $this->getMockBuilder( 'ThumbnailImage' )
 			->disableOriginalConstructor()
