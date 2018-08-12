@@ -82,8 +82,8 @@ class PortableInfoboxRenderService {
 			case 'header':
 				$result = $this->renderHeader( $data );
 				break;
-			case 'image':
-				$result = $this->renderImage( $data );
+			case 'media':
+				$result = $this->renderMedia( $data );
 				break;
 			case 'title':
 				$result = $this->renderTitle( $data );
@@ -104,7 +104,7 @@ class PortableInfoboxRenderService {
 	 * @return string - group HTML markup
 	 */
 	protected function renderGroup( $groupData ) {
-		$cssClasses = [ ];
+		$cssClasses = [];
 		$groupHTMLContent = '';
 		$children = $groupData['value'];
 		$layout = $groupData['layout'];
@@ -140,15 +140,13 @@ class PortableInfoboxRenderService {
 	 * @param $data
 	 * @return string
 	 */
-	protected function renderImage( $data ) {
+	protected function renderMedia( $data ) {
 		$helper = $this->getImageHelper();
 
-		$data = $this->filterImageData( $data );
-		$images = [ ];
+		$images = [];
 
 		foreach ( $data as $dataItem ) {
 			$extendedItem = $dataItem;
-			$extendedItem['context'] = null;
 			$extendedItem = $helper->extendImageData( $extendedItem, $this->imagesWidth, $this->infoboxWidth );
 
 			if ( !!$extendedItem ) {
@@ -162,11 +160,11 @@ class PortableInfoboxRenderService {
 
 		if ( count( $images ) === 1 ) {
 			$data = $images[0];
-			$templateName = 'image';
+			$templateName = 'media';
 		} else {
 			// More than one image means image collection
 			$data = $helper->extendImageCollectionData( $images );
-			$templateName = 'image-collection';
+			$templateName = 'media-collection';
 		}
 
 		return $this->render( $templateName, $data );
@@ -196,22 +194,6 @@ class PortableInfoboxRenderService {
 		return $result;
 	}
 
-	private function filterImageData( $data ) {
-		$dataWithCaption = array_filter($data, function( $item ) {
-			return !empty( $item['caption'] );
-		});
-
-		$result = [];
-
-		if ( !empty( $dataWithCaption ) ) {
-			$result = $dataWithCaption;
-		} elseif ( !empty( $data ) ) {
-			$result = [ $data[0] ];
-		}
-
-		return $result;
-	}
-
 	private function getInlineStyles( $accentColor, $accentColorText ) {
 		$backgroundColor = empty( $accentColor ) ? '' : "background-color:{$accentColor};";
 		$color = empty( $accentColorText ) ? '' : "color:{$accentColorText};";
@@ -221,8 +203,8 @@ class PortableInfoboxRenderService {
 
 	private function createHorizontalGroupData( $groupData ) {
 		$horizontalGroupData = [
-			'labels' => [ ],
-			'values' => [ ],
+			'labels' => [],
+			'values' => [],
 			'renderLabels' => false
 		];
 
@@ -246,9 +228,9 @@ class PortableInfoboxRenderService {
 	}
 
 	private function createSmartGroups( $groupData, $rowCapacity ) {
-		$result = [ ];
+		$result = [];
 		$rowSpan = 0;
-		$rowItems = [ ];
+		$rowItems = [];
 
 		foreach ( $groupData as $item ) {
 			$data = $item['data'];
@@ -258,7 +240,7 @@ class PortableInfoboxRenderService {
 				if ( !empty( $rowItems ) && $rowSpan + $data['span'] > $rowCapacity ) {
 					$result[] = $this->createSmartGroupItem( $rowItems, $rowSpan );
 					$rowSpan = 0;
-					$rowItems = [ ];
+					$rowItems = [];
 				}
 				$rowSpan += $data['span'];
 				$rowItems[] = $item;
@@ -298,6 +280,6 @@ class PortableInfoboxRenderService {
 			$result['values'][] = [ 'value' => $item['data']['value'], 'inlineStyles' => $styles ];
 
 			return $result;
-		}, [ 'labels' => [ ], 'values' => [ ], 'renderLabels' => false ] );
+		}, [ 'labels' => [], 'values' => [], 'renderLabels' => false ] );
 	}
 }

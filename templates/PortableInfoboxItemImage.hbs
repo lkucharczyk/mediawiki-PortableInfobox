@@ -1,7 +1,0 @@
-<figure class="pi-item pi-image{{#if isVideo}} pi-video{{/if}}">
-	<a href="{{url}}" class="image image-thumbnail{{#isVideo}} video video-thumbnail{{/isVideo}}" title="{{alt}}">
-		{{#unless isVideo}}<img src="{{thumbnail}}" srcset="{{thumbnail}} 1x, {{thumbnail2x}} 2x" class="pi-image-thumbnail" alt="{{alt}}" width="{{{width}}}" height="{{{height}}}"/>
-		{{else}}<video src="{{url}}" class="pi-video-player" controls="true" controlsList="nodownload" preload="metadata">{{alt}}</video>{{/unless}}
-	</a>
-	{{#if caption}}<figcaption class="pi-item-spacing pi-caption">{{{caption}}}</figcaption>{{/if}}
-</figure>

@@ -6,7 +6,7 @@
 	],
 	"url": "https://github.com/Luqgreg/mediawiki-PortableInfobox",
 	"descriptionmsg": "portable-infobox-desc",
-	"version": "0.2.1",
+	"version": "0.2.1-audio_support",
 	"type": "parserhook",
 	"license-name": "GPL-3.0-or-later",
 	"config": {
@@ -54,7 +54,7 @@
 		"PortableInfobox\\Parser\\Nodes\\NodeNavigation": "includes/services/Parser/Nodes/NodeNavigation.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeGroup": "includes/services/Parser/Nodes/NodeGroup.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeHeader": "includes/services/Parser/Nodes/NodeHeader.php",
-		"PortableInfobox\\Parser\\Nodes\\NodeImage": "includes/services/Parser/Nodes/NodeImage.php",
+		"PortableInfobox\\Parser\\Nodes\\NodeMedia": "includes/services/Parser/Nodes/NodeMedia.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeInfobox": "includes/services/Parser/Nodes/NodeInfobox.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeData": "includes/services/Parser/Nodes/NodeData.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeTitle": "includes/services/Parser/Nodes/NodeTitle.php",

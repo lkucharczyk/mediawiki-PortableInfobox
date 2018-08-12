@@ -13,13 +13,13 @@ class PortableInfoboxTemplateEngine {
 		'wrapper' => 'PortableInfoboxWrapper.hbs',
 		'title' => 'PortableInfoboxItemTitle.hbs',
 		'header' => 'PortableInfoboxItemHeader.hbs',
-		'image' => 'PortableInfoboxItemImage.hbs',
+		'media' => 'PortableInfoboxItemMedia.hbs',
 		'data' => 'PortableInfoboxItemData.hbs',
 		'group' => 'PortableInfoboxItemGroup.hbs',
 		'smart-group' => 'PortableInfoboxItemSmartGroup.hbs',
 		'horizontal-group-content' => 'PortableInfoboxHorizontalGroupContent.hbs',
 		'navigation' => 'PortableInfoboxItemNavigation.hbs',
-		'image-collection' => 'PortableInfoboxItemImageCollection.hbs',
+		'media-collection' => 'PortableInfoboxItemMediaCollection.hbs',
 		'xml-parse-error' => 'PortableInfoboxMarkupDebug.hbs'
 	];
 	
@@ -48,7 +48,7 @@ class PortableInfoboxTemplateEngine {
 		if ( !empty( self::$cache[ $type ] ) ) {
 			return self::$cache[ $type ];
 		}
-		
+
 		$path = self::getTemplatesDir() . DIRECTORY_SEPARATOR . self::$templates[ $type ];
 
 		// @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy

@@ -21,18 +21,20 @@ class PortableInfoboxImagesHelper {
 		$title = $data['name'];
 		$file = $this->getFileFromTitle( $title );
 
-		if (
-			!$file || !$file->exists() ||
-			!in_array( $file->getMediaType(), [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING, MEDIATYPE_VIDEO ] )
-		) {
+		if ( !$file || !$file->exists() ) {
 			return false;
 		}
 
-		// we don't need failing thumbnail creation for videos
-		if( $file->getMediaType() == MEDIATYPE_VIDEO ) {
-			return array_merge( $data, [
-				'ref' => ++self::$count
-			] );
+		$mediatype = $file->getMediaType();
+		$data['isImage'] = in_array( $mediatype, [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] );
+		$data['isVideo'] = $mediatype === MEDIATYPE_VIDEO;
+		$data['isAudio'] = $mediatype === MEDIATYPE_AUDIO;
+
+		$data['ref'] = ++self::$count;
+
+		// we don't need failing thumbnail creation for videos and audio files
+		if( !$data['isImage'] ) {
+			return $data;
 		}
 
 		// get dimensions
@@ -65,7 +67,6 @@ class PortableInfoboxImagesHelper {
 		}
 
 		return array_merge( $data, [
-			'ref' => ++self::$count,
 			'height' => intval( $imgTagDimensions['height'] ),
 			'width' => intval( $imgTagDimensions['width'] ),
 			'thumbnail' => $thumbnail->getUrl(),

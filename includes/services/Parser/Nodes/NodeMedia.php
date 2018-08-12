@@ -6,9 +6,13 @@ use PortableInfobox\Helpers\HtmlHelper;
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
 use PortableInfobox\Sanitizers\SanitizerBuilder;
 
-class NodeImage extends Node {
+class NodeMedia extends Node {
 	const GALLERY = 'GALLERY';
 	const TABBER = 'TABBER';
+
+	const ALLOWIMAGE_ATTR_NAME = 'image';
+	const ALLOWVIDEO_ATTR_NAME = 'video';
+	const ALLOWAUDIO_ATTR_NAME = 'audio';
 
 	const ALT_TAG_NAME = 'alt';
 	const CAPTION_TAG_NAME = 'caption';
@@ -116,6 +120,10 @@ class NodeImage extends Node {
 		$titleObj = $title instanceof \Title ? $title : $this->getImageAsTitleObject( $title );
 		$fileObj = $this->getFileFromTitle( $titleObj );
 
+		if( !isset( $fileObj ) || !$this->isTypeAllowed( $fileObj->getMediaType() ) ) {
+			return [];
+		}
+
 		if ( $titleObj instanceof \Title ) {
 			$this->getExternalParser()->addImage( $titleObj->getDBkey() );
 		}
@@ -123,11 +131,9 @@ class NodeImage extends Node {
 		$image = [
 			'url' => $this->resolveImageUrl( $fileObj ),
 			'name' => $titleObj ? $titleObj->getText() : '',
-			'key' => $titleObj ? $titleObj->getDBKey() : '',
 			'alt' => $alt ?? ( $titleObj ? $titleObj->getText() : null ),
 			'caption' => SanitizerBuilder::createFromType( 'image' )
-				->sanitize( [ 'caption' => $caption ] )['caption'] ?: null,
-			'isVideo' => $this->isVideo( $fileObj )
+				->sanitize( [ 'caption' => $caption ] )['caption'] ?: null
 		];
 
 		return $image;
@@ -199,11 +205,48 @@ class NodeImage extends Node {
 	}
 
 	/**
-	 * @desc checks if file media type is VIDEO
-	 * @param File|null $file
+	 * @desc checks if file media type is allowed
+	 * @param string $type
 	 * @return bool
 	 */
-	private function isVideo( $file ) {
-		return $file ? $file->getMediaType() === MEDIATYPE_VIDEO : false;
+	private function isTypeAllowed( $type ) {
+		switch( $type ) {
+			case MEDIATYPE_BITMAP:
+			case MEDIATYPE_DRAWING:
+				return $this->allowImage();
+			case MEDIATYPE_VIDEO:
+				return $this->allowVideo();
+			case MEDIATYPE_AUDIO:
+				return $this->allowAudio();
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function allowImage() {
+		$attr = $this->getXmlAttribute( $this->xmlNode, self::ALLOWIMAGE_ATTR_NAME );
+
+		return !( isset( $attr ) && strtolower( $attr ) === 'false' );
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function allowVideo() {
+		$attr = $this->getXmlAttribute( $this->xmlNode, self::ALLOWVIDEO_ATTR_NAME );
+
+		return !( isset( $attr ) && strtolower( $attr ) === 'false' );
+	}
+
+	/*
+	 * @return bool
+	 */
+	protected function allowAudio() {
+		$attr = $this->getXmlAttribute( $this->xmlNode, self::ALLOWAUDIO_ATTR_NAME );
+
+		return !( isset( $attr ) && strtolower( $attr ) === 'false' );
 	}
 }
