@@ -1,11 +1,11 @@
-<div class="pi-image-collection">
-	<ul class="pi-image-collection-tabs">
+<div class="pi-media-collection">
+	<ul class="pi-media-collection-tabs">
 		{{#each images}}<li class="pi-tab-link pi-item-spacing{{#if isFirst}} current{{/if}}" data-pi-tab="pi-tab-{{ref}}">{{{caption}}}</li>{{/each}}
 	</ul>
 	{{#each images}}
-		<div class="pi-image-collection-tab-content{{#if isFirst}} current{{/if}}" id="pi-tab-{{ref}}">
-			<figure class="pi-item pi-image{{#if isVideo}} pi-video{{/if}}">
-				<a href="{{url}}" class="image image-thumbnail{{#if isVideo}} video video-thumbnail{{/if}}" title="{{alt}}">
+		<div class="pi-media-collection-tab-content{{#if isFirst}} current{{/if}}" id="pi-tab-{{ref}}">
+			<figure class="pi-item pi-media{{#if isImage}} pi-image{{/if}}{{#if isVideo}} pi-video{{/if}}{{#if isAudio}} pi-audio{{/if}}">
+				<a href="{{url}}" class="{{#if isImage}}image image-thumbnail{{/if}}{{#if isVideo}}video{{/if}}{{#if isAudio}}audio{{/if}}" title="{{alt}}">
 					{{#if isImage}}<img src="{{thumbnail}}" srcset="{{thumbnail}} 1x, {{thumbnail2x}} 2x" class="pi-image-thumbnail" alt="{{alt}}" width="{{{width}}}" height="{{{height}}}"/>
 					{{else}}{{#if isVideo}}<video src="{{url}}" class="pi-video-player" controls="true" controlsList="nodownload" preload="metadata">{{alt}}</video>
 					{{else}}{{#if isAudio}}<audio src="{{url}}" class="pi-audio-player" controls="true" controlsList="nodownload">{{alt}}</audio>
