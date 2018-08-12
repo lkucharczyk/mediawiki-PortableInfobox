@@ -119,6 +119,12 @@
 		width: var(--pi-width);
 		height: auto;
 	}
+	&-audio-player {
+		width: var(--pi-width);
+		&::-webkit-media-controls-enclosure {
+			border-radius: 0;
+		}
+	}
 	&-caption {
 		-webkit-hyphens: auto;
 		-moz-hyphens: auto;
