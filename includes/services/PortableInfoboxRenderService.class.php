@@ -83,6 +83,9 @@ class PortableInfoboxRenderService {
 				$result = $this->renderHeader( $data );
 				break;
 			case 'media':
+			case 'audio':
+			case 'image':
+			case 'video':
 				$result = $this->renderMedia( $data );
 				break;
 			case 'title':
