@@ -94,25 +94,6 @@ class PortableInfoboxParsingHelper {
 	}
 
 	/**
-	 * @desc returns the text from inside of the first <includeonly> tag and
-	 * without the nowiki and pre tags.
-	 *
-	 * @param $text string template text
-	 *
-	 * @return string
-	 */
-	protected function getIncludeonlyText( $text ) {
-		$clean = $this->removeNowikiPre( $text );
-
-		preg_match_all( "/<includeonly>(.+)<\/includeonly>/sU", $clean, $result );
-		if ( !isset( $result[ 1 ][ 0 ] ) ) {
-			return null;
-		}
-
-		return $result[ 1 ][ 0 ];
-	}
-
-	/**
 	 * @desc From the template without <includeonly> tags, creates an array of
 	 * strings containing only infoboxes. All template content which is not an infobox is removed.
 	 *

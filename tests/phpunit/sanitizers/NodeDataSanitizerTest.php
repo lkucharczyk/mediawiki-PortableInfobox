@@ -5,6 +5,7 @@ use PortableInfobox\Sanitizers\NodeDataSanitizer;
 
 /**
  * @group PortableInfobox
+ * @covers PortableInfobox\Sanitizers\NodeSanitizer
  * @covers PortableInfobox\Sanitizers\NodeDataSanitizer
  */
 class NodeDataSanitizerTest extends MediaWikiTestCase {

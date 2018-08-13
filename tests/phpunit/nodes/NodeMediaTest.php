@@ -18,11 +18,13 @@ class NodeMediaTest extends MediaWikiTestCase {
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getGalleryData
+	 * @covers       PortableInfobox\Helpers\PortableInfoboxDataBag
 	 * @dataProvider galleryDataProvider
 	 * @param $marker
 	 * @param $expected
 	 */
-	public function testGalleryData( $marker, $expected ) {
+	public function testGalleryData( $marker, $gallery, $expected ) {
+		PortableInfoboxDataBag::getInstance()->setGallery( $marker, $gallery );
 		$this->assertEquals( $expected, NodeMedia::getGalleryData( $marker ) );
 	}
 
@@ -32,29 +34,30 @@ class NodeMediaTest extends MediaWikiTestCase {
 			"'\"`UNIQabcd-gAlLeRy-2-QINU`\"'",
 			"'\"`UNIQabcd-gAlLeRy-3-QINU`\"'"
 		];
-		PortableInfoboxDataBag::getInstance()->setGallery( $markers[0],
-				new GalleryMock([
-					[
-						'image0_name.jpg',
-						'image0_caption'
-					],
-					[
-						'image01_name.jpg',
-						'image01_caption'
-					],
-				]));
-		PortableInfoboxDataBag::getInstance()->setGallery( $markers[1],
-				new GalleryMock([
-					[
-						'image1_name.jpg',
-						'image1_caption'
-					]
-				]));
-		PortableInfoboxDataBag::getInstance()->setGallery( $markers[2], new GalleryMock() );
+		$galleries = [
+			new GalleryMock([
+				[
+					'image0_name.jpg',
+					'image0_caption'
+				],
+				[
+					'image01_name.jpg',
+					'image01_caption'
+				],
+			]),
+			new GalleryMock([
+				[
+					'image1_name.jpg',
+					'image1_caption'
+				]
+			]),
+			new GalleryMock()
+		];
 
 		return [
 			[
 				'marker' => $markers[0],
+				'gallery' => $galleries[0],
 				'expected' => [
 					[
 						'label' => 'image0_caption',
@@ -68,6 +71,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 			],
 			[
 				'marker' => $markers[1],
+				'gallery' => $galleries[1],
 				'expected' => [
 					[
 						'label' => 'image1_caption',
@@ -77,6 +81,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 			],
 			[
 				'marker' => $markers[2],
+				'gallery' => $galleries[2],
 				'expected' => []
 			],
 		];
@@ -84,6 +89,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getTabberData
+	 * @covers       PortableInfobox\Helpers\HtmlHelper
 	 */
 	public function testTabberData() {
 		$input = '<div class="tabber"><div class="tabbertab" title="_title_"><p><a><img src="_src_"></a></p></div></div>';
@@ -207,7 +213,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testSources( $markup, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [] );
 
 		$this->assertEquals( $expected, $node->getSources() );
 	}
@@ -242,7 +248,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 
 	/** @dataProvider metadataProvider */
 	public function testMetadata( $markup, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [] );
 
 		$this->assertEquals( $expected, $node->getMetadata() );
 	}
@@ -271,8 +277,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 		$videoMock = new VideoMock();
 		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
-		$mock = $this->getMock(NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
-		$mock->expects( $this->any( ))
+		$mock = $this->getMock( NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ] );
+		$mock->expects( $this->any() )
 			->method( 'getFilefromTitle' )
 			->willReturn( $videoMock );
 
@@ -312,8 +318,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 		$audioMock = new AudioMock();
 		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
-		$mock = $this->getMock(NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
-		$mock->expects( $this->any( ))
+		$mock = $this->getMock( NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ] );
+		$mock->expects( $this->any() )
 			->method( 'getFilefromTitle' )
 			->willReturn( $audioMock );
 
@@ -338,6 +344,71 @@ class NodeMediaTest extends MediaWikiTestCase {
 				'<media source="media" audio="false" />',
 				[ 'media' => 'test.ogg' ],
 				[ [ ] ]
+			]
+		];
+	}
+
+	/**
+	 * @covers PortableInfobox\Parser\Nodes\NodeMedia::isTypeAllowed
+	 * @covers PortableInfobox\Parser\Nodes\NodeAudio
+	 * @covers PortableInfobox\Parser\Nodes\NodeImage
+	 * @covers PortableInfobox\Parser\Nodes\NodeVideo
+	 * @dataProvider isTypeAllowedProvider
+	 * @param $markup
+	 * @param $expected
+	 * @throws PortableInfobox\Parser\XmlMarkupParseErrorException
+	 */
+	public function testIsTypeAllowed( $markup, $expected ) {
+		$types = [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING, MEDIATYPE_VIDEO, MEDIATYPE_AUDIO, 'unknown' ];
+
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [] );
+
+		$reflection = new ReflectionClass( $node );
+		$reflection_method = $reflection->getMethod( 'isTypeAllowed' );
+		$reflection_method->setAccessible( true );
+
+		foreach ( $types as $i => $type ) {
+			$this->assertEquals( $expected[$i], $reflection_method->invoke( $node, $type ) );
+		}
+	}
+
+	public function isTypeAllowedProvider() {
+		return [
+			[
+				'<media />',
+				[ true, true, true, true, false ]
+			],
+			[
+				'<media image="false" />',
+				[ false, false, true, true, false ]
+			],
+			[
+				'<media video="false" />',
+				[ true, true, false, true, false ]
+			],
+			[
+				'<media audio="false" />',
+				[ true, true, true, false, false ]
+			],
+			[
+				'<media image="false" video="false" audio="false" />',
+				[ false, false, false, false, false ]
+			],
+			[
+				'<image />',
+				[ true, true, true, false, false ]
+			],
+			[
+				'<image video="false" />',
+				[ true, true, false, false, false ]
+			],
+			[
+				'<video />',
+				[ false, false, true, false, false ]
+			],
+			[
+				'<audio />',
+				[ false, false, false, true, false ]
 			]
 		];
 	}

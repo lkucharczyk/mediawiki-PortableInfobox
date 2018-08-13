@@ -5,6 +5,7 @@ use PortableInfobox\Sanitizers\NodeImageSanitizer;
 
 /**
  * @group PortableInfobox
+ * @covers PortableInfobox\Sanitizers\NodeSanitizer
  * @covers PortableInfobox\Sanitizers\NodeImageSanitizer
  */
 class NodeImageSanitizerTest extends MediaWikiTestCase {

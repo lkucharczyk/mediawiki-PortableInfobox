@@ -5,6 +5,7 @@ use PortableInfobox\Sanitizers\PassThroughSanitizer;
 
 /**
  * @group PortableInfobox
+ * @covers PortableInfobox\Sanitizers\NodeSanitizer
  * @covers PortableInfobox\Sanitizers\PassThroughSanitizer
  */
 class PassThroughSanitizerTest extends MediaWikiTestCase {

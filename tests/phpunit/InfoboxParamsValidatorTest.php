@@ -11,7 +11,7 @@ class InfoboxParamsValidatorTest extends MediaWikiTestCase {
 		parent::setUp();
 		$this->InfoboxParamsValidator = new PortableInfobox\Helpers\InfoboxParamsValidator();
 	}
-	
+
 	protected function tearDown() {
 		unset($this->InfoboxParamsValidator);
 		parent::tearDown();
@@ -73,7 +73,7 @@ class InfoboxParamsValidatorTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @param $color
+	 * @param array $color
 	 * @dataProvider passValidateColorValueDataProvider
 	 */
 	public function testPassValidateColorValue( $color ) {
@@ -146,6 +146,36 @@ class InfoboxParamsValidatorTest extends MediaWikiTestCase {
 			[ 'color' => 'aaaaaaa' ],
 			[ 'color' => '#aaaaaaa' ],
 			[ 'color' => '#aaaaa' ],
+		];
+	}
+
+	/**
+	 * @param array $layout
+	 * @dataProvider passValidateLayoutDataProvider
+	 */
+	public function testPassValidateLayout( $layout ) {
+		$this->assertTrue( $this->InfoboxParamsValidator->validateLayout( $layout ) );
+	}
+
+	public function passValidateLayoutDataProvider() {
+		return [
+			[ 'layout' => 'default' ],
+			[ 'layout' => 'stacked' ]
+		];
+	}
+
+	/**
+	 * @param array $layout
+	 * @dataProvider failValidateLayoutDataProvider
+	 */
+	public function testFailValidateLayout( $layout ) {
+		$this->assertFalse( $this->InfoboxParamsValidator->validateLayout( $layout ) );
+	}
+
+	public function failValidateLayoutDataProvider() {
+		return [
+			[ 'layout' => '' ],
+			[ 'layout' => 'custom' ]
 		];
 	}
 }

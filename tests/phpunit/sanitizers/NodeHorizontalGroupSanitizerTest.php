@@ -5,6 +5,7 @@ use PortableInfobox\Sanitizers\NodeHorizontalGroupSanitizer;
 
 /**
  * @group PortableInfobox
+ * @covers PortableInfobox\Sanitizers\NodeSanitizer
  * @covers PortableInfobox\Sanitizers\NodeHorizontalGroupSanitizer
  */
 class NodeHorizontalGroupSanitizerTest extends MediaWikiTestCase {

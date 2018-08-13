@@ -1,7 +1,7 @@
 <?php
 /**
  * @group PortableInfobox
- * @covers PortableInfoboxParserTagController
+ * @covers PortableInfoboxRenderService
  */
 class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 
@@ -22,7 +22,22 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 		return $DOM->saveXML();
 	}
 
+	public function testGetImageHelper() {
+		$infoboxRenderService = new PortableInfoboxRenderService();
+
+		$reflection = new ReflectionClass( $infoboxRenderService );
+		$reflection_method = $reflection->getMethod( 'getImageHelper' );
+		$reflection_method->setAccessible( true );
+
+		$this->assertInstanceOf(
+			\PortableInfobox\Helpers\PortableInfoboxImagesHelper::class,
+			$reflection_method->invoke( $infoboxRenderService )
+		);
+	}
+
 	/**
+	 * @covers PortableInfoboxRenderService::renderInfobox
+	 * @covers PortableInfobox\Helpers\PortableInfoboxTemplateEngine
 	 * @param $input
 	 * @param $expectedOutput
 	 * @param $description
@@ -1588,13 +1603,204 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 				'accentColor' => '',
 				'accentColorText' => ''
 			],
+			[
+				'input' => [
+					[
+						'type' => 'title',
+						'data' => [
+							'value' => 'Test Title'
+						]
+					],
+					[
+						'type' => 'image',
+						'data' => [
+							[
+								'alt' => 'image alt',
+								'url' => 'http://image.jpg',
+								'caption' => 'caption'
+							],
+							[
+								'alt' => 'image alt',
+								'url' => 'http://image.jpg',
+								'caption' => 'caption'
+							]
+						]
+					]
+				],
+				'output' => '<aside class="portable-infobox pi-background">
+								<h2 class="pi-item pi-item-spacing pi-title">Test Title</h2>
+								<div class="pi-media-collection">
+									<ul class="pi-media-collection-tabs">
+										<li class="pi-tab-link pi-item-spacing current" data-pi-tab="pi-tab-1">caption</li>
+										<li class="pi-tab-link pi-item-spacing" data-pi-tab="pi-tab-2">caption</li>
+									</ul>
+									<div class="pi-media-collection-tab-content current" id="pi-tab-1">
+										<figure class="pi-item pi-media pi-image">
+											<a href="http://image.jpg" class="image image-thumbnail" title="image alt">
+												<img src="http://thumbnail.jpg" srcset="http://thumbnail.jpg 1x, http://thumbnail2x.jpg 2x" class="pi-image-thumbnail" alt="image alt"
+												width="400" height="200"/>
+											</a>
+										</figure>
+									</div>
+									<div class="pi-media-collection-tab-content" id="pi-tab-2">
+										<figure class="pi-item pi-media pi-image">
+											<a href="http://image.jpg" class="image image-thumbnail" title="image alt">
+												<img src="http://thumbnail.jpg" srcset="http://thumbnail.jpg 1x, http://thumbnail2x.jpg 2x" class="pi-image-thumbnail" alt="image alt"
+												width="400" height="200"/>
+											</a>
+										</figure>
+									</div>
+								</div>
+							</aside>',
+				'description' => 'Simple infobox with title and image collection',
+				'mockParams' => [
+					'extendImageData' => [
+						'alt' => 'image alt',
+						'url' => 'http://image.jpg',
+						'caption' => 'caption',
+						'ref' => 1,
+						'width' => '400',
+						'height' => '200',
+						'thumbnail' => 'http://thumbnail.jpg',
+						'thumbnail2x' => 'http://thumbnail2x.jpg',
+						'isImage' => true
+					]
+				],
+				'accentColor' => '',
+				'accentColorText' => ''
+			],
+			[
+				'input' => [
+					[
+						'type' => 'title',
+						'data' => [
+							'value' => 'Test Title'
+						]
+					],
+					[
+						'type' => 'group',
+						'data' => [
+							'value' => [
+								[
+									'type' => 'header',
+									'data' => [
+										'value' => 'Test Header'
+									]
+								],
+								[
+									'type' => 'data',
+									'data' => [
+										'label' => 'test label',
+										'value' => 'test value'
+									]
+								],
+								[
+									'type' => 'data',
+									'data' => [
+										'label' => 'test label',
+										'value' => 'test value'
+									]
+								]
+							],
+							'layout' => 'default',
+							'collapse' => 'open',
+							'row-items' => null
+						]
+					]
+				],
+				'output' => '<aside class="portable-infobox pi-background">
+								<h2 class="pi-item pi-item-spacing pi-title">Test Title</h2>
+								<section class="pi-item pi-group pi-border-color pi-collapse pi-collapse-open">
+									<h2 class="pi-item pi-header pi-secondary-font pi-item-spacing pi-secondary-background">Test Header</h2>
+									<div class="pi-item pi-data pi-item-spacing pi-border-color">
+										<h3 class="pi-data-label pi-secondary-font">test label</h3>
+										<div class="pi-data-value pi-font">test value</div>
+									</div>
+									<div class="pi-item pi-data pi-item-spacing pi-border-color">
+										<h3 class="pi-data-label pi-secondary-font">test label</h3>
+										<div class="pi-data-value pi-font">test value</div>
+									</div>
+								</section>
+							</aside>',
+				'description' => 'Infobox with title, collapsible group with header and two key-value pairs',
+				'mockParams' => [ ],
+				'accentColor' => '',
+				'accentColorText' => ''
+			],
+			[
+				'input' => [
+					[
+						'type' => 'title',
+						'data' => [
+							'value' => 'Test Title'
+						]
+					],
+					[
+						'type' => 'group',
+						'data' => [
+							'value' => [
+								[
+									'type' => 'header',
+									'data' => [
+										'value' => 'Test Header'
+									]
+								],
+								[
+									'type' => 'data',
+									'data' => [
+										'label' => 'test label',
+										'value' => 'test value'
+									]
+								],
+								[
+									'type' => 'data',
+									'data' => [
+										'label' => 'test label',
+										'value' => 'test value'
+									]
+								]
+							],
+							'layout' => 'default',
+							'collapse' => 'closed',
+							'row-items' => null
+						]
+					]
+				],
+				'output' => '<aside class="portable-infobox pi-background">
+								<h2 class="pi-item pi-item-spacing pi-title">Test Title</h2>
+								<section class="pi-item pi-group pi-border-color pi-collapse pi-collapse-closed">
+									<h2 class="pi-item pi-header pi-secondary-font pi-item-spacing pi-secondary-background">Test Header</h2>
+									<div class="pi-item pi-data pi-item-spacing pi-border-color">
+										<h3 class="pi-data-label pi-secondary-font">test label</h3>
+										<div class="pi-data-value pi-font">test value</div>
+									</div>
+									<div class="pi-item pi-data pi-item-spacing pi-border-color">
+										<h3 class="pi-data-label pi-secondary-font">test label</h3>
+										<div class="pi-data-value pi-font">test value</div>
+									</div>
+								</section>
+							</aside>',
+				'description' => 'Infobox with title, collapsed group with header and two key-value pairs',
+				'mockParams' => [ ],
+				'accentColor' => '',
+				'accentColorText' => ''
+			]
 		];
 	}
 }
 
 class DummyPIImageHelper {
 	static $imageData = [];
+	private $ref = 1;
 	public function extendImageData( $imageData ) {
-		return self::$imageData;
+		$data = self::$imageData;
+		$data['ref'] = $this->ref++;
+		return $data;
+	}
+	public function extendImageCollectionData( $images ) {
+		$images[0]['isFirst'] = true;
+		return [
+			'images' => $images
+		];
 	}
 }

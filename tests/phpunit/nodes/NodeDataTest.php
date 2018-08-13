@@ -288,6 +288,7 @@ class NodeDataTest extends MediaWikiTestCase {
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\Node::getMetadata
+	 * @covers       PortableInfobox\Parser\Nodes\NodeInfobox::getMetadata
 	 * @dataProvider metadataDataProvider
 	 *
 	 * @param $markup
@@ -512,6 +513,8 @@ class NodeDataTest extends MediaWikiTestCase {
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\Node::getRenderData
+	 * @covers       PortableInfobox\Parser\Nodes\NodeData::getLayout
+	 * @covers       PortableInfobox\Parser\Nodes\NodeData::getSpan
 	 * @dataProvider dataRenderProvider
 	 *
 	 * @param $markup

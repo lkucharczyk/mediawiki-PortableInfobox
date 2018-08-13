@@ -25,7 +25,7 @@ class PortableInfoboxTemplateEngine {
 		'media-collection' => 'PortableInfoboxItemMediaCollection.hbs',
 		'xml-parse-error' => 'PortableInfoboxMarkupDebug.hbs'
 	];
-	
+
 	public function __construct() {}
 
 	public static function getTemplatesDir() {
@@ -52,7 +52,7 @@ class PortableInfoboxTemplateEngine {
 			return self::$cache[ $type ];
 		}
 
-		$path = self::getTemplatesDir() . DIRECTORY_SEPARATOR . self::$templates[ $type ];
+		$path = self::getTemplatesDir() . DIRECTORY_SEPARATOR . static::getTemplates()[ $type ];
 
 		// @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy
 		$renderer = \LightnCandy::prepare(
@@ -74,7 +74,7 @@ class PortableInfoboxTemplateEngine {
 	 * @return bool
 	 */
 	public static function isSupportedType( $type ) {
-		$result = isset( static::$templates[ $type ] );
+		$result = isset( static::getTemplates()[ $type ] );
 		if ( !$result ) {
 			LoggerFactory::getInstance( 'PortableInfobox' )->info( self::TYPE_NOT_SUPPORTED_MESSAGE, [ 'type' => $type ] );
 		}

@@ -236,6 +236,14 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 			]
 		];
 	}
+
+	public function testGetInfoboxes() {
+		$result = PortableInfoboxDataService::newFromTitle( $this->prepareTitle( 1 ) )
+			->setParsingHelper( new ParsingHelperDummy() )
+			->getInfoboxes();
+
+		$this->assertEquals( $result, [ "markup" ] );
+	}
 }
 
 class ParsingHelperDummy {
@@ -251,6 +259,10 @@ class ParsingHelperDummy {
 
 	public function reparseArticle( $title ) {
 		return $this->infoboxesData;
+	}
+
+	public function getMarkup( Title $title ) {
+		return [ "markup" ];
 	}
 }
 
