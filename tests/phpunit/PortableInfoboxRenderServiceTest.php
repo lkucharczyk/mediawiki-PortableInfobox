@@ -23,170 +23,6 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 	}
 
 	/**
-	 * @param $data
-	 * @param $expected
-	 *
-	 * @dataProvider filterImagesDataProvider
-	 */
-	public function testFilterImages( $data, $expected ) {
-		$method = ( new ReflectionClass( 'PortableInfoboxRenderService' ) )->getMethod( 'filterImageData' );
-		$method->setAccessible( true );
-
-		$renderService = new PortableInfoboxRenderService();
-
-		$this->assertEquals( $expected, $method->invokeArgs( $renderService, [ $data ] ) );
-	}
-
-	public function filterImagesDataProvider() {
-		return [
-			[
-				'data' => [
-					[
-						'url' => 'some.url.com',
-						'name' => 'name1',
-						'key' => 'key1',
-						'alt' => 'alt1',
-						'caption' => 'caption1',
-						'isVideo' => false,
-					],
-					[
-						'url' => 'some.url.com',
-						'name' => 'name2',
-						'key' => 'key2',
-						'alt' => 'alt2',
-						'caption' => 'caption2',
-						'isVideo' => false,
-					],
-				],
-				'expected' => [
-					[
-						'url' => 'some.url.com',
-						'name' => 'name1',
-						'key' => 'key1',
-						'alt' => 'alt1',
-						'caption' => 'caption1',
-						'isVideo' => false,
-					],
-					[
-						'url' => 'some.url.com',
-						'name' => 'name2',
-						'key' => 'key2',
-						'alt' => 'alt2',
-						'caption' => 'caption2',
-						'isVideo' => false,
-					],
-				]
-			],
-			[
-				'data' => [
-					[
-						'url' => 'some.url.com',
-						'name' => 'name1',
-						'key' => 'key1',
-						'alt' => 'alt1',
-						'caption' => '',
-						'isVideo' => false,
-					],
-					[
-						'url' => 'some.url.com',
-						'name' => 'name2',
-						'key' => 'key2',
-						'alt' => 'alt2',
-						'caption' => 'caption2',
-						'isVideo' => false,
-					],
-					[
-						'url' => 'some.url.com',
-						'name' => 'name3',
-						'key' => 'key3',
-						'alt' => 'alt3',
-						'caption' => 'caption3',
-						'isVideo' => false,
-					],
-				],
-				'expected' => [
-					1 => [
-						'url' => 'some.url.com',
-						'name' => 'name2',
-						'key' => 'key2',
-						'alt' => 'alt2',
-						'caption' => 'caption2',
-						'isVideo' => false,
-					],
-					2 => [
-						'url' => 'some.url.com',
-						'name' => 'name3',
-						'key' => 'key3',
-						'alt' => 'alt3',
-						'caption' => 'caption3',
-						'isVideo' => false,
-					]
-				]
-			],
-			[
-				'data' => [
-					[
-						'url' => 'some.url.com',
-						'name' => 'name1',
-						'key' => 'key1',
-						'alt' => 'alt1',
-						'caption' => 'caption1',
-						'isVideo' => false,
-					],
-					[
-						'url' => 'some.url.com',
-						'name' => 'name2',
-						'key' => 'key2',
-						'alt' => 'alt2',
-						'caption' => '',
-						'isVideo' => false,
-					],
-				],
-				'expected' => [
-					[
-						'url' => 'some.url.com',
-						'name' => 'name1',
-						'key' => 'key1',
-						'alt' => 'alt1',
-						'caption' => 'caption1',
-						'isVideo' => false,
-					],
-				],
-			],
-			[
-				'data' => [
-					[
-						'url' => 'some.url.com',
-						'name' => 'name1',
-						'key' => 'key1',
-						'alt' => 'alt1',
-						'caption' => '',
-						'isVideo' => false,
-					],
-					[
-						'url' => 'some.url.com',
-						'name' => 'name2',
-						'key' => 'key2',
-						'alt' => 'alt2',
-						'caption' => '',
-						'isVideo' => false,
-					],
-				],
-				'expected' => [
-					[
-						'url' => 'some.url.com',
-						'name' => 'name1',
-						'key' => 'key1',
-						'alt' => 'alt1',
-						'caption' => '',
-						'isVideo' => false,
-					],
-				]
-			],
-		];
-	}
-
-	/**
 	 * @param $input
 	 * @param $expectedOutput
 	 * @param $description
@@ -263,16 +99,13 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							[
 								'alt' => 'image alt',
 								'url' => 'http://image.jpg',
-								'name' => 'image',
-								'key' => 'image',
-								'caption' => 'Lorem ipsum dolor',
-								'isVideo' => false
+								'caption' => 'Lorem ipsum dolor'
 							]
 						]
 					]
 				],
 				'output' => '<aside class="portable-infobox pi-background">
-								<figure class="pi-item pi-image">
+								<figure class="pi-item pi-media pi-image">
 									<a href="http://image.jpg" class="image image-thumbnail" title="image alt">
 										<img src="http://thumbnail.jpg" srcset="http://thumbnail.jpg 1x, http://thumbnail2x.jpg 2x" class="pi-image-thumbnail" alt="image alt"
 										width="400" height="200"/>
@@ -286,14 +119,11 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						'alt' => 'image alt',
 						'url' => 'http://image.jpg',
 						'caption' => 'Lorem ipsum dolor',
-						'name' => 'image',
-						'key' => 'image',
 						'width' => '400',
 						'height' => '200',
 						'thumbnail' => 'http://thumbnail.jpg',
 						'thumbnail2x' => 'http://thumbnail2x.jpg',
-						'media-type' => 'image',
-						'isVideo' => false
+						'isImage' => true
 					]
 				],
 				'accentColor' => '',
@@ -307,19 +137,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							[
 								'alt' => 'image alt',
 								'url' => 'http://image.jpg',
-								'caption' => 'Lorem ipsum dolor',
-								'isVideo' => true,
-								'duration' => '1:20',
-								'name' => 'test',
-								'key' => 'test'
+								'caption' => 'Lorem ipsum dolor'
 							]
 						]
 					]
 				],
 				'output' => '<aside class="portable-infobox pi-background">
-								<figure class="pi-item pi-image pi-video">
+								<figure class="pi-item pi-media pi-video">
 									<a href="http://image.jpg"
-									class="image image-thumbnail video video-thumbnail"
+									class="video"
 									title="image alt">
 										<video src="http://image.jpg" class="pi-video-player" controls="true" controlsList="nodownload" preload="metadata">image alt</video>
 									</a>
@@ -389,10 +215,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						'data' => [
 							[
 								'alt' => 'image alt',
-								'url' => 'http://image.jpg',
-								'name' => 'image',
-								'key' => 'image',
-								'isVideo' => false
+								'url' => 'http://image.jpg'
 							]
 						]
 					],
@@ -406,7 +229,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 				],
 				'output' => '<aside class="portable-infobox pi-background">
 								<h2 class="pi-item pi-item-spacing pi-title">Test Title</h2>
-								<figure class="pi-item pi-image">
+								<figure class="pi-item pi-media pi-image">
 									<a href="http://image.jpg" class="image image-thumbnail" title="image alt">
 										<img src="http://thumbnail.jpg" srcset="http://thumbnail.jpg 1x, http://thumbnail2x.jpg 2x" class="pi-image-thumbnail" alt="image alt"
 										width="400" height="200"/>
@@ -422,14 +245,11 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					'extendImageData' => [
 						'alt' => 'image alt',
 						'url' => 'http://image.jpg',
-						'name' => 'image',
-						'key' => 'image',
 						'width' => '400',
 						'height' => '200',
 						'thumbnail' => 'http://thumbnail.jpg',
 						'thumbnail2x' => 'http://thumbnail2x.jpg',
-						'media-type' => 'image',
-						'isVideo' => false
+						'isImage' => true
 					]
 				],
 				'accentColor' => '',

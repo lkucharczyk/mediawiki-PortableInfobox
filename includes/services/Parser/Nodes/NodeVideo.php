@@ -1,11 +1,18 @@
 <?php
 namespace PortableInfobox\Parser\Nodes;
 
-class NodeImage extends NodeMedia {
+class NodeVideo extends NodeMedia {
 	/*
 	 * @return bool
 	 */
 	protected function allowImage() {
+		return false;
+	}
+
+	/*
+	 * @return bool
+	 */
+	protected function allowVideo() {
 		return true;
 	}
 

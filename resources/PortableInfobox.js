@@ -1,14 +1,14 @@
 (function (window, $) {
 	'use strict';
 
-	var ImageCollection = {
+	var MediaCollection = {
 		init: function($content) {
-			var $imageCollections = $content.find('.pi-image-collection');
+			var $mediaCollections = $content.find('.pi-media-collection');
 
-			$imageCollections.each( function( index ) {
-				var $collection = $imageCollections.eq(index),
-					$tabs = $collection.find('ul.pi-image-collection-tabs li'),
-					$tabContent = $collection.find('.pi-image-collection-tab-content');
+			$mediaCollections.each( function( index ) {
+				var $collection = $mediaCollections.eq(index),
+					$tabs = $collection.find('ul.pi-media-collection-tabs li'),
+					$tabContent = $collection.find('.pi-media-collection-tab-content');
 
 				$tabs.click( function() {
 					var $target = $(this),
@@ -43,7 +43,7 @@
 	};
 
 	mw.hook('wikipage.content').add(function($content) {
-		ImageCollection.init($content);
+		MediaCollection.init($content);
 		CollapsibleGroup.init($content);
 	});
 })(window, jQuery);
