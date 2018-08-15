@@ -22,18 +22,18 @@
 	},
 	"ResourceModules": {
 		"ext.PortableInfobox.scripts": {
-			"scripts": "resources/PortableInfobox.js"
+			"scripts": "resources/PortableInfobox.js",
+			"targets": [
+				"desktop",
+				"mobile"
+			]
 		},
 		"ext.PortableInfobox.styles": {
-			"styles": "resources/PortableInfobox.less"
-		},
-		"ext.PortableInfobox.scripts.mobile": {
-			"scripts": "resources/PortableInfobox.js",
-			"targets": "mobile"
-		},
-		"ext.PortableInfobox.styles.mobile": {
 			"styles": "resources/PortableInfobox.less",
-			"targets": "mobile"
+			"targets": [
+				"desktop",
+				"mobile"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {
@@ -86,8 +86,6 @@
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
-		"BeforePageDisplay": "PortableInfoboxHooks::onBeforePageDisplay",
-		"BeforePageDisplayMobile": "PortableInfoboxHooks::onBeforePageDisplayMobile",
 		"BeforeParserrenderImageGallery": "PortableInfoboxHooks::onBeforeParserrenderImageGallery",
 		"wgQueryPages": "PortableInfoboxHooks::onWgQueryPages",
 		"AllInfoboxesQueryRecached": "PortableInfoboxHooks::onAllInfoboxesQueryRecached",

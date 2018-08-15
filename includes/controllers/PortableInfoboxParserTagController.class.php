@@ -97,6 +97,9 @@ class PortableInfoboxParserTagController {
 		$this->markerNumber++;
 		$markup = '<' . self::PARSER_TAG_NAME . '>' . $text . '</' . self::PARSER_TAG_NAME . '>';
 
+		$parser->getOutput()->addModuleStyles( 'ext.PortableInfobox.styles' );
+		$parser->getOutput()->addModules( 'ext.PortableInfobox.scripts' );
+
 		try {
 			$renderedValue = $this->render( $markup, $parser, $frame, $params );
 		} catch ( UnimplementedNodeException $e ) {

@@ -2,25 +2,12 @@
 
 class PortableInfoboxHooks {
 
-	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
-		$out->addModuleStyles( 'ext.PortableInfobox.styles' );
-		$out->addModules( 'ext.PortableInfobox.scripts' );
-
-		return true;
-	}
-
-	public static function onBeforePageDisplayMobile( OutputPage $out, Skin $skin ) {
-		$out->addModuleStyles( 'ext.PortableInfobox.styles.mobile' );
-		$out->addModules( 'ext.PortableInfobox.scripts.mobile' );
-
-		return true;
-	}
-
-	public static function onWgQueryPages( &$queryPages = [ ] ) {
+	public static function onWgQueryPages( &$queryPages = [] ) {
 		$queryPages[] = [ 'AllinfoboxesQueryPage', 'AllInfoboxes' ];
 
 		return true;
 	}
+
 	public static function onBeforeParserrenderImageGallery ( $parser, $gallery ) {
 		if ( $gallery instanceof ImageGalleryBase ) {
 			PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
