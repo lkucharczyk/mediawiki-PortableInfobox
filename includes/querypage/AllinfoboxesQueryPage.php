@@ -104,26 +104,6 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 		return new FakeResultWrapper( $out );
 	}
 
-	public function addTitleToCache( Title $title ) {
-		if ( !$this->hasInfobox( $title ) ) {
-			return;
-		}
-
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->doAtomicSection(
-			__METHOD__,
-			function ( IDatabase $dbw, $fname ) use ( $title ) {
-				$dbw->insert( 'querycache', [
-					'qc_type' => $this->getName(),
-					'qc_namespace' => $title->getNamespace(),
-					'qc_title' => $title->getDBkey()
-				], $fname );
-			}
-		);
-
-		Hooks::run( 'AllInfoboxesQueryRecached' );
-	}
-
 	private function hasInfobox( Title $title ) {
 		// omit subages from blacklist
 		return !(
