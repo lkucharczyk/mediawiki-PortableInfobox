@@ -30,7 +30,7 @@ class NodeInfobox extends Node {
 
 	public function getParams() {
 		if ( !isset( $this->params ) ) {
-			$result = [ ];
+			$result = [];
 			foreach ( $this->xmlNode->attributes() as $k => $v ) {
 				$result[$k] = (string)$v;
 			}

@@ -25,10 +25,10 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 	public function testEmptyData() {
 		$result = PortableInfoboxDataService::newFromTitle( $this->prepareTitle() )
 			// empty page props
-			->setPagePropsProxy( new PagePropsProxyDummy( [ ] ) )
+			->setPagePropsProxy( new PagePropsProxyDummy() )
 			->getData();
 
-		$this->assertEquals( [ ], $result );
+		$this->assertEquals( [], $result );
 	}
 
 	public function testLoadFromProps() {
@@ -50,7 +50,7 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 
 		$result = PortableInfoboxDataService::newFromTitle( $this->prepareTitle( 1 ) )
 			->purge()
-			->setPagePropsProxy( new PagePropsProxyDummy( [ ] ) )
+			->setPagePropsProxy( new PagePropsProxyDummy() )
 			->save( $infoboxNode )
 			->getData();
 
@@ -89,7 +89,7 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 		];
 		$result = PortableInfoboxDataService::newFromTitle( $this->prepareTitle( 1, NS_TEMPLATE ) )
 			->purge()
-			->setPagePropsProxy( new PagePropsProxyDummy( [ ] ) )
+			->setPagePropsProxy( new PagePropsProxyDummy() )
 			->setParsingHelper( new ParsingHelperDummy( null, $data ) )
 			->getData();
 
@@ -127,7 +127,7 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 			->delete()
 			->getData();
 
-		$this->assertEquals( [ ], $result );
+		$this->assertEquals( [], $result );
 	}
 
 	public function testPurge() {
@@ -143,10 +143,10 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 		$result = $service->getData();
 
 		$service->purge()
-			->setPagePropsProxy( new PagePropsProxyDummy( [ ] ) );
+			->setPagePropsProxy( new PagePropsProxyDummy() );
 		$purged = $service->getData();
 
-		$this->assertEquals( [ json_decode( $data, true ), [ ] ], [ $result, $purged ] );
+		$this->assertEquals( [ json_decode( $data, true ), [] ], [ $result, $purged ] );
 	}
 
 	public function testImageListRemoveDuplicates() {
@@ -174,13 +174,13 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 	public function testTitleNullConstructor() {
 		$service = PortableInfoboxDataService::newFromTitle( null );
 		$result = $service->getData();
-		$this->assertEquals( [ ], $result );
+		$this->assertEquals( [], $result );
 	}
 
 	public function testConstructor() {
 		$service = PortableInfoboxDataService::newFromPageID( null );
 		$result = $service->getData();
-		$this->assertEquals( [ ], $result );
+		$this->assertEquals( [], $result );
 	}
 
 	protected function getInfoboxPageProps() {
@@ -268,7 +268,7 @@ class ParsingHelperDummy {
 
 class PagePropsProxyDummy {
 
-	public function __construct( $data ) {
+	public function __construct( $data = [] ) {
 		$this->data = $data;
 	}
 

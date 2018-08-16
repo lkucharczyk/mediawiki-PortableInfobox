@@ -22,9 +22,9 @@ class NodeHeaderTest extends MediaWikiTestCase {
 
 	public function dataProvider() {
 		return [
-			[ '<header></header>', [ ], [ 'value' => '' ] ],
-			[ '<header>kjdflkja dafkjlsdkfj</header>', [ ], [ 'value' => 'kjdflkja dafkjlsdkfj' ] ],
-			[ '<header>kjdflkja<ref>dafkjlsdkfj</ref></header>', [ ], [ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ] ],
+			[ '<header></header>', [], [ 'value' => '' ] ],
+			[ '<header>kjdflkja dafkjlsdkfj</header>', [], [ 'value' => 'kjdflkja dafkjlsdkfj' ] ],
+			[ '<header>kjdflkja<ref>dafkjlsdkfj</ref></header>', [], [ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ] ],
 		];
 	}
 

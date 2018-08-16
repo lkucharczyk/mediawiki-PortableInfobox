@@ -18,7 +18,7 @@ class PortableInfoboxDataService {
 	protected $cachekey;
 
 	/**
-	 * @param $title Title
+	 * @param Title $title
 	 *
 	 * @internal param $helper
 	 */
@@ -69,7 +69,7 @@ class PortableInfoboxDataService {
 		}
 		$result = $this->get();
 
-		return $result !== null ? $result : [ ];
+		return $result !== null ? $result : [];
 	}
 
 	/**
@@ -85,10 +85,10 @@ class PortableInfoboxDataService {
 	 * @return array
 	 */
 	public function getImages() {
-		$images = [ ];
+		$images = [];
 		foreach ( $this->getData() as $infobox ) {
-			if ( is_array( $infobox[ 'data' ] ) ) {
-				$images = array_merge( $images, $this->getImageFromOneInfoboxData( $infobox[ 'data' ] ) );
+			if ( is_array( $infobox['data'] ) ) {
+				$images = array_merge( $images, $this->getImageFromOneInfoboxData( $infobox['data'] ) );
 			}
 		}
 		return array_unique( $images );
@@ -100,10 +100,10 @@ class PortableInfoboxDataService {
 	 * @return array
 	 */
 	private function getImageFromOneInfoboxData( $infoboxData ) {
-		$images = [ ];
+		$images = [];
 		foreach ( $infoboxData as $infoboxDataField ) {
-			if ( $infoboxDataField[ 'type' ] === self::IMAGE_FIELD_TYPE && isset( $infoboxDataField[ 'data' ] ) ) {
-				$images = array_merge( $images, $this->getImagesFromOneNodeImageData( $infoboxDataField[ 'data' ] ) );
+			if ( $infoboxDataField['type'] === self::IMAGE_FIELD_TYPE && isset( $infoboxDataField['data'] ) ) {
+				$images = array_merge( $images, $this->getImagesFromOneNodeImageData( $infoboxDataField['data'] ) );
 			}
 		}
 		return $images;
@@ -115,10 +115,10 @@ class PortableInfoboxDataService {
 	 * @return array
 	 */
 	private function getImagesFromOneNodeImageData( $nodeImageData ) {
-		$images = [ ];
-		for ( $i = 0; $i < count( $nodeImageData ); $i++ ) {
-			if ( !empty( $nodeImageData[ $i ] [ 'key' ] ) ) {
-				$images[] = $nodeImageData[ $i ][ 'key' ];
+		$images = [];
+		foreach ( $nodeImageData as $image ) {
+			if ( !empty( $image['key'] ) ) {
+				$images[] = $image['key'];
 			}
 		}
 		return $images;
@@ -191,14 +191,14 @@ class PortableInfoboxDataService {
 			} );
 		}
 
-		return [ ];
+		return [];
 	}
 
 	/**
 	 * If PageProps has an old version of infobox data/metadata then reparse the page and store fresh data
 	 * If it doesn't have infoboxes property, we treat it as a page without infoboxes - there might be false negatives
 	 *
-	 * @param $infoboxes
+	 * @param array $infoboxes
 	 *
 	 * @return array
 	 */
@@ -207,8 +207,8 @@ class PortableInfoboxDataService {
 			foreach ( $infoboxes as $infobox ) {
 				if (
 					empty( $infobox ) ||
-					!isset( $infobox[ 'parser_tag_version' ] ) ||
-					$infobox[ 'parser_tag_version' ] !== PortableInfoboxParserTagController::PARSER_TAG_VERSION
+					!isset( $infobox['parser_tag_version'] ) ||
+					$infobox['parser_tag_version'] !== PortableInfoboxParserTagController::PARSER_TAG_VERSION
 				) {
 					$infoboxes = $this->parsingHelper->reparseArticle( $this->title );
 					$this->set( $infoboxes );

@@ -8,31 +8,31 @@ class PagePropsProxy {
 		$dbr = wfGetDB( DB_REPLICA );
 		$propValue = $dbr->selectField(
 			'page_props',
-			'pp_value', 
-			array(
+			'pp_value',
+			[
 				'pp_page' => $id,
 				'pp_propname' => $property
-			),
+			],
 			__METHOD__
 		);
 		return $propValue;
 	}
 
-	public function set( $id, Array $props ) {
+	public function set( $id, array $props ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->startAtomic( __METHOD__ );
-		foreach( $props as $sPropName => $sPropValue ) {
+		foreach ( $props as $sPropName => $sPropValue ) {
 			$dbw->replace(
 				"page_props",
-				array(
+				[
 					"pp_page",
 					"pp_propname"
-				),
-				array(
+				],
+				[
 					"pp_page" => $id,
 					"pp_propname" => $sPropName,
 					"pp_value" => $sPropValue
-				),
+				],
 				__METHOD__
 			);
 		}

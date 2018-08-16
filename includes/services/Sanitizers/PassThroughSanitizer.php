@@ -4,7 +4,7 @@ namespace PortableInfobox\Sanitizers;
 
 class PassThroughSanitizer extends NodeSanitizer {
 	/**
-	 * @param $data
+	 * @param mixed $data
 	 * @return mixed
 	 */
 	public function sanitize( $data ) {

@@ -9,12 +9,12 @@ class XmlParser {
 	/**
 	 * @param string $xmlString XML to parse
 	 *
-	 * @param array $errors this array will be filled with errors if any found
+	 * @param array &$errors this array will be filled with errors if any found
 	 *
 	 * @return \SimpleXMLElement
 	 * @throws XmlMarkupParseErrorException
 	 */
-	public static function parseXmlString( $xmlString, &$errors = [ ] ) {
+	public static function parseXmlString( $xmlString, &$errors = [] ) {
 		$global_libxml_setting = libxml_use_internal_errors();
 		libxml_use_internal_errors( true );
 		// support for html entities and single & char

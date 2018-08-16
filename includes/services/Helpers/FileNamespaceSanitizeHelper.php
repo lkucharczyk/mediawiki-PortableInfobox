@@ -5,7 +5,7 @@ namespace PortableInfobox\Helpers;
 // original class & authors: https://github.com/Wikia/app/blob/dev/includes/wikia/helpers/FileNamespaceSanitizeHelper.php
 class FileNamespaceSanitizeHelper {
 	private static $instance = null;
-	private $filePrefixRegex = [ ];
+	private $filePrefixRegex = [];
 
 	private function __construct() {
 	}
@@ -22,45 +22,45 @@ class FileNamespaceSanitizeHelper {
 	}
 
 	/**
-	 * @param $contLang \Language
+	 * @param \Language $contLang
 	 * Used as local cache for getting string to remove
 	 */
 	private function getFilePrefixRegex( $contLang ) {
 		global $wgNamespaceAliases;
 		$langCode = $contLang->getCode();
-		if ( empty( $this->filePrefixRegex[ $langCode ] ) ) {
+		if ( empty( $this->filePrefixRegex[$langCode] ) ) {
 			$fileNamespaces = [
 				\MWNamespace::getCanonicalName( NS_FILE ),
-				$contLang->getNamespaces()[ NS_FILE ],
+				$contLang->getNamespaces()[NS_FILE],
 			];
 
 			$aliases = array_merge( $contLang->getNamespaceAliases(), $wgNamespaceAliases );
 			foreach ( $aliases as $alias => $namespaceId ) {
 				if ( $namespaceId == NS_FILE ) {
-					$fileNamespaces [] = $alias;
+					$fileNamespaces[] = $alias;
 				}
 			}
-			
+
 			//be able to match user-provided file namespaces that may contain both underscores and spaces
-			$fileNamespaces = array_map( function( $namespace ) {
+			$fileNamespaces = array_map( function ( $namespace ) {
 				return mb_ereg_replace( '_', '(_|\ )', $namespace );
 			}, $fileNamespaces );
 
 			//be able to match both upper- and lowercase first letters of the namespace
-			$lowercaseFileNamespaces = array_map( function( $namespace ) {
+			$lowercaseFileNamespaces = array_map( function ( $namespace ) {
 				return mb_convert_case( $namespace, MB_CASE_LOWER, "UTF-8" );
 			}, $fileNamespaces );
 
 			$namespaces = array_merge( $fileNamespaces, $lowercaseFileNamespaces );
-			$this->filePrefixRegex[ $langCode ] = '^(' . implode( '|', $namespaces ) . '):';
+			$this->filePrefixRegex[$langCode] = '^(' . implode( '|', $namespaces ) . '):';
 		}
 
-		return $this->filePrefixRegex[ $langCode ];
+		return $this->filePrefixRegex[$langCode];
 	}
 
 	/**
-	 * @param $filename string
-	 * @param $contLang \Language
+	 * @param string $filename
+	 * @param \Language $contLang
 	 *
 	 * @return mixed
 	 */
@@ -95,8 +95,8 @@ class FileNamespaceSanitizeHelper {
 	}
 
 	/**
-	 * @param $potentialFilename
-	 * @param $filePrefixRegex
+	 * @param string $potentialFilename
+	 * @param string $filePrefixRegex
 	 *
 	 * @return string|null
 	 */
@@ -116,7 +116,7 @@ class FileNamespaceSanitizeHelper {
 	 * @desc removes all files and images occurrences from wikitext
 	 *
 	 * @param string $wikitext
-	 * @param $lang \Language
+	 * @param \Language $lang
 	 * @return string wikitext without files and images
 	 */
 	public function stripFilesFromWikitext( $wikitext, $lang ) {
@@ -131,7 +131,7 @@ class FileNamespaceSanitizeHelper {
 	 * without brackets and without any params
 	 *
 	 * @param string $wikitext to find images or files in
-	 * @param $lang
+	 * @param \Language $lang
 	 * @return array of images ['File:sefes', 'File:blabla']
 	 * or false if no images found
 	 */
@@ -146,7 +146,7 @@ class FileNamespaceSanitizeHelper {
 	 * @desc for given file wikitext without brackets, return it without any params
 	 * or null if empty string
 	 *
-	 * @param $fileWikitext
+	 * @param string $fileWikitext
 	 * @return string | null
 	 */
 	public function removeImageParams( $fileWikitext ) {

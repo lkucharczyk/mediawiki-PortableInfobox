@@ -1,7 +1,6 @@
 <?php
 
 use PortableInfobox\Sanitizers\SanitizerBuilder;
-use PortableInfobox\Sanitizers\NodeImageSanitizer;
 
 /**
  * @group PortableInfobox

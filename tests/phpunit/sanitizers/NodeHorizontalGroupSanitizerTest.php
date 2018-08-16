@@ -1,7 +1,6 @@
 <?php
 
 use PortableInfobox\Sanitizers\SanitizerBuilder;
-use PortableInfobox\Sanitizers\NodeHorizontalGroupSanitizer;
 
 /**
  * @group PortableInfobox
@@ -13,7 +12,7 @@ class NodeHorizontalGroupSanitizerTest extends MediaWikiTestCase {
 	private $sanitizer;
 
 	protected function setUp() {
-		$this->sanitizer = SanitizerBuilder::createFromType('horizontal-group-content');
+		$this->sanitizer = SanitizerBuilder::createFromType( 'horizontal-group-content' );
 		parent::setUp();
 	}
 

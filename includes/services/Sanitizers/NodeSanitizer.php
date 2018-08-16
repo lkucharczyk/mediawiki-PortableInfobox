@@ -13,20 +13,20 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	 * Can be overridden by child classes
 	 */
 	// these are selectors for explicitly allowed tags, like 'a'
-	protected $allowedTags = [ ];
+	protected $allowedTags = [];
 	// these are valid 'internal' node names (per libxml convention, i.e. a, #text, etc)
 	protected $validNodeNames = [ '#text' ];
 	// these are selectors that describe nodes containing text that should be padded with whitespace
-	protected $selectorsWrappingTextToPad = [ ];
+	protected $selectorsWrappingTextToPad = [];
 	// these are selectors that describe root nodes of known features that should not be sanitized
-	protected $selectorsWrappingAllowedFeatures = [ ];
+	protected $selectorsWrappingAllowedFeatures = [];
 	// these are selectors that describe nodes for full removal
-	protected $selectorsForFullRemoval = [ ];
+	protected $selectorsForFullRemoval = [];
 
 	/**
 	 * Sanitize a single text element, i.e. title or label
 	 *
-	 * @param $elementText
+	 * @param string $elementText
 	 * @return string
 	 */
 	protected function sanitizeElementData( $elementText ) {
@@ -50,22 +50,22 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	/**
 	 * Wraps text in root node and prefixes with XML header providing explicit encoding
 	 *
-	 * @param $elementText
+	 * @param string $elementText
 	 * @return string
 	 */
 	protected function prepareValidXML( $elementText ) {
-		$wrappedText = implode('',[
+		$wrappedText = implode( '', [
 			\Xml::openElement( $this->rootNodeTag ),
 			$elementText,
 			\Xml::closeElement( $this->rootNodeTag )
-		]);
+		] );
 		return $wrappedText;
 	}
 
 	/**
 	 * Removes nodes that do not need to remain in the resulting output. By default leaves only text nodes
 	 *
-	 * @param $dom DOMDocument
+	 * @param \DOMDocument $dom
 	 * @return string
 	 */
 	protected function cleanUpDOM( $dom ) {
@@ -80,12 +80,12 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	/**
 	 * Produces sanitized HTML markup from DOMNode array
 	 *
-	 * @param $nodes array of DOMNode
-	 * @param $dom DOMDocument
+	 * @param \DOMNode[] $nodes
+	 * @param \DOMDocument $dom
 	 * @return string
 	 */
 	protected function generateHTML( $nodes, $dom ) {
-		$result = [ ];
+		$result = [];
 		foreach ( $nodes as $node ) {
 			$outputHtml = $rawHtml = $dom->saveHTML( $node );
 			if ( $node->nodeName === '#text' ) {
@@ -98,7 +98,6 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 
 			$result[] = $outputHtml;
 
-
 		}
 		return implode( '', $result );
 	}
@@ -107,7 +106,7 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	 * Replaces multiple whitespaces with single ones.
 	 * Transparent from non-preformatted HTML point of view
 	 *
-	 * @param $text string
+	 * @param string $text
 	 * @return string
 	 */
 	protected function normalizeWhitespace( $text ) {
@@ -119,20 +118,20 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	 * @return string
 	 */
 	protected function getAllNodesXPath() {
-		$xpathExpressions = [ ];
+		$xpathExpressions = [];
 		foreach ( $this->selectorsWrappingAllowedFeatures as $selector ) {
-			$xpathExpressions [] = sprintf( '//%s//%s', $this->rootNodeTag, $selector );
+			$xpathExpressions[] = sprintf( '//%s//%s', $this->rootNodeTag, $selector );
 		}
 		foreach ( $this->allowedTags as $selector ) {
-			$xpathExpressions [] = sprintf( '//%s//%s', $this->rootNodeTag, $selector );
+			$xpathExpressions[] = sprintf( '//%s//%s', $this->rootNodeTag, $selector );
 		}
-		$xpathExpressions [] = sprintf( '//%s//text()', $this->rootNodeTag );
+		$xpathExpressions[] = sprintf( '//%s//text()', $this->rootNodeTag );
 
 		return implode( ' | ', $xpathExpressions );
 	}
 
 	/**
-	 * @param $DOMnode DOMNode
+	 * @param \DOMNode $DOMnode
 	 * @return bool
 	 */
 	protected function shouldNodeBeRemoved( $DOMnode ) {
@@ -141,7 +140,7 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 
 	/**
 	 *
-	 * @param $node DOMNode
+	 * @param \DOMNode $node
 	 * @return bool
 	 */
 	protected function isNodeAllowedByTag( $node ) {
@@ -155,10 +154,10 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 
 	/**
 	 * Removes nodes specified by tag completely
-	 * @param $xpath DOMXPath
-	 * @param $selectorsToRemove array
+	 * @param \DOMXPath $xpath
+	 * @param array $selectorsToRemove
 	 */
-	protected function removeNodesBySelector( $xpath, $selectorsToRemove = [ ] ) {
+	protected function removeNodesBySelector( $xpath, $selectorsToRemove = [] ) {
 		foreach ( $selectorsToRemove as $selector ) {
 			$nodesToRemove = $xpath->query( sprintf( '//%s//%s', $this->rootNodeTag, $selector ) );
 			foreach ( $nodesToRemove as $node ) {
@@ -170,21 +169,20 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	/**
 	 * Returns nodes that have contents allowed by current sanitizer's config
 	 *
-	 * @param $xpath DOMXPath
-	 * @param $allowedTags
-	 * @return array of DOMNode
+	 * @param \DOMXPath $xpath DOMXPath
+	 * @return \DOMNode[]
 	 */
 	protected function extractNeededNodes( $xpath ) {
-		$nodes = [ ];
-		$featureNodes = [ ];
+		$nodes = [];
+		$featureNodes = [];
 		$allNodes = $xpath->query( $this->getAllNodesXPath() );
 		foreach ( $allNodes as $node ) {
 			if ( $this->shouldNodeBeProcessed( $node, $nodes, $featureNodes, $xpath ) ) {
-				$nodes [] = $node;
+				$nodes[] = $node;
 
 				// Store the information that a given feature node was processed
 				if ( $this->isAllowedFeatureNode( $node, $xpath ) ) {
-					$featureNodes [] = $node;
+					$featureNodes[] = $node;
 				}
 			}
 		}
@@ -194,8 +192,8 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	/**
 	 * Checks if current node is a wrapping tag for a feature
 	 *
-	 * @param $node DOMNode
-	 * @param $xpath DOMXPath
+	 * @param \DOMNode $node
+	 * @param \DOMXPath $xpath
 	 * @return bool
 	 */
 	protected function isAllowedFeatureNode( $node, $xpath ) {
@@ -211,9 +209,8 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	/**
 	 * Used for skipping processing on subnodes of feature nodes (i.e. citation)
 	 *
-	 * @param $node DOMNode
-	 * @param $nodes
-	 * @param $featureNodes
+	 * @param \DOMNode $node
+	 * @param \DOMNode[] $featureNodes
 	 * @return bool
 	 */
 	protected function isDescendantOfProcessedFeatureNode( $node, $featureNodes ) {
@@ -229,8 +226,8 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	}
 
 	/**
-	 * @param $node
-	 * @param $nodes
+	 * @param \DOMNode $node
+	 * @param \DOMNode[] $nodes
 	 * @return bool
 	 */
 	protected function isChildOfProcessedTagNode( $node, $nodes ) {
@@ -247,10 +244,10 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 	 * - is it an allowed node (by tag or a selector)
 	 * - is it excluded from processing because of its state (i.e. empty) or already processed ancestor nodes
 	 *
-	 * @param $node DOMNode
-	 * @param $simpleTagNodes array of DOMNode
-	 * @param $featureNodes array of DOMNode
-	 * @param $xpath DOMXPath
+	 * @param \DOMNode $node
+	 * @param \DOMNode[] $simpleTagNodes
+	 * @param \DOMNode[] $featureNodes
+	 * @param \DOMXPath $xpath
 	 * @return bool
 	 */
 	protected function shouldNodeBeProcessed( $node, $simpleTagNodes, $featureNodes, $xpath ) {
@@ -262,6 +259,5 @@ abstract class NodeSanitizer implements NodeTypeSanitizerInterface {
 		&& !$this->isChildOfProcessedTagNode( $node, $simpleTagNodes )
 		&& !$this->isDescendantOfProcessedFeatureNode( $node, $featureNodes );
 	}
-
 
 }

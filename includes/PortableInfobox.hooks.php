@@ -8,10 +8,10 @@ class PortableInfoboxHooks {
 		return true;
 	}
 
-	public static function onBeforeParserrenderImageGallery ( $parser, $gallery ) {
+	public static function onBeforeParserrenderImageGallery( $parser, $gallery ) {
 		if ( $gallery instanceof ImageGalleryBase ) {
 			PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
-				Parser::MARKER_PREFIX . "-gallery-" . sprintf( '%08X', $parser->mMarkerIndex-1 ) . Parser::MARKER_SUFFIX,
+				Parser::MARKER_PREFIX . "-gallery-" . sprintf( '%08X', $parser->mMarkerIndex - 1 ) . Parser::MARKER_SUFFIX,
 				$gallery
 			);
 		}
@@ -29,19 +29,11 @@ class PortableInfoboxHooks {
 	/**
 	 * Purge memcache before edit
 	 *
-	 * @param $article Page|WikiPage
-	 * @param $user
-	 * @param $text
-	 * @param $summary
-	 * @param $minor
-	 * @param $watchthis
-	 * @param $sectionanchor
-	 * @param $flags
-	 * @param $status
+	 * @param Page|WikiPage $article
 	 *
 	 * @return bool
 	 */
-	public static function onPageContentSave( Page $article, User $user, &$text, &$summary, $minor, $watchthis, $sectionanchor, &$flags, Status &$status ): bool {
+	public static function onPageContentSave( Page $article ) {
 		PortableInfoboxDataService::newFromTitle( $article->getTitle() )->delete();
 
 		return true;

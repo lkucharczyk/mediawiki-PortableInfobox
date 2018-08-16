@@ -12,7 +12,7 @@ class PortableInfoboxImagesHelper {
 	 *
 	 * @param array $data image data
 	 * @param int $thumbnailFileWidth preferred thumbnail file width
-	 * @param int $thumbnailImgTagWidth preferred thumbnail img tag width
+	 * @param int|null $thumbnailImgTagWidth preferred thumbnail img tag width
 	 * @return array|bool false on failure
 	 */
 	public function extendImageData( $data, $thumbnailFileWidth, $thumbnailImgTagWidth = null ) {
@@ -33,7 +33,7 @@ class PortableInfoboxImagesHelper {
 		$data['ref'] = ++self::$count;
 
 		// we don't need failing thumbnail creation for videos and audio files
-		if( !$data['isImage'] ) {
+		if ( !$data['isImage'] ) {
 			return $data;
 		}
 
@@ -86,7 +86,7 @@ class PortableInfoboxImagesHelper {
 				return $image;
 			},
 			$images,
-			array_keys($images)
+			array_keys( $images )
 		);
 
 		$images[0]['isFirst'] = true;
@@ -131,7 +131,7 @@ class PortableInfoboxImagesHelper {
 	}
 
 	/**
- 	 * Get file from title (Please be careful when using $force)
+	 * Get file from title (Please be careful when using $force)
 	 *
 	 * Note: this method turns a string $title into an object, affecting the calling code version
 	 * of this variable
@@ -140,13 +140,13 @@ class PortableInfoboxImagesHelper {
 	 * @return \File|null file
 	 */
 	protected function getFileFromTitle( $title ) {
-		if( is_string( $title ) ) {
+		if ( is_string( $title ) ) {
 			$title = \Title::newFromText( $title, NS_FILE );
 		}
 
-		if( $title instanceof \Title ) {
+		if ( $title instanceof \Title ) {
 			$file = wfFindFile( $title );
-			if( $file instanceof \File && $file->exists() ) {
+			if ( $file instanceof \File && $file->exists() ) {
 				return $file;
 			}
 		}

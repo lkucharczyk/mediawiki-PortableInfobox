@@ -13,7 +13,7 @@ class InfoboxParamsValidatorTest extends MediaWikiTestCase {
 	}
 
 	protected function tearDown() {
-		unset($this->InfoboxParamsValidator);
+		unset( $this->InfoboxParamsValidator );
 		parent::tearDown();
 	}
 
@@ -55,7 +55,7 @@ class InfoboxParamsValidatorTest extends MediaWikiTestCase {
 	public function infoboxParamsPassValidationDataProvider() {
 		return [
 			[
-				'params' => [ ],
+				'params' => [],
 			],
 			[
 				'params' => [

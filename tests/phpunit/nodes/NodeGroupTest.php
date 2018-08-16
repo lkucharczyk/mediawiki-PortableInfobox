@@ -14,7 +14,7 @@ class NodeGroupTest extends MediaWikiTestCase {
 	 */
 	public function testNodeGroupCollapse( $markup, $expected ) {
 		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
-		$this->assertEquals( $expected, $node->getData()[ 'collapse' ] );
+		$this->assertEquals( $expected, $node->getData()['collapse'] );
 	}
 
 	public function groupNodeCollapseTestProvider() {
@@ -36,8 +36,8 @@ class NodeGroupTest extends MediaWikiTestCase {
 	 */
 	public function testNodeGroupRowItems( $markup, $expected ) {
 		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
-		$this->assertEquals( $expected, $node->getData()[ 'row-items' ] );
-		$this->assertEquals( $expected, $node->getRenderData()[ 'data' ][ 'row-items' ] );
+		$this->assertEquals( $expected, $node->getData()['row-items'] );
+		$this->assertEquals( $expected, $node->getRenderData()['data']['row-items'] );
 	}
 
 	public function groupNodeRowItemsTestProvider() {
@@ -49,7 +49,6 @@ class NodeGroupTest extends MediaWikiTestCase {
 			[ '<group row-items="50"></group>', '50' ],
 		];
 	}
-
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\NodeGroup::getData
@@ -118,7 +117,7 @@ class NodeGroupTest extends MediaWikiTestCase {
 			[ '<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>',
 			  [ '1' => 'one', '2' => 'two' ],
 			  [ 'value' => [
-				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [ ] ],
+				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [] ],
 				  [ 'type' => 'data', 'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => false,
 					'source' => [ '1' ] ],
 				  [ 'type' => 'data', 'data' => [ 'value' => 'two', 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => false,
@@ -131,7 +130,7 @@ class NodeGroupTest extends MediaWikiTestCase {
 			[ '<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>',
 			  [ '1' => 'one' ],
 			  [ 'value' => [
-				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [ ] ],
+				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [] ],
 				  [ 'type' => 'data', 'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => false,
 					'source' => [ '1' ] ],
 				  [ 'type' => 'data', 'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => true,
@@ -142,9 +141,9 @@ class NodeGroupTest extends MediaWikiTestCase {
 				'row-items' => null
 
 			  ] ],
-			[ '<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>', [ ],
+			[ '<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>', [],
 			  [ 'value' => [
-				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [ ] ],
+				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [] ],
 				  [ 'type' => 'data', 'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => true,
 					'source' => [ '1' ] ],
 				  [ 'type' => 'data', 'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => true,

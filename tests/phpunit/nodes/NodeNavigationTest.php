@@ -22,9 +22,9 @@ class NodeNavigationTest extends MediaWikiTestCase {
 
 	public function dataProvider() {
 		return [
-			[ '<navigation></navigation>', [ ], [ 'value' => '' ] ],
-			[ '<navigation>kjdflkja dafkjlsdkfj</navigation>', [ ], [ 'value' => 'kjdflkja dafkjlsdkfj' ] ],
-			[ '<navigation>kjdflkja<ref>dafkjlsdkfj</ref></navigation>', [ ], [ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ] ],
+			[ '<navigation></navigation>', [], [ 'value' => '' ] ],
+			[ '<navigation>kjdflkja dafkjlsdkfj</navigation>', [], [ 'value' => 'kjdflkja dafkjlsdkfj' ] ],
+			[ '<navigation>kjdflkja<ref>dafkjlsdkfj</ref></navigation>', [], [ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ] ],
 		];
 	}
 
@@ -33,7 +33,7 @@ class NodeNavigationTest extends MediaWikiTestCase {
 	 */
 	public function testIsEmpty( $string, $expectedOutput ) {
 		$xml = simplexml_load_string( $string );
-		$node = new PortableInfobox\Parser\Nodes\NodeNavigation( $xml, [ ] );
+		$node = new PortableInfobox\Parser\Nodes\NodeNavigation( $xml, [] );
 		$data = $node->getData();
 		$this->assertTrue( $node->isEmpty( $data ) == $expectedOutput );
 	}

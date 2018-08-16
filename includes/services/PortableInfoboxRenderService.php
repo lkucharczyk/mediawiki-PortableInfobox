@@ -24,10 +24,10 @@ class PortableInfoboxRenderService {
 	 *
 	 * @param array $infoboxdata
 	 *
-	 * @param $theme
-	 * @param $layout
-	 * @param $accentColor
-	 * @param $accentColorText
+	 * @param string $theme
+	 * @param string $layout
+	 * @param string $accentColor
+	 * @param string $accentColorText
 	 * @return string - infobox HTML
 	 */
 	public function renderInfobox( array $infoboxdata, $theme, $layout, $accentColor, $accentColorText ) {
@@ -58,7 +58,7 @@ class PortableInfoboxRenderService {
 	/**
 	 * Produces HTML output for item type and data
 	 *
-	 * @param $type
+	 * @param string $type
 	 * @param array $data
 	 * @return string
 	 */
@@ -140,7 +140,7 @@ class PortableInfoboxRenderService {
 	/**
 	 * If image element has invalid thumbnail, doesn't render this element at all.
 	 *
-	 * @param $data
+	 * @param array $data
 	 * @return string
 	 */
 	protected function renderMedia( $data ) {
@@ -252,7 +252,7 @@ class PortableInfoboxRenderService {
 				if ( !empty( $rowItems ) ) {
 					$result[] = $this->createSmartGroupItem( $rowItems, $rowSpan );
 					$rowSpan = 0;
-					$rowItems = [ ];
+					$rowItems = [];
 				}
 				$result[] = $item;
 			}

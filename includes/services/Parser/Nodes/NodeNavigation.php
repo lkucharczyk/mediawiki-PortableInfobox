@@ -13,7 +13,7 @@ class NodeNavigation extends Node {
 
 	public function isEmpty() {
 		$data = $this->getData();
-		$links = trim( $data[ 'value' ] );
+		$links = trim( $data['value'] );
 
 		return empty( $links ) && $links != '0';
 	}

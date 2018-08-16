@@ -15,7 +15,7 @@ class MediaWikiParserService implements ExternalParser {
 	/**
 	 * Method used for parsing wikitext provided in infobox that might contain variables
 	 *
-	 * @param $wikitext
+	 * @param string $wikitext
 	 *
 	 * @return string HTML outcome
 	 */

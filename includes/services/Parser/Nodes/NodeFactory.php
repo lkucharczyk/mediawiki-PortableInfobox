@@ -5,11 +5,11 @@ use PortableInfobox\Parser\XmlParser;
 
 class NodeFactory {
 
-	public static function newFromXML( $text, array $data = [ ] ) {
+	public static function newFromXML( $text, array $data = [] ) {
 		return self::getInstance( XmlParser::parseXmlString( $text ), $data );
 	}
 
-	public static function newFromSimpleXml( \SimpleXMLElement $xmlNode, array $data = [ ] ) {
+	public static function newFromSimpleXml( \SimpleXMLElement $xmlNode, array $data = [] ) {
 		return self::getInstance( $xmlNode, $data );
 	}
 

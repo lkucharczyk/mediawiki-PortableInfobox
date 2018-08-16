@@ -14,14 +14,14 @@ class NodeInfoboxTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testParams( $markup, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [ ] );
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [] );
 
 		$this->assertEquals( $expected, $node->getParams() );
 	}
 
 	public function paramsProvider() {
 		return [
-			[ '<infobox></infobox>', [ ] ],
+			[ '<infobox></infobox>', [] ],
 			[ '<infobox theme="abs"></infobox>', [ 'theme' => 'abs' ] ],
 			[ '<infobox theme="abs" more="sdf"></infobox>', [ 'theme' => 'abs', 'more' => 'sdf' ] ],
 		];

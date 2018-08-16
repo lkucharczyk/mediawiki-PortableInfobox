@@ -1,7 +1,6 @@
 <?php
 
 use PortableInfobox\Sanitizers\SanitizerBuilder;
-use PortableInfobox\Sanitizers\NodeDataSanitizer;
 
 /**
  * @group PortableInfobox
@@ -13,7 +12,7 @@ class NodeDataSanitizerTest extends MediaWikiTestCase {
 	private $sanitizer;
 
 	protected function setUp() {
-		$this->sanitizer = SanitizerBuilder::createFromType('data');
+		$this->sanitizer = SanitizerBuilder::createFromType( 'data' );
 		parent::setUp();
 	}
 
@@ -46,8 +45,8 @@ class NodeDataSanitizerTest extends MediaWikiTestCase {
 				]
 			],
 			[
-				['label' => 'Test data label <img src=\'data:image/gif;base64,R0lGODlhAQABAIABAAAAAP///yH5BAEAAAEALAAAAAABAAEAQAICTAEAOw%3D%3D\' class=\'article-media\' data-ref=\'1\' width=\'400\' height=\'100\' />with image'],
-				['label' => 'Test data label with image']
+				[ 'label' => 'Test data label <img src=\'data:image/gif;base64,R0lGODlhAQABAIABAAAAAP///yH5BAEAAAEALAAAAAABAAEAQAICTAEAOw%3D%3D\' class=\'article-media\' data-ref=\'1\' width=\'400\' height=\'100\' />with image' ],
+				[ 'label' => 'Test data label with image' ]
 			],
 			[
 				[

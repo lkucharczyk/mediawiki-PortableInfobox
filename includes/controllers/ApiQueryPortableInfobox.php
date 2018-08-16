@@ -23,10 +23,10 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 			$parsedInfoboxes = PortableInfoboxDataService::newFromTitle( $articleTitle )->getData();
 
 			if ( is_array( $parsedInfoboxes ) && count( $parsedInfoboxes ) ) {
-				$inf = [ ];
+				$inf = [];
 
 				foreach ( array_keys( $parsedInfoboxes ) as $k => $v ) {
-					$inf[ $k ] = [ ];
+					$inf[$k] = [];
 				}
 
 				$res->setIndexedTagName( $inf, 'infobox' );
@@ -73,7 +73,7 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 			if ( $node['type'] === 'group' ) {
 				$path = array_merge( $rootPath, [ $nodeCount, 'metadata' ] );
 				$result->addIndexedTagName( $path, 'metadata' );
-				$this->setIndexedTagNamesForGroupMetadata( $node[ 'metadata' ], $path, $result );
+				$this->setIndexedTagNamesForGroupMetadata( $node['metadata'], $path, $result );
 			}
 		}
 	}

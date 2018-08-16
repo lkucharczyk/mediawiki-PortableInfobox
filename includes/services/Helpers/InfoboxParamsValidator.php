@@ -21,8 +21,8 @@ class InfoboxParamsValidator {
 	 * validates infobox tags attribute names
 	 * @param array $params
 	 * @throws InvalidInfoboxParamsException
-	 * @todo: consider using hashmap instead of array ones validator grows
-	 * @returns boolean
+	 * @todo consider using hashmap instead of array ones validator grows
+	 * @return bool
 	 */
 	public function validateParams( $params ) {
 		foreach ( array_keys( $params ) as $param ) {
@@ -36,17 +36,17 @@ class InfoboxParamsValidator {
 
 	/**
 	 * validates if argument is valid color value. Currently only hex values are supported
-	 * @param $color
+	 * @param string $color
 	 * @return bool
 	 * @throws InvalidColorValueException
 	 */
 	public function validateColorValue( $color ) {
-		return !empty( preg_match('/^(#[a-f0-9]{3}([a-f0-9]{3})?)$/i', $color) );
+		return !empty( preg_match( '/^(#[a-f0-9]{3}([a-f0-9]{3})?)$/i', $color ) );
 	}
 
 	/**
 	 * checks if given layout name is supported
-	 * @param $layoutName
+	 * @param string $layoutName
 	 * @return bool
 	 */
 	public function validateLayout( $layoutName ) {

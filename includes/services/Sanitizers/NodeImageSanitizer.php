@@ -6,12 +6,16 @@ class NodeImageSanitizer extends NodeSanitizer {
 	protected $allowedTags = [ 'a' ];
 	protected $selectorsWrappingTextToPad = [ 'li' ];
 	protected $selectorsWrappingAllowedFeatures = [ 'sup[@class="reference"]' ];
-	protected $selectorsForFullRemoval = [ 'script', 'span[@itemprop="duration"]', 'a[starts-with(@href, \'javascript:\')]' ];
+	protected $selectorsForFullRemoval = [
+		'script',
+		'span[@itemprop="duration"]',
+		'a[starts-with(@href, \'javascript:\')]'
+	];
 
 	/**
 	 * @desc sanitize infobox image caption allowing only for links inside it
 	 *
-	 * @param $data
+	 * @param mixed $data
 	 * @return mixed
 	 */
 	public function sanitize( $data ) {

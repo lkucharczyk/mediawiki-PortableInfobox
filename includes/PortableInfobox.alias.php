@@ -14,5 +14,5 @@ $specialPageAliases['en'] = [
 
 /** Polish */
 $specialPageAliases['pl'] = [
-	'AllInfoboxes' =>  [ 'Wszystkie infoboksy' ]
+	'AllInfoboxes' => [ 'Wszystkie infoboksy' ]
 ];

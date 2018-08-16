@@ -29,13 +29,13 @@ class PortableInfoboxTemplateEngine {
 	];
 
 	public function __construct() {
-		if( !isset( self::$memcache ) ) {
+		if ( !isset( self::$memcache ) ) {
 			self::$memcache = \ObjectCache::getMainWANInstance();
 		}
 	}
 
 	public static function getTemplatesDir() {
-		return dirname( __FILE__ ) . '/../../../templates';
+		return __DIR__ . '/../../../templates';
 	}
 
 	public static function getTemplates() {
@@ -50,12 +50,12 @@ class PortableInfoboxTemplateEngine {
 	/**
 	 * Returns a template renderer
 	 *
-	 * @param $type string Template type
+	 * @param string $type Template type
 	 * @return Closure
 	 */
 	public function getRenderer( $type ) {
-		if ( !empty( self::$cache[ $type ] ) ) {
-			return self::$cache[ $type ];
+		if ( !empty( self::$cache[$type] ) ) {
+			return self::$cache[$type];
 		}
 
 		$cachekey = self::$memcache->makeKey( __CLASS__, \PortableInfoboxParserTagController::PARSER_TAG_VERSION, $type );
@@ -63,7 +63,7 @@ class PortableInfoboxTemplateEngine {
 		// @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy
 		$renderer = \LightnCandy::prepare(
 			self::$memcache->getWithSetCallback( $cachekey, self::CACHE_TTL, function () use ( $type ) {
-				$path = self::getTemplatesDir() . DIRECTORY_SEPARATOR . static::getTemplates()[ $type ];
+				$path = self::getTemplatesDir() . DIRECTORY_SEPARATOR . static::getTemplates()[$type];
 
 				return \LightnCandy::compile( file_get_contents( $path ), [
 					'flags' => \LightnCandy::FLAG_BESTPERFORMANCE
@@ -71,7 +71,7 @@ class PortableInfoboxTemplateEngine {
 			} )
 		);
 
-		self::$cache[ $type ] = $renderer;
+		self::$cache[$type] = $renderer;
 
 		return $renderer;
 	}
@@ -84,7 +84,7 @@ class PortableInfoboxTemplateEngine {
 	 * @return bool
 	 */
 	public static function isSupportedType( $type ) {
-		$result = isset( static::getTemplates()[ $type ] );
+		$result = isset( static::getTemplates()[$type] );
 		if ( !$result ) {
 			LoggerFactory::getInstance( 'PortableInfobox' )->info( self::TYPE_NOT_SUPPORTED_MESSAGE, [ 'type' => $type ] );
 		}

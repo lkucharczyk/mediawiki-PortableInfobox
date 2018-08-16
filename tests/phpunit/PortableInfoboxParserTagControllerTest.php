@@ -177,7 +177,7 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 		$output = $this->controller->renderInfobox( $text, $params, $this->parser,
 			$this->parser->getPreprocessor()->newCustomFrame( $templateInvocation ) )[0];
 
-		$this->assertEquals($this->normalizeHTML($expectedOutput), $this->normalizeHTML($output), $message);
+		$this->assertEquals( $this->normalizeHTML( $expectedOutput ), $this->normalizeHTML( $output ), $message );
 	}
 
 	public function getColorDataProvider() {

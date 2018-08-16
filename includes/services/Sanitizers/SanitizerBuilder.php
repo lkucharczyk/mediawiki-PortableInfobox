@@ -7,10 +7,10 @@ class SanitizerBuilder {
 	/**
 	 * @desc provide sanitizer for a given node type
 	 *
-	 * @param $type
+	 * @param string $type
 	 * @return NodeSanitizer
 	 */
-	static public function createFromType( $type ) {
+	public static function createFromType( $type ) {
 		switch ( $type ) {
 			case 'data':
 				return new NodeDataSanitizer();

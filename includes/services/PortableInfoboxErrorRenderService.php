@@ -52,9 +52,9 @@ class PortableInfoboxErrorRenderService {
 				'codeLine' => $codeLine,
 				'error' => false,
 			];
-			if ( isset( $errorsByLine[ $i ] ) ) {
+			if ( isset( $errorsByLine[$i] ) ) {
 				$line['error'] = true;
-				foreach ( $errorsByLine[ $i ] as $error ) {
+				foreach ( $errorsByLine[$i] as $error ) {
 					$line['error_messages'][] = [ 'message' => $this->getErrorMessage( $error ) ];
 				}
 			}

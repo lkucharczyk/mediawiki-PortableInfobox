@@ -1,6 +1,7 @@
 <?php
 
 use PortableInfobox\Parser\Nodes\NodeUnimplemented;
+
 /**
  * @group PortableInfobox
  * @covers PortableInfobox\Parser\Nodes\NodeUnimplemented

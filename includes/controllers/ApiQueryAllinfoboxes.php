@@ -15,7 +15,7 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 			$out = [];
 
 			$res = ( new AllinfoboxesQueryPage() )->doQuery();
-			while( $row = $res->fetchObject() ) {
+			while ( $row = $res->fetchObject() ) {
 				$out[] = [
 					'pageid' => $row->value,
 					'title' => $row->title,
@@ -43,7 +43,7 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 	 * @return String
 	 */
 	private function createLabel( $text ) {
-		$title = Title::newFromText( $text , NS_TEMPLATE );
+		$title = Title::newFromText( $text, NS_TEMPLATE );
 
 		if ( $title ) {
 			return $title->getText();

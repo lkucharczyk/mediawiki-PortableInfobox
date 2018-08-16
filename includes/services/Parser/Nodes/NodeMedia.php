@@ -18,7 +18,7 @@ class NodeMedia extends Node {
 	const CAPTION_TAG_NAME = 'caption';
 
 	public static function getMarkers( $value, $ext ) {
-		if ( preg_match_all('/' . \Parser::MARKER_PREFIX . '-' . $ext . '-[A-F0-9]{8}' . \Parser::MARKER_SUFFIX . '/is', $value, $out ) ) {
+		if ( preg_match_all( '/' . \Parser::MARKER_PREFIX . '-' . $ext . '-[A-F0-9]{8}' . \Parser::MARKER_SUFFIX . '/is', $value, $out ) ) {
 			return $out[0];
 		} else {
 			return [];
@@ -43,7 +43,7 @@ class NodeMedia extends Node {
 		foreach ( $divs as $div ) {
 			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $div->asXML(), $out ) ) {
 				$data[] = [
-					'label' => (string) $div['title'],
+					'label' => (string)$div['title'],
 					'title' => $out[1]
 				];
 			}
@@ -83,7 +83,7 @@ class NodeMedia extends Node {
 	private function getImagesData( $value ) {
 		$data = [];
 		$items = array_merge( $this->getGalleryItems( $value ), $this->getTabberItems( $value ) );
-		foreach( $items as $item ) {
+		foreach ( $items as $item ) {
 			$data[] = $this->getImageData( $item['title'], $item['label'], $item['label'] );
 		}
 		return $data;
@@ -120,7 +120,7 @@ class NodeMedia extends Node {
 		$titleObj = $title instanceof \Title ? $title : $this->getImageAsTitleObject( $title );
 		$fileObj = $this->getFileFromTitle( $titleObj );
 
-		if( !isset( $fileObj ) || !$this->isTypeAllowed( $fileObj->getMediaType() ) ) {
+		if ( !isset( $fileObj ) || !$this->isTypeAllowed( $fileObj->getMediaType() ) ) {
 			return [];
 		}
 
@@ -142,7 +142,7 @@ class NodeMedia extends Node {
 	public function isEmpty() {
 		$data = $this->getData();
 		foreach ( $data as $dataItem ) {
-			if ( !empty( $dataItem[ 'url' ] ) ) {
+			if ( !empty( $dataItem['url'] ) ) {
 				return false;
 			}
 		}
@@ -177,17 +177,17 @@ class NodeMedia extends Node {
 	 * NOTE: Protected to override in unit tests
 	 *
 	 * @desc get file object from title object
-	 * @param Title|null $title
+	 * @param Title|string|null $title
 	 * @return File|null
 	 */
 	protected function getFileFromTitle( $title ) {
-		if( is_string( $title ) ) {
+		if ( is_string( $title ) ) {
 			$title = \Title::newFromText( $title, NS_FILE );
 		}
 
-		if( $title instanceof \Title ) {
+		if ( $title instanceof \Title ) {
 			$file = wfFindFile( $title );
-			if( $file instanceof \File && $file->exists() ) {
+			if ( $file instanceof \File && $file->exists() ) {
 				return $file;
 			}
 		}
@@ -210,7 +210,7 @@ class NodeMedia extends Node {
 	 * @return bool
 	 */
 	private function isTypeAllowed( $type ) {
-		switch( $type ) {
+		switch ( $type ) {
 			case MEDIATYPE_BITMAP:
 			case MEDIATYPE_DRAWING:
 				return $this->allowImage();

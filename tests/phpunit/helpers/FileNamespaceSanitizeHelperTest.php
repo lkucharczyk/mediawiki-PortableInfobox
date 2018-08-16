@@ -15,14 +15,14 @@ class FileNamespaceSanitizeHelperTest extends TestCase {
 		parent::setUp();
 
 		$class = new ReflectionClass( FileNamespaceSanitizeHelper::class );
-		$instance = $class->getProperty('instance');
-		$instance->setAccessible(true);
-		$filePrefixRegex = $class->getProperty('filePrefixRegex');
-		$filePrefixRegex->setAccessible(true);
+		$instance = $class->getProperty( 'instance' );
+		$instance->setAccessible( true );
+		$filePrefixRegex = $class->getProperty( 'filePrefixRegex' );
+		$filePrefixRegex->setAccessible( true );
 
 		$this->fileNamespaceSanitizeHelper = FileNamespaceSanitizeHelper::getInstance();
-		$instance->setValue($this->fileNamespaceSanitizeHelper, null);
-		$filePrefixRegex->setValue($this->fileNamespaceSanitizeHelper, null);
+		$instance->setValue( $this->fileNamespaceSanitizeHelper, null );
+		$filePrefixRegex->setValue( $this->fileNamespaceSanitizeHelper, null );
 	}
 
 	/**
@@ -35,14 +35,14 @@ class FileNamespaceSanitizeHelperTest extends TestCase {
 	 */
 	public function testSanitizeImageFilename( $inputFileName, $contentLanguageCode, $fileNamespaceAlias, $expectedOutput, $description ) {
 		global $wgNamespaceAliases;
-		
+
 		$language = new \Language();
 		$language->setCode( $contentLanguageCode );
 
 		if ( isset( $fileNamespaceAlias ) ) {
-			$wgNamespaceAliases[ $fileNamespaceAlias ] = NS_FILE;
+			$wgNamespaceAliases[$fileNamespaceAlias] = NS_FILE;
 		}
-		
+
 		$actualOutput = $this->fileNamespaceSanitizeHelper->sanitizeImageFileName( $inputFileName, $language );
 
 		$this->assertEquals( $expectedOutput, $actualOutput, $description );

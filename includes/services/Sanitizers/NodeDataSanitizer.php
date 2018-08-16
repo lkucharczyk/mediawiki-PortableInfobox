@@ -10,14 +10,14 @@ class NodeDataSanitizer extends NodeSanitizer {
 	 * If label after sanitization became empty because contained only image
 	 * do not sanitize it.
 	 *
-	 * @param $data
+	 * @param mixed $data
 	 * @return mixed
 	 */
 	public function sanitize( $data ) {
-		$sanitizedLabel = $this->sanitizeElementData( $data[ 'label' ] );
+		$sanitizedLabel = $this->sanitizeElementData( $data['label'] );
 
-		if ( !empty( $sanitizedLabel) ) {
-			$data[ 'label' ] = $sanitizedLabel;
+		if ( !empty( $sanitizedLabel ) ) {
+			$data['label'] = $sanitizedLabel;
 		}
 
 		return $data;

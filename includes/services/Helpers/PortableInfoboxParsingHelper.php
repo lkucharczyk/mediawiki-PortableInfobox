@@ -9,7 +9,7 @@ class PortableInfoboxParsingHelper {
 	/**
 	 * @desc Try to find out if infobox got "hidden" inside includeonly tag. Parse it if that's the case.
 	 *
-	 * @param $title \Title
+	 * @param \Title $title
 	 *
 	 * @return mixed false when no infoboxes found, Array with infoboxes on success
 	 */
@@ -53,7 +53,7 @@ class PortableInfoboxParsingHelper {
 	}
 
 	/**
-	 * @param $title \Title
+	 * @param \Title $title
 	 *
 	 * @return string
 	 */
@@ -70,19 +70,18 @@ class PortableInfoboxParsingHelper {
 	}
 
 	/**
-	 * @param $title
-	 * @return array of strings (infobox markups)
+	 * @param \Title $title
+	 * @return string[] array of strings (infobox markups)
 	 */
-	public function getMarkup( $title ) {
+	public function getMarkup( \Title $title ) {
 		$content = $this->fetchArticleContent( $title );
 		return $this->getInfoboxes( $content );
 	}
 
-
 	/**
 	 * @desc for given template text returns it without text in <nowiki> and <pre> tags
 	 *
-	 * @param $text string
+	 * @param string $text
 	 *
 	 * @return string
 	 */
@@ -97,7 +96,7 @@ class PortableInfoboxParsingHelper {
 	 * @desc From the template without <includeonly> tags, creates an array of
 	 * strings containing only infoboxes. All template content which is not an infobox is removed.
 	 *
-	 * @param $text string Content of template which uses the <includeonly> tags
+	 * @param string $text Content of template which uses the <includeonly> tags
 	 *
 	 * @return array of striped infoboxes ready to parse
 	 */
@@ -105,6 +104,6 @@ class PortableInfoboxParsingHelper {
 		preg_match_all( "/<infobox[^>]*\\/>/sU", $text, $empty );
 		preg_match_all( "/<infobox.+<\/infobox>/sU", $text, $result );
 
-		return array_merge( $empty[ 0 ], $result[ 0 ] );
+		return array_merge( $empty[0], $result[0] );
 	}
 }

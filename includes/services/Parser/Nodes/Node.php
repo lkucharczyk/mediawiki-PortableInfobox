@@ -36,13 +36,13 @@ class Node {
 	}
 
 	public function getSourcesMetadata() {
-		$metadata = [ ];
+		$metadata = [];
 		$sources = $this->getSources();
 		$sourcesLength = count( $sources );
 		$baseLabel = \Sanitizer::stripAllTags( $this->getInnerValue( $this->xmlNode->{self::LABEL_TAG_NAME} ) );
 
 		foreach ( $sources as $source ) {
-			$metadata[$source] = [ ];
+			$metadata[$source] = [];
 			$metadata[$source]['label'] = ( $sourcesLength > 1 ) ?
 				( !empty( $baseLabel ) ? "{$baseLabel} ({$source})" : '' ) :
 				$baseLabel;
@@ -134,7 +134,7 @@ class Node {
 
 	protected function getChildNodes() {
 		if ( !isset( $this->children ) ) {
-			$this->children = [ ];
+			$this->children = [];
 			foreach ( $this->xmlNode as $child ) {
 				$this->children[] = NodeFactory::newFromSimpleXml( $child, $this->infoboxData )
 					->setExternalParser( $this->externalParser );
@@ -170,7 +170,7 @@ class Node {
 
 	protected function getSourcesForChildren() {
 		/** @var Node $item */
-		$result = [ ];
+		$result = [];
 		foreach ( $this->getChildNodes() as $item ) {
 			$result = array_merge( $result, $item->getSources() );
 		}
@@ -251,7 +251,7 @@ class Node {
 	 */
 	protected function extractSourcesFromNode( \SimpleXMLElement $xmlNode ) {
 		$sources = $this->hasPrimarySource( $xmlNode ) ?
-			[ $this->getXmlAttribute( $xmlNode, self::DATA_SRC_ATTR_NAME ) ] : [ ];
+			[ $this->getXmlAttribute( $xmlNode, self::DATA_SRC_ATTR_NAME ) ] : [];
 
 		if ( $xmlNode->{self::FORMAT_TAG_NAME} ) {
 			$sources = $this->matchVariables( $xmlNode->{self::FORMAT_TAG_NAME}, $sources );

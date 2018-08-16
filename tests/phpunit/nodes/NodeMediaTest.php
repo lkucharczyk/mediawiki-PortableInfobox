@@ -35,7 +35,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 			"'\"`UNIQabcd-gAlLeRy-3-QINU`\"'"
 		];
 		$galleries = [
-			new GalleryMock([
+			new GalleryMock( [
 				[
 					'image0_name.jpg',
 					'image0_caption'
@@ -44,13 +44,13 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'image01_name.jpg',
 					'image01_caption'
 				],
-			]),
-			new GalleryMock([
+			] ),
+			new GalleryMock( [
 				[
 					'image1_name.jpg',
 					'image1_caption'
 				]
-			]),
+			] ),
 			new GalleryMock()
 		];
 
@@ -128,11 +128,10 @@ class NodeMediaTest extends MediaWikiTestCase {
 			[
 				'GALLERY',
 				"\x7f'\"`UNIQ--somethingelse-12345678-QINU`\"'\x7f",
-				[ ]
+				[]
 			]
 		];
 	}
-
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getData
@@ -143,11 +142,11 @@ class NodeMediaTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testData( $markup, $params, $expected ) {
-		$imageMock = empty( $params ) ? NULL : new ImageMock();
+		$imageMock = empty( $params ) ? null : new ImageMock();
 		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
 
-		$mock = $this->getMock(NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ]);
-		$mock->expects( $this->any( ))
+		$mock = $this->getMock( NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ] );
+		$mock->expects( $this->any() )
 			->method( 'getFilefromTitle' )
 			->willReturn( $imageMock );
 
@@ -159,8 +158,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 		return [
 			[
 				'<media source="img"></media>',
-				[ ],
-				[ [ ] ]
+				[],
+				[ [] ]
 			],
 			[
 				'<media source="img"></media>',
@@ -201,7 +200,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 
 	public function isEmptyProvider() {
 		return [
-			[ '<media></media>', [ ], true ],
+			[ '<media></media>', [], true ],
 		];
 	}
 
@@ -237,7 +236,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 				[ 'img', 'alt', 'def', 'cap' ] ],
 			[
 				'<media/>',
-				[ ]
+				[]
 			],
 			[
 				'<image source="img"><caption source="cap"><format>Test {{{cap}}} and {{{fcap}}}</format></caption></image>',
@@ -302,7 +301,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 			[
 				'<media source="media" video="false" />',
 				[ 'media' => 'test.webm' ],
-				[ [ ] ]
+				[ [] ]
 			]
 		];
 	}
@@ -343,7 +342,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 			[
 				'<media source="media" audio="false" />',
 				[ 'media' => 'test.ogg' ],
-				[ [ ] ]
+				[ [] ]
 			]
 		];
 	}

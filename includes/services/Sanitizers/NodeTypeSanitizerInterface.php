@@ -6,7 +6,7 @@ interface NodeTypeSanitizerInterface {
 	/**
 	 * @desc sanitize infobox data element
 	 *
-	 * @param $data
+	 * @param mixed $data
 	 * @return mixed
 	 */
 	public function sanitize( $data );

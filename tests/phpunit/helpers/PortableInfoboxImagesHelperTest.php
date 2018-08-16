@@ -82,7 +82,6 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 		];
 	}
 
-
 	/**
 	 * @param $customWidth
 	 * @param $preferredWidth
@@ -99,8 +98,8 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 			'ref' => self::$testCustomWidthLogicCount,
 			'thumbnail' => null,
 			'thumbnail2x' => null,
-			'width' => $resultDimensions[ 'width' ],
-			'height' => $resultDimensions[ 'height' ],
+			'width' => $resultDimensions['width'],
+			'height' => $resultDimensions['height'],
 			'isImage' => true,
 			'isVideo' => false,
 			'isAudio' => false
@@ -114,15 +113,15 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 			->setMethods( [ 'exists', 'transform', 'getWidth', 'getHeight', 'getMediaType' ] )
 			->getMock();
 		$file->expects( $this->once() )->method( 'exists' )->will( $this->returnValue( true ) );
-		$file->expects( $this->once() )->method( 'getWidth' )->will( $this->returnValue( $originalDimension[ 'width' ] ) );
-		$file->expects( $this->once() )->method( 'getHeight' )->will( $this->returnValue( $originalDimension[ 'height' ] ) );
+		$file->expects( $this->once() )->method( 'getWidth' )->will( $this->returnValue( $originalDimension['width'] ) );
+		$file->expects( $this->once() )->method( 'getHeight' )->will( $this->returnValue( $originalDimension['height'] ) );
 		$file->expects( $this->any() )->method( 'getMediaType' )->will( $this->returnValue( MEDIATYPE_BITMAP ) );
 
 		$file->expects( $this->any() )
 			->method( 'transform' )
-			->with( $this->logicalOr ( $this->equalTo( $thumbnailDimensions ), $this->equalTo( $thumbnail2xDimensions ) ) )
+			->with( $this->logicalOr( $this->equalTo( $thumbnailDimensions ), $this->equalTo( $thumbnail2xDimensions ) ) )
 			->will( $this->returnValue( $thumb ) );
-		
+
 		$helper = $this->getMock( PortableInfoboxImagesHelper::class, [ 'getFileFromTitle' ] );
 		$helper->expects( $this->any() )
 			->method( 'getFileFromTitle' )

@@ -47,10 +47,10 @@ class PortableInfoboxParserTagController {
 	}
 
 	/**
-	 * @param $markup
+	 * @param string $markup
 	 * @param Parser $parser
 	 * @param PPFrame $frame
-	 * @param array $params
+	 * @param array|null $params
 	 *
 	 * @return string
 	 * @throws UnimplementedNodeException when node used in markup does not exists
@@ -80,18 +80,17 @@ class PortableInfoboxParserTagController {
 
 		$renderService = new PortableInfoboxRenderService();
 		return $renderService->renderInfobox( $data, implode( ' ', $themeList ), $layout, $accentColor, $accentColorText );
-
 	}
 
 	/**
 	 * @desc Renders Infobox
 	 *
-	 * @param String $text
+	 * @param string $text
 	 * @param Array $params
 	 * @param Parser $parser
 	 * @param PPFrame $frame
 	 *
-	 * @returns String $html
+	 * @return string $html
 	 */
 	public function renderInfobox( $text, $params, $parser, $frame ) {
 		$this->markerNumber++;
@@ -160,7 +159,7 @@ class PortableInfoboxParserTagController {
 
 		if ( isset( $params['theme'] ) ) {
 			$staticTheme = trim( $params['theme'] );
-			if ( !empty ( $staticTheme ) ) {
+			if ( !empty( $staticTheme ) ) {
 				$themes[] = $staticTheme;
 			}
 		}
@@ -180,7 +179,7 @@ class PortableInfoboxParserTagController {
 	}
 
 	private function getLayout( $params ) {
-		$layoutName = isset( $params[ 'layout' ] ) ? $params[ 'layout' ] : false;
+		$layoutName = isset( $params['layout'] ) ? $params['layout'] : false;
 		if ( $this->getParamsValidator()->validateLayout( $layoutName ) ) {
 			//make sure no whitespaces, prevents side effects
 			return self::INFOBOX_LAYOUT_PREFIX . $layoutName;

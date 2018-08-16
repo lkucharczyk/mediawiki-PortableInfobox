@@ -22,7 +22,6 @@ class XmlParserTest extends MediaWikiTestCase {
 	}
 
 	public function errorHandlingDataProvider() {
-
 		/*
 		 * Error codes are defined on official xml API documentation:
 		 * http://www.xmlsoft.org/html/libxml-xmlerror.html
@@ -87,7 +86,7 @@ class XmlParserTest extends MediaWikiTestCase {
 	 */
 	public function testHTMLEntities( $markup, $expectedResult ) {
 		$result = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
-		$this->assertEquals( $expectedResult, $result[ 0 ] );
+		$this->assertEquals( $expectedResult, $result[0] );
 	}
 
 	public function entitiesTestDataProvider() {

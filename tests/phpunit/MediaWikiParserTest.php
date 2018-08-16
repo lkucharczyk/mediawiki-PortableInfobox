@@ -18,7 +18,7 @@ class MediaWikiParserTest extends MediaWikiTestCase {
 	}
 
 	public function tearDown() {
-		unset($this->parser);		
+		unset( $this->parser );
 		parent::tearDown();
 	}
 
@@ -31,14 +31,13 @@ class MediaWikiParserTest extends MediaWikiTestCase {
 		return preg_replace( '|{{{.*}}}|Us', '', preg_replace( '|[\n\r]|Us', '', $parserOutput->getText() ) );
 	}
 
-	/* Fails - it needs a modification in the core
+	/* Fails - it needs a modification in the core to pass
 	public function testAsideTagPWrappedDuringParsing() {
 		$aside = "<aside></aside>";
 		$result = ( new Parser() )->doBlockLevels( $aside, true );
 		//parser adds new line at the end of block
 		$this->assertEquals( $aside . "\n", $result );
 	} */
-
 
 	/**
 	 * @dataProvider mwParserWrapperDataProvider
@@ -57,15 +56,15 @@ class MediaWikiParserTest extends MediaWikiTestCase {
 
 	public function mwParserWrapperDataProvider() {
 		return [
-			[ "*1\n*2\n*3", [ ], true ],
-			[ "''d''", [ ], false ],
-			[ "'''dd'''", [ ], false ],
-			[ "#1\n#2\n#3 ksajdlk", [ ], true ],
+			[ "*1\n*2\n*3", [], true ],
+			[ "''d''", [], false ],
+			[ "'''dd'''", [], false ],
+			[ "#1\n#2\n#3 ksajdlk", [], true ],
 			[ "{{{test}}}", [ 'test' => 1 ], false ],
-			[ " :asdf", [ ], false ],
-			[ "\n:asdf", [ ], false ],
-			[ "\n;asdf", [ ], false ],
-			[ "[[asdf]]", [ ], false ]
+			[ " :asdf", [], false ],
+			[ "\n:asdf", [], false ],
+			[ "\n;asdf", [], false ],
+			[ "[[asdf]]", [], false ]
 		];
 	}
 }

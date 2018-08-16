@@ -9,7 +9,7 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 		parent::__construct( self::ALL_INFOBOXES_TYPE );
 
 		$blacklist = $this->getConfig( 'AllInfoboxesSubpagesBlacklist' );
-		if( is_array( $blacklist ) ) {
+		if ( is_array( $blacklist ) ) {
 			self::$subpagesBlacklist = $blacklist;
 		}
 	}
@@ -32,7 +32,7 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 			$this->getConfig()->get( 'AllInfoboxesMiserMode' )
 		);
 	}
-	
+
 	public function getOrderFields() {
 		return [ 'title' ];
 	}
@@ -40,7 +40,7 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	public function getCacheOrderFields() {
 		return $this->getOrderFields();
 	}
-	
+
 	function getQueryInfo() {
 		return [
 			'tables' => [ 'page' ],
@@ -76,7 +76,7 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	/**
 	 * Queries all templates and get only those with portable infoboxes
 	 *
-	 * @see QueryPage::reallyDoQuery 
+	 * @see QueryPage::reallyDoQuery
 	 *
 	 * @param int|bool $limit Numerical limit or false for no limit
 	 * @param int|bool $offset Numerical offset or false for no limit
@@ -95,10 +95,10 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 		}
 
 		while ( $limit >= 0 && $row = $res->fetchObject() ) {
-			if( $this->filterInfoboxes( $row ) && $offset-- <= 0 ) {
+			if ( $this->filterInfoboxes( $row ) && $offset-- <= 0 ) {
 				$out[] = $row;
 				$limit--;
-			} 
+			}
 		}
 
 		return new FakeResultWrapper( $out );
