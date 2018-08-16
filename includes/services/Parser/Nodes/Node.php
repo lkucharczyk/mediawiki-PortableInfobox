@@ -187,10 +187,11 @@ class Node {
 
 	protected function getValueWithDefault( \SimpleXMLElement $xmlNode ) {
 		$value = $this->extractDataFromSource( $xmlNode );
-		if ( !$value && $xmlNode->{self::DEFAULT_TAG_NAME} ) {
+		$isEmpty = $value === null || $value === '';
+		if ( $isEmpty && $xmlNode->{self::DEFAULT_TAG_NAME} ) {
 			return $this->getInnerValue( $xmlNode->{self::DEFAULT_TAG_NAME} );
 		}
-		if ( ( $value || $value == '0' ) && $xmlNode->{self::FORMAT_TAG_NAME} ) {
+		if ( !$isEmpty && $xmlNode->{self::FORMAT_TAG_NAME} ) {
 			return $this->getInnerValue( $xmlNode->{self::FORMAT_TAG_NAME} );
 		}
 
