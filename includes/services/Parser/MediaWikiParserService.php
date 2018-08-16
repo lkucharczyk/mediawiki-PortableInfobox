@@ -6,10 +6,17 @@ class MediaWikiParserService implements ExternalParser {
 	protected $parser;
 	protected $frame;
 	protected $localParser;
+	protected $tidyDriver;
 
 	public function __construct( \Parser $parser, \PPFrame $frame ) {
+		global $wgTidyConfig;
+
 		$this->parser = $parser;
 		$this->frame = $frame;
+
+		if ( $wgTidyConfig !== null ) {
+			$this->tidyDriver = \MWTidy::factory( array_merge( $wgTidyConfig, [ 'pwrap' => false ] ) );
+		}
 	}
 
 	/**
@@ -20,7 +27,6 @@ class MediaWikiParserService implements ExternalParser {
 	 * @return string HTML outcome
 	 */
 	public function parseRecursive( $wikitext ) {
-		//wfProfileIn( __METHOD__ );
 		$parsed = $this->parser->internalParse( $wikitext, false, $this->frame );
 		if ( in_array( substr( $parsed, 0, 1 ), [ '*', '#' ] ) ) {
 			//fix for first item list elements
@@ -29,9 +35,11 @@ class MediaWikiParserService implements ExternalParser {
 		$output = $this->parser->doBlockLevels( $parsed, false );
 		$ready = $this->parser->mStripState->unstripBoth( $output );
 		$this->parser->replaceLinkHolders( $ready );
+		if ( isset( $this->tidyDriver ) ) {
+			$ready = $this->tidyDriver->tidy( $ready );
+		}
 		$newlinesstripped = preg_replace( '|[\n\r]|Us', '', $ready );
 		$marksstripped = preg_replace( '|{{{.*}}}|Us', '', $newlinesstripped );
-		//wfProfileOut( __METHOD__ );
 
 		return $marksstripped;
 	}
