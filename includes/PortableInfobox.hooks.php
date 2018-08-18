@@ -2,26 +2,24 @@
 
 class PortableInfoboxHooks {
 
-	public static function onWgQueryPages( &$queryPages = [] ) {
+	public static function onWgQueryPages( array &$queryPages = [] ) {
 		$queryPages[] = [ 'AllinfoboxesQueryPage', 'AllInfoboxes' ];
 
 		return true;
 	}
 
-	public static function onBeforeParserrenderImageGallery( $parser, $gallery ) {
-		if ( $gallery instanceof ImageGalleryBase ) {
-			PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
-				Parser::MARKER_PREFIX . "-gallery-" . sprintf( '%08X', $parser->mMarkerIndex - 1 ) . Parser::MARKER_SUFFIX,
-				$gallery
-			);
-		}
+	public static function onBeforeParserrenderImageGallery( Parser &$parser, ImageGalleryBase &$gallery ) {
+		PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
+			Parser::MARKER_PREFIX . "-gallery-" . sprintf( '%08X', $parser->mMarkerIndex - 1 ) . Parser::MARKER_SUFFIX,
+			$gallery
+		);
 
 		return true;
 	}
 
 	public static function onAllInfoboxesQueryRecached() {
 		$cache = ObjectCache::getMainWANInstance();
-		$cache->delete( $cache->makeKey( __CLASS__, ApiQueryAllinfoboxes::MCACHE_KEY ) );
+		$cache->delete( $cache->makeKey( ApiQueryAllinfoboxes::MCACHE_KEY ) );
 
 		return true;
 	}
