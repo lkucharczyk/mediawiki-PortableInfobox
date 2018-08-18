@@ -12,7 +12,8 @@
 	"config": {
 		"AllInfoboxesMiserMode": true,
 		"AllInfoboxesSubpagesBlacklist": [ "doc", "draft", "test" ],
-		"PortableInfoboxCustomImageWidth": 300
+		"PortableInfoboxCustomImageWidth": 300,
+		"PortableInfoboxUseTidy": true
 	},
 	"MessagesDirs": {
 		"PortableInfobox": "i18n"

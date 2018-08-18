@@ -9,13 +9,16 @@ class MediaWikiParserService implements ExternalParser {
 	protected $tidyDriver;
 
 	public function __construct( \Parser $parser, \PPFrame $frame ) {
-		global $wgTidyConfig;
+		global $wgPortableInfoboxUseTidy;
 
 		$this->parser = $parser;
 		$this->frame = $frame;
 
-		if ( $wgTidyConfig !== null ) {
-			$this->tidyDriver = \MWTidy::factory( array_merge( $wgTidyConfig, [ 'pwrap' => false ] ) );
+		if ( $wgPortableInfoboxUseTidy ) {
+			$this->tidyDriver = \MWTidy::factory( [
+				'driver' => 'RemexHtml',
+				'pwrap' => false
+			] );
 		}
 	}
 
