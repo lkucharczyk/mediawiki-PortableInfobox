@@ -9,6 +9,9 @@
 	"version": "0.3-dev",
 	"type": "parserhook",
 	"license-name": "GPL-3.0-or-later",
+	"requires": {
+		"MediaWiki": ">= 1.29.0"
+	},
 	"config": {
 		"AllInfoboxesMiserMode": true,
 		"AllInfoboxesSubpagesBlacklist": [ "doc", "draft", "test" ],

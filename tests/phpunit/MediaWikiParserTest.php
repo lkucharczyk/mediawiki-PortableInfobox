@@ -12,7 +12,10 @@ class MediaWikiParserTest extends MediaWikiTestCase {
 		$this->parser = new Parser();
 		$title = Title::newFromText( 'test' );
 		$options = new ParserOptions();
-		$options->setOption( 'wrapclass', false );
+		// Required for MW >= 1.30
+		if( method_exists ( $options, 'setOption' ) ) {
+			$options->setOption( 'wrapclass', false );
+		}
 		$this->parser->startExternalParse( $title, $options, 'text', true );
 		parent::setUp();
 	}
