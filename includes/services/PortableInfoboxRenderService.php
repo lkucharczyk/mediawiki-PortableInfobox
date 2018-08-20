@@ -273,7 +273,8 @@ class PortableInfoboxRenderService {
 
 	private function createSmartGroupSections( $rowItems, $capacity ) {
 		return array_reduce( $rowItems, function ( $result, $item ) use ( $capacity ) {
-			$styles = "width: calc({$item['data']['span']} / $capacity * 100%);";
+			$width = $item['data']['span'] / $capacity * 100;
+			$styles = "width: {$width}%";
 
 			$label = $item['data']['label'] ?? "";
 			if ( !empty( $label ) ) {

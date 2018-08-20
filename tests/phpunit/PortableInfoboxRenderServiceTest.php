@@ -781,24 +781,24 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 1</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 2</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 3</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 1</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 2</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 3</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 1</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 2</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 3</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 1</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 2</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 3</div>
 										</section>
 									</section>
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 4</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 5</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 4</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 5</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 4</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 5</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 4</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 5</div>
 										</section>
 									</section>
 								</section>
@@ -861,22 +861,22 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								<section class="pi-item pi-group pi-border-color">
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 1</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 2</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 3</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 1</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 2</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 3</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 1</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 2</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 3</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 1</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 2</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 3</div>
 										</section>
 									</section>
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">Test 4</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 4</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">test value 4</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 4</div>
 										</section>
 									</section>
 								</section>
@@ -912,10 +912,10 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">Test 1</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 1</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">test value 1</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 1</div>
 										</section>
 									</section>
 								</section>
@@ -960,12 +960,12 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(2 / 3 * 100%);">Test 1</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 2</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 66.666666666667%">Test 1</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 2</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(2 / 3 * 100%);">test value 1</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 2</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 66.666666666667%">test value 1</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 2</div>
 										</section>
 									</section>
 								</section>
@@ -1010,12 +1010,12 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								<section class="pi-item pi-group pi-border-color">
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(2 / 3 * 100%);">Test 1</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 2</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 66.666666666667%">Test 1</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 2</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(2 / 3 * 100%);">test value 1</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 2</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 66.666666666667%">test value 1</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 2</div>
 										</section>
 									</section>
 								</section>
@@ -1069,26 +1069,26 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								<section class="pi-item pi-group pi-border-color">
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(2 / 2 * 100%);">Test 1</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 1</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(2 / 2 * 100%);">test value 1</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 1</div>
 										</section>
 									</section>
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(2 / 2 * 100%);">Test 2</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 2</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(2 / 2 * 100%);">test value 2</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 2</div>
 										</section>
 									</section>
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(2 / 2 * 100%);">Test 3</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 3</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(2 / 2 * 100%);">test value 3</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 3</div>
 										</section>
 									</section>
 								</section>
@@ -1169,12 +1169,12 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								<section class="pi-item pi-group pi-border-color">
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 1</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 2</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 1</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 2</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 1</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 2</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 1</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 2</div>
 										</section>
 									</section>
 									<div class="pi-item pi-data pi-item-spacing pi-border-color">
@@ -1183,14 +1183,14 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 									</div>
 									<section class="pi-item pi-smart-group pi-border-color">
 										<section class="pi-smart-group-head">
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 4</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 5</h3>
-											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 6</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 4</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 5</h3>
+											<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 6</h3>
 										</section>
 										<section class="pi-smart-group-body">
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 4</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 5</div>
-											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 6</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 4</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 5</div>
+											<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 6</div>
 										</section>
 									</section>
 								</section>
@@ -1271,24 +1271,24 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 							  	<section class="pi-item pi-smart-group pi-border-color">
 									<section class="pi-smart-group-head">
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 1</h3>
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 2</h3>
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">Test 3</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 1</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 2</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 33.333333333333%">Test 3</h3>
 									</section>
 									<section class="pi-smart-group-body">
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 1</div>
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 2</div>
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 3 * 100%);">test value 3</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 1</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 2</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 33.333333333333%">test value 3</div>
 									</section>
 								</section>
 								<section class="pi-item pi-smart-group pi-border-color">
 									<section class="pi-smart-group-head">
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 4</h3>
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 5</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 4</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 5</h3>
 									</section>
 									<section class="pi-smart-group-body">
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 4</div>
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 5</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 4</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 5</div>
 									</section>
 								</section>
 								<div class="pi-item pi-data pi-item-spacing pi-border-color">
@@ -1346,20 +1346,20 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 							  	<section class="pi-item pi-smart-group pi-border-color">
 									<section class="pi-smart-group-head">
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(40 / 40 * 100%);">Test 1</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 1</h3>
 									</section>
 									<section class="pi-smart-group-body">
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(40 / 40 * 100%);">test value 1</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 1</div>
 									</section>
 								</section>
 								<section class="pi-item pi-smart-group pi-border-color">
 									<section class="pi-smart-group-head">
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 2</h3>
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 3</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 2</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 3</h3>
 									</section>
 									<section class="pi-smart-group-body">
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 2</div>
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 3</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 2</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 3</div>
 									</section>
 								</section>
 							  </section>
@@ -1413,26 +1413,26 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 							  	<section class="pi-item pi-smart-group pi-border-color">
 									<section class="pi-smart-group-head">
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">Test 1</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 1</h3>
 									</section>
 									<section class="pi-smart-group-body">
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">test value 1</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 1</div>
 									</section>
 								</section>
 								<section class="pi-item pi-smart-group pi-border-color">
 									<section class="pi-smart-group-head">
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(40 / 40 * 100%);">Test 2</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 2</h3>
 									</section>
 									<section class="pi-smart-group-body">
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(40 / 40 * 100%);">test value 2</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 2</div>
 									</section>
 								</section>
 								<section class="pi-item pi-smart-group pi-border-color">
 									<section class="pi-smart-group-head">
-										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">Test 3</h3>
+										<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 3</h3>
 									</section>
 									<section class="pi-smart-group-body">
-										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">test value 3</div>
+										<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 3</div>
 									</section>
 								</section>
 							  </section>
@@ -1492,21 +1492,21 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 								<section class="pi-item pi-smart-group pi-border-color">
 								  <section class="pi-smart-group-head">
-									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 1</h3>
-									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 2</h3>
+									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 1</h3>
+									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 2</h3>
 								  </section>
 								  <section class="pi-smart-group-body">
-									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 1</div>
-									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 2</div>
+									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 1</div>
+									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 2</div>
 								  </section>
 								</section>
 								<h2 class="pi-item pi-item-spacing pi-title">title value</h2>
 								<section class="pi-item pi-smart-group pi-border-color">
 								  <section class="pi-smart-group-head">
-									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">Test 3</h3>
+									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 100%">Test 3</h3>
 								  </section>
 								  <section class="pi-smart-group-body">
-									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 1 * 100%);">test value 3</div>
+									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 100%">test value 3</div>
 								  </section>
 								</section>
 							  </section>
@@ -1575,19 +1575,19 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 							  <section class="pi-item pi-group pi-border-color">
 								<section class="pi-item pi-smart-group pi-border-color">
 								  <section class="pi-smart-group-body">
-									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 1</div>
-									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 2</div>
+									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 1</div>
+									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 2</div>
 								  </section>
 								</section>
 								<h2 class="pi-item pi-item-spacing pi-title">title value</h2>
 								<section class="pi-item pi-smart-group pi-border-color">
 								  <section class="pi-smart-group-head">
-									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);"></h3>
-									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">Test 4</h3>
+									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%"></h3>
+									<h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="width: 50%">Test 4</h3>
 								  </section>
 								  <section class="pi-smart-group-body">
-									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 3</div>
-									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: calc(1 / 2 * 100%);">test value 4</div>
+									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 3</div>
+									<div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="width: 50%">test value 4</div>
 								  </section>
 								</section>
 							  </section>
