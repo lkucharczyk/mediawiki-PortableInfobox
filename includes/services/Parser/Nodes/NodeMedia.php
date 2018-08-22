@@ -4,6 +4,7 @@ namespace PortableInfobox\Parser\Nodes;
 use PortableInfobox\Helpers\FileNamespaceSanitizeHelper;
 use PortableInfobox\Helpers\HtmlHelper;
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
+use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
 use PortableInfobox\Sanitizers\SanitizerBuilder;
 
 class NodeMedia extends Node {
@@ -17,6 +18,8 @@ class NodeMedia extends Node {
 	const ALT_TAG_NAME = 'alt';
 	const CAPTION_TAG_NAME = 'caption';
 
+	private $helper;
+
 	public static function getMarkers( $value, $ext ) {
 		if ( preg_match_all( '/' . \Parser::MARKER_PREFIX . '-' . $ext . '-[A-F0-9]{8}' . \Parser::MARKER_SUFFIX . '/is', $value, $out ) ) {
 			return $out[0];
@@ -29,7 +32,7 @@ class NodeMedia extends Node {
 		$gallery = PortableInfoboxDataBag::getInstance()->getGallery( $marker );
 		return isset( $gallery ) ? array_map( function ( $image ) {
 			return [
-				'label' => $image[1] ?: $image[0]->getText(),
+				'label' => $image[1],
 				'title' => $image[0]
 			];
 		}, $gallery->getimages() ) : [];
@@ -57,6 +60,7 @@ class NodeMedia extends Node {
 
 			// value passed to source parameter (or default)
 			$value = $this->getRawValueWithDefault( $this->xmlNode );
+			$helper = $this->getImageHelper();
 
 			if ( $this->containsTabberOrGallery( $value ) ) {
 				$this->data = $this->getImagesData( $value );
@@ -81,12 +85,16 @@ class NodeMedia extends Node {
 	}
 
 	private function getImagesData( $value ) {
+		$helper = $this->getImageHelper();
 		$data = [];
 		$items = array_merge( $this->getGalleryItems( $value ), $this->getTabberItems( $value ) );
 		foreach ( $items as $item ) {
-			$data[] = $this->getImageData( $item['title'], $item['label'], $item['label'] );
+			$mediaItem = $this->getImageData( $item['title'], $item['label'], $item['label'] );
+			if ( !!$mediaItem ) {
+				$data[] = $mediaItem;
+			}
 		}
-		return $data;
+		return count( $data ) > 1 ? $helper->extendImageCollectionData( $data ) : $data;
 	}
 
 	private function getGalleryItems( $value ) {
@@ -117,8 +125,9 @@ class NodeMedia extends Node {
 	 * @return array
 	 */
 	private function getImageData( $title, $alt, $caption ) {
+		$helper = $this->getImageHelper();
 		$titleObj = $title instanceof \Title ? $title : $this->getImageAsTitleObject( $title );
-		$fileObj = $this->getFileFromTitle( $titleObj );
+		$fileObj = $helper->getFile( $titleObj );
 
 		if ( !isset( $fileObj ) || !$this->isTypeAllowed( $fileObj->getMediaType() ) ) {
 			return [];
@@ -128,13 +137,25 @@ class NodeMedia extends Node {
 			$this->getExternalParser()->addImage( $titleObj->getDBkey() );
 		}
 
+		$mediatype = $fileObj->getMediaType();
 		$image = [
 			'url' => $this->resolveImageUrl( $fileObj ),
 			'name' => $titleObj ? $titleObj->getText() : '',
 			'alt' => $alt ?? ( $titleObj ? $titleObj->getText() : null ),
 			'caption' => SanitizerBuilder::createFromType( 'image' )
-				->sanitize( [ 'caption' => $caption ] )['caption'] ?: null
+				->sanitize( [ 'caption' => $caption ] )['caption'] ?: null,
+			'isImage' => in_array( $mediatype, [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] ),
+			'isVideo' => $mediatype === MEDIATYPE_VIDEO,
+			'isAudio' => $mediatype === MEDIATYPE_AUDIO
 		];
+
+		if ( $image['isImage'] ) {
+			$image = array_merge( $image, $helper->extendImageData(
+				$fileObj,
+				\PortableInfoboxRenderService::DEFAULT_DESKTOP_THUMBNAIL_WIDTH,
+				\PortableInfoboxRenderService::DEFAULT_DESKTOP_INFOBOX_WIDTH
+			) );
+		}
 
 		return $image;
 	}
@@ -173,26 +194,11 @@ class NodeMedia extends Node {
 		return $title;
 	}
 
-	/**
-	 * NOTE: Protected to override in unit tests
-	 *
-	 * @desc get file object from title object
-	 * @param Title|string|null $title
-	 * @return File|null
-	 */
-	protected function getFileFromTitle( $title ) {
-		if ( is_string( $title ) ) {
-			$title = \Title::newFromText( $title, NS_FILE );
+	protected function getImageHelper() {
+		if ( !isset( $this->helper ) ) {
+			$this->helper = new PortableInfoboxImagesHelper();
 		}
-
-		if ( $title instanceof \Title ) {
-			$file = wfFindFile( $title );
-			if ( $file instanceof \File && $file->exists() ) {
-				return $file;
-			}
-		}
-
-		return null;
+		return $this->helper;
 	}
 
 	/**

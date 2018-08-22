@@ -5,36 +5,21 @@ namespace PortableInfobox\Helpers;
 class PortableInfoboxImagesHelper {
 	const MAX_DESKTOP_THUMBNAIL_HEIGHT = 500;
 
-	protected static $count = 0;
-
 	/**
 	 * extends image data
 	 *
-	 * @param array $data image data
+	 * @param \File|\Title|string $file image
 	 * @param int $thumbnailFileWidth preferred thumbnail file width
 	 * @param int|null $thumbnailImgTagWidth preferred thumbnail img tag width
 	 * @return array|bool false on failure
 	 */
-	public function extendImageData( $data, $thumbnailFileWidth, $thumbnailImgTagWidth = null ) {
+	public function extendImageData( $file, $thumbnailFileWidth, $thumbnailImgTagWidth = null ) {
 		global $wgPortableInfoboxCustomImageWidth;
 
-		$title = $data['name'];
-		$file = $this->getFileFromTitle( $title );
+		$file = $this->getFile( $file );
 
-		if ( !$file || !$file->exists() ) {
+		if ( !$file || !in_array( $file->getMediaType(), [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] ) ) {
 			return false;
-		}
-
-		$mediatype = $file->getMediaType();
-		$data['isImage'] = in_array( $mediatype, [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] );
-		$data['isVideo'] = $mediatype === MEDIATYPE_VIDEO;
-		$data['isAudio'] = $mediatype === MEDIATYPE_AUDIO;
-
-		$data['ref'] = ++self::$count;
-
-		// we don't need failing thumbnail creation for videos and audio files
-		if ( !$data['isImage'] ) {
-			return $data;
 		}
 
 		// get dimensions
@@ -66,12 +51,12 @@ class PortableInfoboxImagesHelper {
 			return false;
 		}
 
-		return array_merge( $data, [
+		return [
 			'height' => intval( $imgTagDimensions['height'] ),
 			'width' => intval( $imgTagDimensions['width'] ),
 			'thumbnail' => $thumbnail->getUrl(),
 			'thumbnail2x' => $thumbnail2x->getUrl()
-		] );
+		];
 	}
 
 	/**
@@ -81,7 +66,11 @@ class PortableInfoboxImagesHelper {
 	public function extendImageCollectionData( $images ) {
 		$images = array_map(
 			function ( $image, $index ) {
-				$image['dataRef'] = $index;
+				$image['ref'] = $index + 1;
+
+				if ( empty( $image['caption'] ) ) {
+					$image['caption'] = $image['name'];
+				}
 
 				return $image;
 			},
@@ -90,9 +79,7 @@ class PortableInfoboxImagesHelper {
 		);
 
 		$images[0]['isFirst'] = true;
-		return [
-			'images' => $images
-		];
+		return $images;
 	}
 
 	/**
@@ -117,38 +104,25 @@ class PortableInfoboxImagesHelper {
 	}
 
 	/**
-	 * return real width of the image.
-	 * @param \Title $title
-	 * @return int number
-	 */
-	public function getFileWidth( $title ) {
-		$file = $this->getFileFromTitle( $title );
-
-		if ( $file ) {
-			return $file->getWidth();
-		}
-		return 0;
-	}
-
-	/**
-	 * Get file from title (Please be careful when using $force)
+	 * Get file
 	 *
-	 * Note: this method turns a string $title into an object, affecting the calling code version
+	 * Note: this method turns a string $file into an object, affecting the calling code version
 	 * of this variable
 	 *
-	 * @param \Title|string $title
+	 * @param \File|\Title|string $file
 	 * @return \File|null file
 	 */
-	protected function getFileFromTitle( $title ) {
-		if ( is_string( $title ) ) {
-			$title = \Title::newFromText( $title, NS_FILE );
+	public function getFile( $file ) {
+		if ( is_string( $file ) ) {
+			$file = \Title::newFromText( $file, NS_FILE );
 		}
 
-		if ( $title instanceof \Title ) {
-			$file = wfFindFile( $title );
-			if ( $file instanceof \File && $file->exists() ) {
-				return $file;
-			}
+		if ( $file instanceof \Title ) {
+			$file = wfFindFile( $file );
+		}
+
+		if ( $file instanceof \File && $file->exists() ) {
+			return $file;
 		}
 
 		return null;

@@ -1,6 +1,5 @@
 <?php
 
-use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
 use PortableInfobox\Helpers\PortableInfoboxTemplateEngine;
 
 class PortableInfoboxRenderService {
@@ -9,11 +8,7 @@ class PortableInfoboxRenderService {
 	const DEFAULT_DESKTOP_THUMBNAIL_WIDTH = 350;
 
 	protected $templateEngine;
-	protected $imagesWidth = self::DEFAULT_DESKTOP_THUMBNAIL_WIDTH;
-	protected $infoboxWidth = self::DEFAULT_DESKTOP_INFOBOX_WIDTH;
 	protected $inlineStyles;
-
-	private $helper;
 
 	public function __construct() {
 		$this->templateEngine = new PortableInfoboxTemplateEngine();
@@ -46,13 +41,6 @@ class PortableInfoboxRenderService {
 		}
 
 		return $output;
-	}
-
-	protected function getImageHelper() {
-		if ( !isset( $this->helper ) ) {
-			$this->helper = new PortableInfoboxImagesHelper();
-		}
-		return $this->helper;
 	}
 
 	/**
@@ -144,29 +132,16 @@ class PortableInfoboxRenderService {
 	 * @return string
 	 */
 	protected function renderMedia( $data ) {
-		$helper = $this->getImageHelper();
-
-		$images = [];
-
-		foreach ( $data as $dataItem ) {
-			$extendedItem = $dataItem;
-			$extendedItem = $helper->extendImageData( $extendedItem, $this->imagesWidth, $this->infoboxWidth );
-
-			if ( !!$extendedItem ) {
-				$images[] = $extendedItem;
-			}
-		}
-
-		if ( count( $images ) === 0 ) {
+		if ( count( $data ) === 0 || !$data[0] ) {
 			return '';
 		}
 
-		if ( count( $images ) === 1 ) {
-			$data = $images[0];
+		if ( count( $data ) === 1 ) {
+			$data = $data[0];
 			$templateName = 'media';
 		} else {
 			// More than one image means image collection
-			$data = $helper->extendImageCollectionData( $images );
+			$data = [ 'images' => $data ];
 			$templateName = 'media-collection';
 		}
 
