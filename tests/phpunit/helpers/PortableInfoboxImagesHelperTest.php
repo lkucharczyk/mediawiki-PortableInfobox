@@ -8,7 +8,6 @@ use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
  */
 class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 	private $helper;
-	private static $testCustomWidthLogicCount;
 
 	protected function setUp() {
 		parent::setUp();
@@ -92,17 +91,11 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 	 * @dataProvider customWidthProvider
 	 */
 	public function testCustomWidthLogic( $customWidth, $preferredWidth, $resultDimensions, $thumbnailDimensions, $thumbnail2xDimensions, $originalDimension ) {
-		self::$testCustomWidthLogicCount++;
 		$expected = [
-			'name' => 'test',
-			'ref' => self::$testCustomWidthLogicCount,
 			'thumbnail' => null,
 			'thumbnail2x' => null,
 			'width' => $resultDimensions['width'],
-			'height' => $resultDimensions['height'],
-			'isImage' => true,
-			'isVideo' => false,
-			'isAudio' => false
+			'height' => $resultDimensions['height']
 		];
 		$thumb = $this->getMockBuilder( 'ThumbnailImage' )
 			->disableOriginalConstructor()
@@ -115,22 +108,17 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 		$file->expects( $this->once() )->method( 'exists' )->will( $this->returnValue( true ) );
 		$file->expects( $this->once() )->method( 'getWidth' )->will( $this->returnValue( $originalDimension['width'] ) );
 		$file->expects( $this->once() )->method( 'getHeight' )->will( $this->returnValue( $originalDimension['height'] ) );
-		$file->expects( $this->any() )->method( 'getMediaType' )->will( $this->returnValue( MEDIATYPE_BITMAP ) );
+		$file->expects( $this->once() )->method( 'getMediaType' )->will( $this->returnValue( MEDIATYPE_BITMAP ) );
 
 		$file->expects( $this->any() )
 			->method( 'transform' )
 			->with( $this->logicalOr( $this->equalTo( $thumbnailDimensions ), $this->equalTo( $thumbnail2xDimensions ) ) )
 			->will( $this->returnValue( $thumb ) );
 
-		$helper = $this->getMock( PortableInfoboxImagesHelper::class, [ 'getFileFromTitle' ] );
-		$helper->expects( $this->any() )
-			->method( 'getFileFromTitle' )
-			->will( $this->returnValue( $file ) );
-
 		global $wgPortableInfoboxCustomImageWidth;
 		$wgPortableInfoboxCustomImageWidth = $customWidth;
 
-		$result = $helper->extendImageData( [ 'name' => 'test' ], $preferredWidth );
+		$result = $this->helper->extendImageData( $file, $preferredWidth );
 
 		$this->assertEquals( $expected, $result );
 	}

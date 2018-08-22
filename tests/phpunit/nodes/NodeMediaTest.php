@@ -1,6 +1,8 @@
 <?php
 
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
+use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
+use PortableInfobox\Parser\Nodes\NodeFactory;
 use PortableInfobox\Parser\Nodes\NodeMedia;
 
 /**
@@ -8,13 +10,6 @@ use PortableInfobox\Parser\Nodes\NodeMedia;
  * @covers PortableInfobox\Parser\Nodes\NodeMedia
  */
 class NodeMediaTest extends MediaWikiTestCase {
-
-	protected function setUp() {
-		parent::setUp();
-
-		global $wgUseInstantCommons;
-		$wgUseInstantCommons = false;
-	}
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getGalleryData
@@ -139,18 +134,27 @@ class NodeMediaTest extends MediaWikiTestCase {
 	 *
 	 * @param $markup
 	 * @param $params
+	 * @param $mediaType
 	 * @param $expected
 	 */
-	public function testData( $markup, $params, $expected ) {
-		$imageMock = empty( $params ) ? null : new ImageMock();
-		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
+	public function testData( $markup, $params, $mediaType, $expected ) {
+		$fileMock = is_null( $mediaType ) ? null : new FileMock( $mediaType );
+		$node = NodeFactory::newFromXML( $markup, $params );
 
-		$mock = $this->getMock( NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ] );
-		$mock->expects( $this->any() )
-			->method( 'getFilefromTitle' )
-			->willReturn( $imageMock );
+		$helper = $this->getMock( PortableInfoboxImagesHelper::class, [ 'getFile', 'extendImageData' ] );
+		$helper->expects( $this->any() )
+			->method( 'getFile' )
+			->willReturn( $fileMock );
+		$helper->expects( $this->any() )
+			->method( 'extendImageData' )
+			->willReturn( [] );
 
-		$this->assertEquals( $expected, $mock->getData() );
+		$reflection = new ReflectionClass( $node );
+		$reflectionProperty = $reflection->getProperty( 'helper' );
+		$reflectionProperty->setAccessible( true );
+		$reflectionProperty->setValue( $node, $helper );
+
+		$this->assertEquals( $expected, $node->getData() );
 	}
 
 	public function dataProvider() {
@@ -159,28 +163,105 @@ class NodeMediaTest extends MediaWikiTestCase {
 			[
 				'<media source="img"></media>',
 				[],
+				null,
 				[ [] ]
 			],
 			[
 				'<media source="img"></media>',
 				[ 'img' => 'test.jpg' ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 'Test.jpg', 'caption' => null ] ]
+				MEDIATYPE_BITMAP,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.jpg',
+					'alt' => 'Test.jpg',
+					'caption' => null,
+					'isImage' => true,
+					'isVideo' => false,
+					'isAudio' => false
+				] ]
 			],
 			[
 				'<media source="img"><alt><default>test alt</default></alt></media>',
 				[ 'img' => 'test.jpg' ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 'test alt', 'caption' => null ] ]
+				MEDIATYPE_BITMAP,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.jpg',
+					'alt' => 'test alt',
+					'caption' => null,
+					'isImage' => true,
+					'isVideo' => false,
+					'isAudio' => false
+				] ]
 			],
 			[
 				'<media source="img"><alt source="alt source"><default>test alt</default></alt></media>',
 				[ 'img' => 'test.jpg', 'alt source' => 2 ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 2, 'caption' => null ] ]
+				MEDIATYPE_BITMAP,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.jpg',
+					'alt' => 2,
+					'caption' => null,
+					'isImage' => true,
+					'isVideo' => false,
+					'isAudio' => false
+				] ]
 			],
 			[
 				'<media source="img"><alt><default>test alt</default></alt><caption source="img"/></media>',
 				[ 'img' => 'test.jpg' ],
-				[ [ 'url' => '', 'name' => 'Test.jpg', 'alt' => 'test alt', 'caption' => 'test.jpg' ] ]
+				MEDIATYPE_BITMAP,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.jpg',
+					'alt' => 'test alt',
+					'caption' => 'test.jpg',
+					'isImage' => true,
+					'isVideo' => false,
+					'isAudio' => false
+				] ]
 			],
+			[
+				'<media source="media" />',
+				[ 'media' => 'test.webm' ],
+				MEDIATYPE_VIDEO,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.webm',
+					'alt' => 'Test.webm',
+					'caption' => null,
+					'isImage' => false,
+					'isVideo' => true,
+					'isAudio' => false
+				] ]
+			],
+			[
+				'<media source="media" video="false" />',
+				[ 'media' => 'test.webm' ],
+				MEDIATYPE_VIDEO,
+				[ [] ]
+			],
+			[
+				'<media source="media" />',
+				[ 'media' => 'test.ogg' ],
+				MEDIATYPE_AUDIO,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.ogg',
+					'alt' => 'Test.ogg',
+					'caption' => null,
+					'isImage' => false,
+					'isVideo' => false,
+					'isAudio' => true
+				] ]
+			],
+			[
+				'<media source="media" audio="false" />',
+				[ 'media' => 'test.ogg' ],
+				MEDIATYPE_AUDIO,
+				[ [] ]
+			]
 		];
 	}
 
@@ -193,7 +274,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testIsEmpty( $markup, $params, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+		$node = NodeFactory::newFromXML( $markup, $params );
 
 		$this->assertEquals( $expected, $node->isEmpty() );
 	}
@@ -212,7 +293,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testSources( $markup, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [] );
+		$node = NodeFactory::newFromXML( $markup, [] );
 
 		$this->assertEquals( $expected, $node->getSources() );
 	}
@@ -247,7 +328,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 
 	/** @dataProvider metadataProvider */
 	public function testMetadata( $markup, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, [] );
+		$node = NodeFactory::newFromXML( $markup, [] );
 
 		$this->assertEquals( $expected, $node->getMetadata() );
 	}
@@ -261,88 +342,6 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'cap' => [ 'label' => '' ],
 					'fcap' => [ 'label' => '' ]
 				] ]
-			]
-		];
-	}
-
-	/**
-	 * @dataProvider videoProvider
-	 * @param $markup
-	 * @param $params
-	 * @param $expected
-	 * @throws PortableInfobox\Parser\XmlMarkupParseErrorException
-	 */
-	public function testVideo( $markup, $params, $expected ) {
-		$videoMock = new VideoMock();
-		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
-
-		$mock = $this->getMock( NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ] );
-		$mock->expects( $this->any() )
-			->method( 'getFilefromTitle' )
-			->willReturn( $videoMock );
-
-		$this->assertEquals( $expected, $mock->getData() );
-	}
-
-	public function videoProvider() {
-		return [
-			[
-				'<media source="media" />',
-				[ 'media' => 'test.webm' ],
-				[
-					[
-						'url' => 'http://test.url',
-						'name' => 'Test.webm',
-						'alt' => 'Test.webm',
-						'caption' => null
-					]
-				]
-			],
-			[
-				'<media source="media" video="false" />',
-				[ 'media' => 'test.webm' ],
-				[ [] ]
-			]
-		];
-	}
-
-	/**
-	 * @dataProvider audioProvider
-	 * @param $markup
-	 * @param $params
-	 * @param $expected
-	 * @throws PortableInfobox\Parser\XmlMarkupParseErrorException
-	 */
-	public function testAudio( $markup, $params, $expected ) {
-		$audioMock = new AudioMock();
-		$xmlObj = PortableInfobox\Parser\XmlParser::parseXmlString( $markup );
-
-		$mock = $this->getMock( NodeMedia::class, [ 'getFilefromTitle' ], [ $xmlObj, $params ] );
-		$mock->expects( $this->any() )
-			->method( 'getFilefromTitle' )
-			->willReturn( $audioMock );
-
-		$this->assertEquals( $expected, $mock->getData() );
-	}
-
-	public function audioProvider() {
-		return [
-			[
-				'<media source="media" />',
-				[ 'media' => 'test.ogg' ],
-				[
-					[
-						'url' => 'http://test.url',
-						'name' => 'Test.ogg',
-						'alt' => 'Test.ogg',
-						'caption' => null
-					]
-				]
-			],
-			[
-				'<media source="media" audio="false" />',
-				[ 'media' => 'test.ogg' ],
-				[ [] ]
 			]
 		];
 	}
@@ -413,29 +412,15 @@ class NodeMediaTest extends MediaWikiTestCase {
 	}
 }
 
-class ImageMock {
+class FileMock {
+	protected $mediaType;
+
+	public function __construct( $mediaType ) {
+		$this->mediaType = $mediaType;
+	}
+
 	public function getMediaType() {
-		return MEDIATYPE_BITMAP;
-	}
-
-	public function getUrl() {
-		return '';
-	}
-}
-
-class VideoMock {
-	public function getMediaType() {
-		return MEDIATYPE_VIDEO;
-	}
-
-	public function getUrl() {
-		return 'http://test.url';
-	}
-}
-
-class AudioMock {
-	public function getMediaType() {
-		return MEDIATYPE_AUDIO;
+		return $this->mediaType;
 	}
 
 	public function getUrl() {

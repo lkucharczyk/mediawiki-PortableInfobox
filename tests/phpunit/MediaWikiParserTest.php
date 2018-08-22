@@ -13,7 +13,7 @@ class MediaWikiParserTest extends MediaWikiTestCase {
 		$title = Title::newFromText( 'test' );
 		$options = new ParserOptions();
 		// Required for MW >= 1.30
-		if( method_exists ( $options, 'setOption' ) ) {
+		if ( method_exists( $options, 'setOption' ) ) {
 			$options->setOption( 'wrapclass', false );
 		}
 		$this->parser->startExternalParse( $title, $options, 'text', true );
