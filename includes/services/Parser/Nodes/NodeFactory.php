@@ -29,7 +29,9 @@ class NodeFactory {
 			$instance = new $className( $xmlNode, $data );
 			//wfProfileOut( __METHOD__ );
 
-			return $instance;
+			if ( $instance instanceof Node ) {
+				return $instance;
+			}
 		}
 		//wfProfileOut( __METHOD__ );
 
