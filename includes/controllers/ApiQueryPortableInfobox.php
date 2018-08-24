@@ -11,10 +11,6 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 		$this->runOnPageSet( $this->getPageSet() );
 	}
 
-	public function getVersion() {
-		return __CLASS__ . '$Id$';
-	}
-
 	protected function runOnPageSet( ApiPageSet $pageSet ) {
 		$articles = $pageSet->getGoodTitles();
 		$res = $pageSet->getResult();

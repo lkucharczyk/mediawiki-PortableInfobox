@@ -33,10 +33,6 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 		$res->addIndexedTagName( [ 'query', 'allinfoboxes' ], 'i' );
 	}
 
-	public function getVersion() {
-		return __CLASS__ . '$Id$';
-	}
-
 	/**
 	 * @desc As a infobox template label we want to return a nice, clean text, without e.g. '_' signs
 	 * @param $text infobox template title
