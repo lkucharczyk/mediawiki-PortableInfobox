@@ -208,9 +208,7 @@ class PortableInfoboxParserTagController {
 	}
 
 	private function sanitizeColor( $color ) {
-		$color = substr( $color, 0, 1 ) === '#' ? $color : '#' . $color;
-		$color = ( $this->getParamsValidator()->validateColorValue( $color ) ) ? $color : '';
-		return $color;
+		return $this->getParamsValidator()->validateColorValue( $color );
 	}
 
 	private function getParamsValidator() {

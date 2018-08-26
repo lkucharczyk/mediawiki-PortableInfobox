@@ -2,7 +2,7 @@
 namespace PortableInfobox\Helpers;
 
 class InfoboxParamsValidator {
-	private $supportedParams = [
+	private static $supportedParams = [
 		'accent-color-default',
 		'accent-color-source',
 		'accent-color-text-default',
@@ -12,10 +12,177 @@ class InfoboxParamsValidator {
 		'theme-source',
 	];
 
-	private $supportedLayouts = [
+	private static $supportedLayouts = [
 		'default',
 		'stacked'
 	];
+
+	private static $colorNames = [
+		'aliceblue',
+		'antiquewhite',
+		'aqua',
+		'aquamarine',
+		'azure',
+		'beige',
+		'bisque',
+		'black',
+		'blanchedalmond',
+		'blue',
+		'blueviolet',
+		'brown',
+		'burlywood',
+		'cadetblue',
+		'chartreuse',
+		'chocolate',
+		'coral',
+		'cornflowerblue',
+		'cornsilk',
+		'crimson',
+		'cyan',
+		'darkblue',
+		'darkcyan',
+		'darkgoldenrod',
+		'darkgray',
+		'darkgrey',
+		'darkgreen',
+		'darkkhaki',
+		'darkmagenta',
+		'darkolivegreen',
+		'darkorange',
+		'darkorchid',
+		'darkred',
+		'darksalmon',
+		'darkseagreen',
+		'darkslateblue',
+		'darkslategray',
+		'darkslategrey',
+		'darkturquoise',
+		'darkviolet',
+		'deeppink',
+		'deepskyblue',
+		'dimgray',
+		'dimgrey',
+		'dodgerblue',
+		'firebrick',
+		'floralwhite',
+		'forestgreen',
+		'fuchsia',
+		'gainsboro',
+		'ghostwhite',
+		'gold',
+		'goldenrod',
+		'gray',
+		'grey',
+		'green',
+		'greenyellow',
+		'honeydew',
+		'hotpink',
+		'indianred',
+		'indigo',
+		'ivory',
+		'khaki',
+		'lavender',
+		'lavenderblush',
+		'lawngreen',
+		'lemonchiffon',
+		'lightblue',
+		'lightcoral',
+		'lightcyan',
+		'lightgoldenrodyellow',
+		'lightgray',
+		'lightgrey',
+		'lightgreen',
+		'lightpink',
+		'lightsalmon',
+		'lightseagreen',
+		'lightskyblue',
+		'lightslategray',
+		'lightslategrey',
+		'lightsteelblue',
+		'lightyellow',
+		'lime',
+		'limegreen',
+		'linen',
+		'magenta',
+		'maroon',
+		'mediumaquamarine',
+		'mediumblue',
+		'mediumorchid',
+		'mediumpurple',
+		'mediumseagreen',
+		'mediumslateblue',
+		'mediumspringgreen',
+		'mediumturquoise',
+		'mediumvioletred',
+		'midnightblue',
+		'mintcream',
+		'mistyrose',
+		'moccasin',
+		'navajowhite',
+		'navy',
+		'oldlace',
+		'olive',
+		'olivedrab',
+		'orange',
+		'orangered',
+		'orchid',
+		'palegoldenrod',
+		'palegreen',
+		'paleturquoise',
+		'palevioletred',
+		'papayawhip',
+		'peachpuff',
+		'peru',
+		'pink',
+		'plum',
+		'powderblue',
+		'purple',
+		'red',
+		'rosybrown',
+		'royalblue',
+		'saddlebrown',
+		'salmon',
+		'sandybrown',
+		'seagreen',
+		'seashell',
+		'sienna',
+		'silver',
+		'skyblue',
+		'slateblue',
+		'slategray',
+		'slategrey',
+		'snow',
+		'springgreen',
+		'steelblue',
+		'tan',
+		'teal',
+		'thistle',
+		'tomato',
+		'turquoise',
+		'violet',
+		'wheat',
+		'white',
+		'whitesmoke',
+		'yellow',
+		'yellowgreen'
+	];
+	private static $colorNamesFlipped;
+
+	const REGEX_PERCENT = '(?:100|\d{1,2})%';
+	const REGEX_HUE = '-?(?:3(?:60|[0-5]\d)|[12]?\d{1,2})';
+	const REGEX_ALPHAVAL = '(?:' . self::REGEX_PERCENT . '|[01]?\.\d+|[01])';
+	const REGEX_RGBVAL = '(?:' . self::REGEX_PERCENT . '|2(?:5[0-5]|[0-4]\d)|1?\d{1,2})';
+	const REGEX_HEXRGB = '/^#?[a-f0-9]{3}(?:[a-f0-9]{3}(?:[a-f0-9]{2})?|[a-f0-9])?$/';
+	const REGEX_RGB = '/^rgb\((?:' . self::REGEX_RGBVAL . ',){2}' . self::REGEX_RGBVAL . '\)$/';
+	const REGEX_RGBA = '/^rgba\((?:' . self::REGEX_RGBVAL . ',){3}' . self::REGEX_ALPHAVAL . '\)$/';
+	const REGEX_HSL = '/^hsl\(' . self::REGEX_HUE . ',' . self::REGEX_PERCENT . ',' . self::REGEX_PERCENT . '\)$/';
+	const REGEX_HSLA = '/^hsla\(' . self::REGEX_HUE . ',(?:' . self::REGEX_PERCENT . ',){2}' . self::REGEX_ALPHAVAL . '\)$/';
+
+	public function __construct() {
+		if( is_null( self::$colorNamesFlipped ) ) {
+			self::$colorNamesFlipped = array_flip( self::$colorNames );
+		}
+	}
 
 	/**
 	 * validates infobox tags attribute names
@@ -26,7 +193,7 @@ class InfoboxParamsValidator {
 	 */
 	public function validateParams( $params ) {
 		foreach ( array_keys( $params ) as $param ) {
-			if ( !in_array( $param, $this->supportedParams ) ) {
+			if ( !in_array( $param, self::$supportedParams ) ) {
 				throw new InvalidInfoboxParamsException( $param );
 			}
 		}
@@ -35,13 +202,27 @@ class InfoboxParamsValidator {
 	}
 
 	/**
-	 * validates if argument is valid color value. Currently only hex values are supported
+	 * validates if argument is valid color value.
 	 * @param string $color
 	 * @return bool
-	 * @throws InvalidColorValueException
 	 */
 	public function validateColorValue( $color ) {
-		return !empty( preg_match( '/^(#[a-f0-9]{3}([a-f0-9]{3})?)$/i', $color ) );
+		if ( preg_match( self::REGEX_HEXRGB, $color ) ) {
+			return substr( $color, 0, 1 ) === '#' ? $color : '#' . $color;
+		}
+
+		$color = strtolower( preg_replace( '/\s+/', '', $color ) );
+
+		if ( isset( self::$colorNamesFlipped[$color] ) ||
+			preg_match( self::REGEX_RGB,  $color ) ||
+			preg_match( self::REGEX_RGBA, $color ) ||
+			preg_match( self::REGEX_HSL,  $color ) ||
+			preg_match( self::REGEX_HSLA, $color )
+		) {
+			return $color;
+		}
+
+		return '';
 	}
 
 	/**
@@ -50,7 +231,7 @@ class InfoboxParamsValidator {
 	 * @return bool
 	 */
 	public function validateLayout( $layoutName ) {
-		return $layoutName && in_array( $layoutName, $this->supportedLayouts );
+		return $layoutName && in_array( $layoutName, self::$supportedLayouts );
 	}
 }
 
