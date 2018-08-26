@@ -1,5 +1,3 @@
-@import "mediawiki.mixins";
-
 .prefixer( @property; @value; @prefixes: webkit, moz, ms; @unprefixed: true ) {
 	.prefixer-loop( @propety; @value; @prefixes; @i: length( @prefixes ) ) when ( @i > 0 ) {
 		@prefix: extract( @prefixes, @i );
@@ -29,6 +27,10 @@
 	.prefixer( flex-direction; @flex-direction; webkit, ms );
 }
 
+.flex-wrap( @value: wrap ) {
+	.prefixer( flex-wrap; @value );
+}
+
 .flex-basis( @value ) {
 	-ms-flex-preferred-size: @value;
 	.prefixer( flex-basis; @value; webkit, moz );
@@ -42,6 +44,17 @@
 .flex-shrink( @value ) {
 	-ms-flex-negative: @value;
 	.prefixer( flex-shrink; @value; webkit, moz );
+}
+
+.hyphens( @value ) {
+	& when ( @value = auto ) {
+		word-wrap: break-word;
+	}
+	& when ( @value = none ) {
+		word-wrap: normal;
+	}
+
+	.prefixer( hyphens; @value );
 }
 
 .transform( @value ) {
