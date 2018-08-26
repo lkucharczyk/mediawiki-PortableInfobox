@@ -86,7 +86,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 			[
 				'input' => [
 					[
-						'type' => 'image',
+						'type' => 'media',
 						'data' => [
 							[
 								'alt' => 'image alt',
@@ -117,7 +117,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 			[
 				'input' => [
 					[
-						'type' => 'image',
+						'type' => 'media',
 						'data' => [
 							[
 								'alt' => 'image alt',
@@ -187,7 +187,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						]
 					],
 					[
-						'type' => 'image',
+						'type' => 'media',
 						'data' => [
 							[
 								'alt' => 'image alt',
@@ -234,7 +234,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						]
 					],
 					[
-						'type' => 'image',
+						'type' => 'media',
 						'data' => []
 					],
 					[
@@ -1545,7 +1545,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						]
 					],
 					[
-						'type' => 'image',
+						'type' => 'media',
 						'data' => [
 							[
 								'alt' => 'image alt',

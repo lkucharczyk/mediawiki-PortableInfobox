@@ -2,6 +2,10 @@
 namespace PortableInfobox\Parser\Nodes;
 
 class NodeImage extends NodeMedia {
+	public function getType() {
+		return 'media';
+	}
+
 	/*
 	 * @return bool
 	 */

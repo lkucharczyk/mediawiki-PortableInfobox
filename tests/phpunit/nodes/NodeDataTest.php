@@ -323,7 +323,7 @@ class NodeDataTest extends MediaWikiTestCase {
 				[],
 				[
 					[
-						'type' => 'image',
+						'type' => 'media',
 						'sources' => [
 							'test' => [
 								'label' => '',
@@ -374,7 +374,7 @@ class NodeDataTest extends MediaWikiTestCase {
 						'type' => 'group',
 						'metadata' => [
 							[
-								'type' => 'image',
+								'type' => 'media',
 								'sources' => [
 									'test1' => [
 										'label' => '',
@@ -421,7 +421,7 @@ class NodeDataTest extends MediaWikiTestCase {
 								'type' => 'group',
 								'metadata' => [
 									[
-										'type' => 'image',
+										'type' => 'media',
 										'sources' => [
 											'test2' => [
 												'label' => '',
