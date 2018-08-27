@@ -7,6 +7,7 @@ class MediaWikiParserService implements ExternalParser {
 	protected $frame;
 	protected $localParser;
 	protected $tidyDriver;
+	protected $cache = [];
 
 	public function __construct( \Parser $parser, \PPFrame $frame ) {
 		global $wgPortableInfoboxUseTidy;
@@ -30,6 +31,10 @@ class MediaWikiParserService implements ExternalParser {
 	 * @return string HTML outcome
 	 */
 	public function parseRecursive( $wikitext ) {
+		if( isset( $this->cache[$wikitext] ) ) {
+			return $this->cache[$wikitext];
+		}
+
 		$parsed = $this->parser->internalParse( $wikitext, false, $this->frame );
 		if ( in_array( substr( $parsed, 0, 1 ), [ '*', '#' ] ) ) {
 			//fix for first item list elements
@@ -44,6 +49,7 @@ class MediaWikiParserService implements ExternalParser {
 		$newlinesstripped = preg_replace( '|[\n\r]|Us', '', $ready );
 		$marksstripped = preg_replace( '|{{{.*}}}|Us', '', $newlinesstripped );
 
+		$this->cache[$wikitext] = $marksstripped;
 		return $marksstripped;
 	}
 
