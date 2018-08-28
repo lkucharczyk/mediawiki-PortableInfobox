@@ -157,7 +157,7 @@
 			.client-nojs & {
 				display: none;
 			}
-			li {
+			.pi-tab-link {
 				border-width: 1px;
 				border-style: solid;
 				border-color: @pi-secondary-background;
@@ -333,13 +333,13 @@
 				position: absolute;
 				top: 50%;
 				width: 5px;
-				.transform( rotate( -45deg  ));
+				.transform( rotate( -45deg ) );
 				margin-top: -3px;
 			}
 		}
 		.pi-collapse-closed {
 			.pi-header:first-child::after {
-				.transform( rotate( 135deg  ));
+				.transform( rotate( 135deg ) );
 				margin-top: -5px;
 			}
 			> :nth-child( n+2 ) {
@@ -365,7 +365,6 @@
 		width: initial;
 		font-size: initial;
 		margin: 0;
-		width: 100%;
 
 		.skin-minerva & {
 			margin: 0 -16px;
@@ -376,7 +375,7 @@
 		text-align: center;
 	}
 
-	.pi-image-collection-tabs {
+	.pi-media-collection-tabs {
 		.flexbox();
 		.flex-wrap();
 
@@ -445,10 +444,6 @@
 
 /* Skin specific fixes */
 .skin-minerva {
-	.pi-image-collection-tabs li {
-		margin-bottom: 0;
-	}
-
 	.pi-caption {
 		margin: @pi-item-spacing;
 		margin: var( --pi-item-spacing );
