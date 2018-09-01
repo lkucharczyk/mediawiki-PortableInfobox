@@ -49,4 +49,20 @@ class PortableInfoboxHooks {
 
 		return true;
 	}
+
+	public static function onResourceLoaderRegisterModules( ResourceLoader &$resourceLoader ) {
+		global $wgResourceModules;
+
+		if( isset( $wgResourceModules['ext.templateDataGenerator.data'] ) ) {
+			$wgResourceModules['ext.templateDataGenerator.data']['scripts'][] =
+				'../PortableInfobox/resources/PortableInfoboxParams.js';
+
+			$resourceLoader->register(
+				'ext.templateDataGenerator.data',
+				$wgResourceModules['ext.templateDataGenerator.data']
+			);
+		}
+
+		return true;
+	}
 }
