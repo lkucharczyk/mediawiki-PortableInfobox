@@ -5,7 +5,6 @@ use PortableInfobox\Helpers\FileNamespaceSanitizeHelper;
 use PortableInfobox\Helpers\HtmlHelper;
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
 use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
-use PortableInfobox\Sanitizers\SanitizerBuilder;
 
 class NodeMedia extends Node {
 	const GALLERY = 'GALLERY';
@@ -142,8 +141,7 @@ class NodeMedia extends Node {
 			'url' => $this->resolveImageUrl( $fileObj ),
 			'name' => $titleObj ? $titleObj->getText() : '',
 			'alt' => $alt ?? ( $titleObj ? $titleObj->getText() : null ),
-			'caption' => SanitizerBuilder::createFromType( 'image' )
-				->sanitize( [ 'caption' => $caption ] )['caption'] ?: null,
+			'caption' => $caption ?: null,
 			'isImage' => in_array( $mediatype, [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] ),
 			'isVideo' => $mediatype === MEDIATYPE_VIDEO,
 			'isAudio' => $mediatype === MEDIATYPE_AUDIO
