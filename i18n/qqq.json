@@ -13,5 +13,11 @@
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "XML Error: Opening and ending tag mismatch (for example: <data></label>)",
 	"portable-infobox-xml-parse-error-tag-not-finished": "XML Error: premature end of tag",
 	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "Unsupported attribute used inside <infobox> tag. $1 param contains attribute name.",
-	"allinfoboxes": "Special:Allinfoboxes page title"
+	"allinfoboxes": "Special:Allinfoboxes page title",
+	"apihelp-infobox-summary": "{{doc-apihelp-summary|infobox}}",
+	"apihelp-infobox-param-text": "{{doc-apihelp-param|infobox|text}}",
+	"apihelp-infobox-param-title": "{{doc-apihelp-param|infobox|title}}",
+	"apihelp-infobox-param-args": "{{doc-apihelp-param|infobox|args}}",
+	"apihelp-query+allinfoboxes-summary": "{{doc-apihelp-summary|query+allinfoboxes}}",
+	"apihelp-query+infobox-summary": "{{doc-apihelp-summary|query+infobox}}"
 }

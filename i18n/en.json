@@ -13,5 +13,11 @@
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "Opening and ending tag mismatch",
 	"portable-infobox-xml-parse-error-tag-not-finished": "Premature end of tag",
 	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "Attribute \"$1\" is not supported in <infobox> tag",
-	"allinfoboxes": "All infoboxes"
+	"allinfoboxes": "All infoboxes",
+	"apihelp-infobox-summary": "This module provides infobox parser",
+	"apihelp-infobox-param-text": "Infobox to parse (xml string)",
+	"apihelp-infobox-param-title": "Title of page the text belongs to",
+	"apihelp-infobox-param-args": "Variable list to use during parse (json format)",
+	"apihelp-query+allinfoboxes-summary": "List all infoboxes",
+	"apihelp-query+infobox-summary": "Get infobox metadata"
 }

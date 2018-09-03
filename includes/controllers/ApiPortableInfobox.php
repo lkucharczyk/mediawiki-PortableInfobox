@@ -79,18 +79,6 @@ class ApiPortableInfobox extends ApiBase {
 		];
 	}
 
-	public function getParamDescription() {
-		return [
-			'text' => 'Infobox to parse (xml string)',
-			'title' => 'Title of page the text belongs to',
-			'args' => 'Variable list to use during parse (json format)',
-		];
-	}
-
-	public function getDescription() {
-		return [ 'This module provides infobox parser' ];
-	}
-
 	/**
 	 * Examples
 	 */
