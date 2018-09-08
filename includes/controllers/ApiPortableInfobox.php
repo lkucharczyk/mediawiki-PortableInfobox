@@ -11,7 +11,7 @@ class ApiPortableInfobox extends ApiBase {
 		$title = $this->getParameter( "title" );
 		$arguments = $this->getFrameArguments();
 		if ( $arguments === null ) {
-			$this->getResult()->setWarning( "Args param format is incorrect" );
+			$this->addWarning( 'apiwarn-infobox-invalidargs' );
 		}
 
 		/*
@@ -58,10 +58,12 @@ class ApiPortableInfobox extends ApiBase {
 		try {
 			$output = PortableInfoboxParserTagController::getInstance()->render( $text, $wgParser, $frame );
 			$this->getResult()->addValue( null, $this->getModuleName(), [ 'text' => [ '*' => $output ] ] );
-		} catch ( \Wikia\PortableInfobox\Parser\Nodes\UnimplementedNodeException $e ) {
-			$this->dieUsage( wfMessage( 'unimplemented-infobox-tag', [ $e->getMessage() ] )->escaped(), "notimplemented" );
-		} catch ( \Wikia\PortableInfobox\Parser\XmlMarkupParseErrorException $e ) {
-			$this->dieUsage( wfMessage( 'xml-parse-error' )->text(), "badxml" );
+		} catch ( \PortableInfobox\Parser\Nodes\UnimplementedNodeException $e ) {
+			$this->dieUsage( wfMessage( 'portable-infobox-unimplemented-infobox-tag', [ $e->getMessage() ] )->escaped(), 'notimplemented' );
+		} catch ( \PortableInfobox\Parser\XmlMarkupParseErrorException $e ) {
+			$this->dieUsage( wfMessage( 'portable-infobox-xml-parse-error' )->text(), 'badxml' );
+		} catch ( \PortableInfobox\Helpers\InvalidInfoboxParamsException $e ) {
+			$this->dieUsage( wfMessage( 'portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported', [ $e->getMessage() ] )->escaped(), 'invalidparams' );
 		}
 	}
 

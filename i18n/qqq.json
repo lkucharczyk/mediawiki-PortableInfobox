@@ -19,5 +19,6 @@
 	"apihelp-infobox-param-title": "{{doc-apihelp-param|infobox|title}}",
 	"apihelp-infobox-param-args": "{{doc-apihelp-param|infobox|args}}",
 	"apihelp-query+allinfoboxes-summary": "{{doc-apihelp-summary|query+allinfoboxes}}",
-	"apihelp-query+infobox-summary": "{{doc-apihelp-summary|query+infobox}}"
+	"apihelp-query+infobox-summary": "{{doc-apihelp-summary|query+infobox}}",
+	"apiwarn-infobox-invalidargs": "Invalid \"args\" parameter in api.php?action=infobox"
 }

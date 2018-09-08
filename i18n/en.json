@@ -19,5 +19,6 @@
 	"apihelp-infobox-param-title": "Title of page the text belongs to",
 	"apihelp-infobox-param-args": "Variable list to use during parse (json format)",
 	"apihelp-query+allinfoboxes-summary": "List all infoboxes",
-	"apihelp-query+infobox-summary": "Get infobox metadata"
+	"apihelp-query+infobox-summary": "Get infobox metadata",
+	"apiwarn-infobox-invalidargs": "Args param format is incorrect"
 }
