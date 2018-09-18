@@ -6,7 +6,7 @@
 	],
 	"url": "https://github.com/Luqgreg/mediawiki-PortableInfobox",
 	"descriptionmsg": "portable-infobox-desc",
-	"version": "0.3-dev",
+	"version": "0.3-dev.infoboxbuilder",
 	"type": "parserhook",
 	"license-name": "GPL-3.0-or-later",
 	"requires": {
@@ -37,6 +37,41 @@
 			"targets": [
 				"desktop",
 				"mobile"
+			]
+		},
+		"ext.PortableInfoboxBuilder": {
+			"scripts": [
+				"resources/PortableInfoboxBuilderNodes.js",
+				"resources/PortableInfoboxBuilder.js"
+			],
+			"styles": "resources/PortableInfoboxBuilder.less",
+			"dependencies": [
+				"mediawiki.jqueryMsg",
+				"jquery.ui.sortable",
+				"oojs-ui-core",
+				"oojs-ui-widgets",
+				"oojs-ui-windows"
+			],
+			"messages": [
+				"confirmable-confirm",
+				"infoboxbuilder-action-addnode",
+				"infoboxbuilder-action-clear",
+				"infoboxbuilder-action-deletenode",
+				"infoboxbuilder-action-publish",
+				"infoboxbuilder-editerror",
+				"infoboxbuilder-editerrorunknown",
+				"infoboxbuilder-editsummary",
+				"infoboxbuilder-node-title",
+				"infoboxbuilder-node-title-value",
+				"infoboxbuilder-node-title-value-pagename",
+				"infoboxbuilder-node-data",
+				"infoboxbuilder-node-data-value-source",
+				"infoboxbuilder-nodeerror-invalidsource",
+				"infoboxbuilder-nodeerror-nosourceordefault",
+				"infoboxbuilder-nodeparam-default",
+				"infoboxbuilder-nodeparam-label",
+				"infoboxbuilder-nodeparam-source",
+				"infoboxbuilder-templatename"
 			]
 		}
 	},
@@ -78,7 +113,8 @@
 		"ApiPortableInfobox": "includes/controllers/ApiPortableInfobox.php",
 		"ApiQueryPortableInfobox": "includes/controllers/ApiQueryPortableInfobox.php",
 		"ApiQueryAllinfoboxes": "includes/controllers/ApiQueryAllinfoboxes.php",
-		"AllinfoboxesQueryPage": "includes/querypage/AllinfoboxesQueryPage.php"
+		"AllinfoboxesQueryPage": "includes/querypage/AllinfoboxesQueryPage.php",
+		"SpecialPortableInfoboxBuilder": "includes/specials/SpecialPortableInfoboxBuilder.php"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "PortableInfoboxParserTagController::parserTagInit",
@@ -90,7 +126,8 @@
 		"ResourceLoaderRegisterModules": "PortableInfoboxHooks::onResourceLoaderRegisterModules"
 	},
 	"SpecialPages": {
-		"AllInfoboxes": "AllinfoboxesQueryPage"
+		"AllInfoboxes": "AllinfoboxesQueryPage",
+		"InfoboxBuilder": "SpecialPortableInfoboxBuilder"
 	},
 	"APIModules": {
 		"infobox": "ApiPortableInfobox"
