@@ -16,6 +16,7 @@
 		"AllInfoboxesMiserMode": true,
 		"AllInfoboxesSubpagesBlacklist": [ "doc", "draft", "test" ],
 		"PortableInfoboxCustomImageWidth": 300,
+		"PortableInfoboxUseHeadings": true,
 		"PortableInfoboxUseTidy": true
 	},
 	"MessagesDirs": {

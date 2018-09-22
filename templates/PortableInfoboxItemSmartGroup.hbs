@@ -2,7 +2,7 @@
     {{#if renderLabels}}
         <section class="pi-smart-group-head">
             {{#each labels}}
-                <h3 class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="{{{inlineStyles}}}">{{{value}}}</h3>
+                <{{#if ../useHeadings}}h3{{else}}div{{/if}} class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="{{{inlineStyles}}}">{{{value}}}</{{#if ../useHeadings}}h3{{else}}div{{/if}}>
             {{/each}}
         </section>
     {{/if}}
