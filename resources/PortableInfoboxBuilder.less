@@ -66,7 +66,7 @@
 	.portable-infobox {
 		float: none;
 		margin: auto;
-    	user-select: none;
+		user-select: none;
 
 		.pi-item {
 			background: inherit;
@@ -75,7 +75,7 @@
 			position: relative;
 			transition: outline-color .2s;
 			z-index: 0;
-	
+
 			&:hover {
 				outline-color: #ccc;
 				z-index: 1;
@@ -106,6 +106,7 @@
 				right: ~"calc( 100% + 18px )";
 				min-height: 20px;
 				filter: drop-shadow( 0 2px 2px rgba( 0, 0, 0, 0.25 ) );
+				text-align: left;
 
 				&::after {
 					content: '';
@@ -117,7 +118,7 @@
 					border-top: 14px solid transparent;
 					border-bottom: 14px solid transparent;
 				}
-				
+
 				> .oo-ui-iconElement {
 					background-color: #f00;
 					background-size: 20px;
@@ -145,7 +146,7 @@
 					background-color: #ff0;
 					color: #000;
 				}
-	
+
 				&::after {
 					border-left-color: #ff0;
 				}

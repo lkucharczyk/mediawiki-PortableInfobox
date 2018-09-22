@@ -34,6 +34,7 @@
 			this.infobox = new Nodes.NodeInfobox( this );
 			this.infobox.children = [
 				Nodes.Node.factory( this.infobox.markupDoc, 'title' ),
+				Nodes.Node.factory( this.infobox.markupDoc, 'media' ),
 				Nodes.Node.factory( this.infobox.markupDoc, 'data' ),
 				Nodes.Node.factory( this.infobox.markupDoc, 'data' )
 			];
@@ -100,16 +101,20 @@
 		}
 
 		buildNewNodesMenu() {
-			return new OO.ui.PanelLayout( { padded: true, expanded: false } ).$element.append(
-				new OO.ui.LabelWidget( { label: this.msg( 'action-addnode' ) } )
-					.$element,
-				new OO.ui.ButtonWidget( { label: this.msg( 'node-title' ) } )
-					.on( 'click', () => this.addInfoboxElem( 'title' ) )
-					.$element,
-				new OO.ui.ButtonWidget( { label: this.msg( 'node-data' ) } )
-					.on( 'click', () => this.addInfoboxElem( 'data' ) )
-					.$element
-			)
+			let menu = new OO.ui.PanelLayout( { padded: true, expanded: false } ),
+				$menu = menu.$element.append(
+					new OO.ui.LabelWidget( { label: this.msg( 'action-addnode' ) } ).$element
+				);
+
+			Nodes.NODE_LIST.forEach( ( e ) => {
+				$menu.append(
+					new OO.ui.ButtonWidget( { label: this.msg( 'node-' + e ) } )
+						.on( 'click', () => this.addInfoboxElem( e ) )
+						.$element
+				)
+			} );
+
+			return $menu;
 		}
 
 		buildNodeMenu() {
@@ -185,10 +190,10 @@
 		select( node ) {
 			if( this.selectedNode !== undefined ) {
 				this.selectedNode.deselect();
-			} 
+			}
 			this.selectedNode = node;
 			this.toggleNodeMenu( node.supports() );
-			this.infobox.$element.addClass( CLASS_ITEMSELECTED );
+			this.infobox.element.classList.add( CLASS_ITEMSELECTED );
 		}
 
 		deselect() {
@@ -198,7 +203,7 @@
 			this.selectedNode.deselect();
 			this.selectedNode = undefined;
 			this.toggleNodeMenu();
-			this.infobox.$element.removeClass( CLASS_ITEMSELECTED );
+			this.infobox.element.classList.remove( CLASS_ITEMSELECTED );
 		}
 
 		deleteSelectedNode() {

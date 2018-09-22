@@ -34,6 +34,7 @@
 	"infoboxbuilder-node-title-value-pagename": "Tytuł strony",
 	"infoboxbuilder-node-data": "Wiersz",
 	"infoboxbuilder-node-data-value-source": "Wartość $1",
+	"infoboxbuilder-node-media": "Obraz",
 	"infoboxbuilder-nodeerror-invalidsource": "Parametr zawiera niedozwolone znaki.",
 	"infoboxbuilder-nodeerror-nosourceordefault": "Element bez parametru lub domyślnej wartości nie będzie się wyświetlał.",
 	"infoboxbuilder-nodeparam-default": "Domyślna wartosć",

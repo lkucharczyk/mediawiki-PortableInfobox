@@ -87,6 +87,8 @@
 					return new NodeData( markupDoc, params );
 				case 'title':
 					return new NodeTitle( markupDoc, params );
+				case 'media':
+					return new NodeMedia( markupDoc, params );
 				case 'infobox':
 					throw new TypeError( 'Use new NodeInfobox() instead.' );
 				default:
@@ -99,8 +101,8 @@
 		}
 
 		html() {
-			if( this.$element ) {
-				this.$element.empty();
+			if( this.element ) {
+				this.element.innerHTML = '';
 			} else {
 				let element = document.createElement( this.elementTag );
 				element.id = NODE_IDPREFIX + this.id;
@@ -109,28 +111,27 @@
 					element.onmousedown = () => this.select();
 				}
 
-				this.$element = $( element );
+				this.element = element;
 			}
 
-			this.$element[0].className = this.elementClasses;
+			this.element.className = this.elementClasses;
 
 			if ( this.selected && this.elementSelectable ) {
-				this.$element.addClass( NODE_CLASSSELECTED );
+				this.element.classList.add( NODE_CLASSSELECTED );
 			}
 
 			try {
 				this.validate();
 			} catch ( error ) {
 				if ( error instanceof NodeValidationError ) {
-					this.$element
-						.addClass( error.getClass() )
-						.prepend( error.render() );
+					this.element.classList.add( error.getClass() );
+					this.element.appendChild( error.render() );
 				} else {
 					throw error;
 				}
 			}
 
-			return this.$element;
+			return this.element;
 		}
 
 		markup() {
@@ -162,14 +163,14 @@
 			if ( this.elementSelectable ) {
 				mw.hook( 'portableinfoboxbuilder.nodeselect' ).fire( this );
 				this.selected = true;
-				this.$element.addClass( NODE_CLASSSELECTED );
+				this.element.classList.add( NODE_CLASSSELECTED );
 			}
 		}
 
 		deselect() {
 			if ( this.elementSelectable ) {
 				this.selected = false;
-				this.$element.removeClass( NODE_CLASSSELECTED );
+				this.element.classList.remove( NODE_CLASSSELECTED );
 			}
 		}
 
@@ -231,7 +232,7 @@
 				let label = document.createElement( 'h3' );
 				label.className = 'pi-data-label pi-secondary-font';
 				label.textContent = this.params.label;
-				this.$element.append( label );
+				this.element.appendChild( label );
 			}
 
 			let value = document.createElement( 'div' );
@@ -242,7 +243,9 @@
 				this.msg( 'node-data-value-source', '{{{' + this.params.source + '}}}' ) :
 					this.params.default ? this.params.default : '';
 
-			return this.$element.append( value );
+			this.element.appendChild( value );
+
+			return this.element;
 		}
 
 		supports() {
@@ -273,16 +276,60 @@
 		}
 
 		html() {
-			super.html()[0].textContent = this.params.default === '{{PAGENAME}}' ?
-					this.msg( 'node-title-value-pagename' ) : this.msg( 'node-title-value' );
+			super.html();
 
-			return this.$element;
+			this.element.textContent = this.params.default === '{{PAGENAME}}' ?
+				this.msg( 'node-title-value-pagename' ) : this.msg( 'node-title-value' );
+
+			return this.element;
 		}
 
 		supports() {
 			return {
 				source: true,
 				format: true,
+				default: true
+			};
+		}
+	}
+
+	class NodeMedia extends PINode {
+		constructor( markupDoc, params ) {
+			super( markupDoc, params );
+			this.elementTag = 'figure';
+			this.elementClasses += 'pi-media pi-image';
+			this.markupTag = 'image';
+		}
+
+		getDefaultParams() {
+			return {
+				source: this.msg( 'node-media' ).toLowerCase()
+			};
+		}
+
+		html() {
+			super.html();
+
+			let a = document.createElement( 'a' ),
+				img = document.createElement( 'img' );
+
+			a.className = 'image image-thumbnail';
+			a.appendChild( img );
+			img.className = 'pi-image-thumbnail';
+			img.src = '/resources/assets/mediawiki.png';
+			this.element.appendChild( a );
+
+			return this.element;
+		}
+
+		supports() {
+			return {
+				source: true,
+				audio: true,
+				image: true,
+				video: true,
+				alt: true,
+				caption: true,
 				default: true
 			};
 		}
@@ -338,8 +385,8 @@
 		html() {
 			super.html();
 
-			this.children.forEach( c => { this.$element.append( c.html() ) } );
-			this.$element.sortable( {
+			this.children.forEach( c => { this.element.appendChild( c.html() ) } );
+			$( this.element ).sortable( {
 				axis: 'y',
 				containment: 'parent',
 				cursor: 'move',
@@ -351,7 +398,7 @@
 				}
 			} );
 
-			return this.$element;
+			return this.element;
 		}
 
 		markup() {
@@ -380,7 +427,9 @@
 	window.mediaWiki.PortableInfoboxBuilder.Nodes = {
 		Node: PINode,
 		NodeData: NodeData,
+		NodeMedia: NodeMedia,
 		NodeTitle: NodeTitle,
-		NodeInfobox: NodeInfobox
+		NodeInfobox: NodeInfobox,
+		NODE_LIST: [ 'data', 'title', 'media' ]
 	};
 })(window, jQuery);
