@@ -2,7 +2,8 @@
 
 namespace PortableInfobox\Helpers;
 
-// original class & authors: https://github.com/Wikia/app/blob/dev/includes/wikia/helpers/FileNamespaceSanitizeHelper.php
+// original class & authors:
+// https://github.com/Wikia/app/blob/dev/includes/wikia/helpers/FileNamespaceSanitizeHelper.php
 class FileNamespaceSanitizeHelper {
 	private static $instance = null;
 	private $filePrefixRegex = [];
@@ -41,12 +42,12 @@ class FileNamespaceSanitizeHelper {
 				}
 			}
 
-			//be able to match user-provided file namespaces that may contain both underscores and spaces
+			// be able to match user-provided file namespaces that may contain both underscores and spaces
 			$fileNamespaces = array_map( function ( $namespace ) {
 				return mb_ereg_replace( '_', '(_|\ )', $namespace );
 			}, $fileNamespaces );
 
-			//be able to match both upper- and lowercase first letters of the namespace
+			// be able to match both upper- and lowercase first letters of the namespace
 			$lowercaseFileNamespaces = array_map( function ( $namespace ) {
 				return mb_convert_case( $namespace, MB_CASE_LOWER, "UTF-8" );
 			}, $fileNamespaces );
@@ -101,8 +102,8 @@ class FileNamespaceSanitizeHelper {
 	 * @return string|null
 	 */
 	private function extractFilename( $potentialFilename, $filePrefixRegex ) {
-		$trimmedFilename = trim( $potentialFilename, "[]" );
-		$unprefixedFilename = mb_ereg_replace( $filePrefixRegex, "", $trimmedFilename );
+		$trimmedFilename = trim( $potentialFilename, '[]' );
+		$unprefixedFilename = mb_ereg_replace( $filePrefixRegex, '', $trimmedFilename );
 		$filenameParts = explode( '|', $unprefixedFilename );
 
 		if ( !empty( $filenameParts[0] ) ) {
@@ -113,37 +114,7 @@ class FileNamespaceSanitizeHelper {
 	}
 
 	/**
-	 * @desc removes all files and images occurrences from wikitext
-	 *
-	 * @param string $wikitext
-	 * @param \Language $lang
-	 * @return string wikitext without files and images
-	 */
-	public function stripFilesFromWikitext( $wikitext, $lang ) {
-		$filePrefixRegex = substr( $this->getFilePrefixRegex( $lang ), 1 );
-		$wikitext = preg_replace( '/\[\[' . $filePrefixRegex .'.*\]\]/U', '', $wikitext );
-
-		return $wikitext;
-	}
-
-	/**
-	 * @desc for a given wikitext, return an array of images or files occurences,
-	 * without brackets and without any params
-	 *
-	 * @param string $wikitext to find images or files in
-	 * @param \Language $lang
-	 * @return array of images ['File:sefes', 'File:blabla']
-	 * or false if no images found
-	 */
-	public function getCleanFileMarkersFromWikitext( $wikitext, $lang ) {
-		$filePrefixRegex = substr( $this->getFilePrefixRegex( $lang ), 1 );
-		preg_match_all( '/\[\[(' . $filePrefixRegex .'[^|\]]*).*?\]\]/', $wikitext, $images );
-
-		return count( $images[1] ) ? $images[1] : false;
-	}
-
-	/**
-	 * @desc for given file wikitext without brackets, return it without any params
+	 * For given file wikitext without brackets, return it without any params
 	 * or null if empty string
 	 *
 	 * @param string $fileWikitext
