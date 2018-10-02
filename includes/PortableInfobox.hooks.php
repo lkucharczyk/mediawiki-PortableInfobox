@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:ignore MediaWiki.Files.ClassMatchesFilename.NotMatch
 class PortableInfoboxHooks {
 
 	public static function onWgQueryPages( array &$queryPages = [] ) {
@@ -8,9 +9,12 @@ class PortableInfoboxHooks {
 		return true;
 	}
 
-	public static function onBeforeParserrenderImageGallery( Parser &$parser, ImageGalleryBase &$gallery ) {
+	public static function onBeforeParserrenderImageGallery(
+		Parser &$parser, ImageGalleryBase &$gallery
+	) {
 		PortableInfobox\Helpers\PortableInfoboxDataBag::getInstance()->setGallery(
-			Parser::MARKER_PREFIX . "-gallery-" . sprintf( '%08X', $parser->mMarkerIndex - 1 ) . Parser::MARKER_SUFFIX,
+			Parser::MARKER_PREFIX . '-gallery-' . sprintf( '%08X', $parser->mMarkerIndex - 1 ) .
+				Parser::MARKER_SUFFIX,
 			$gallery
 		);
 
@@ -53,7 +57,7 @@ class PortableInfoboxHooks {
 	public static function onResourceLoaderRegisterModules( ResourceLoader &$resourceLoader ) {
 		global $wgResourceModules;
 
-		if( isset( $wgResourceModules['ext.templateDataGenerator.data'] ) ) {
+		if ( isset( $wgResourceModules['ext.templateDataGenerator.data'] ) ) {
 			$wgResourceModules['ext.templateDataGenerator.data']['scripts'][] =
 				'../PortableInfobox/resources/PortableInfoboxParams.js';
 

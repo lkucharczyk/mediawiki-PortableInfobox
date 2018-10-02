@@ -64,7 +64,9 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 	 * @param array $rootPath
 	 * @param ApiResult $result
 	 */
-	private function setIndexedTagNamesForGroupMetadata( array $metadata, array $rootPath, ApiResult $result ) {
+	private function setIndexedTagNamesForGroupMetadata(
+		array $metadata, array $rootPath, ApiResult $result
+	) {
 		foreach ( $metadata as $nodeCount => $node ) {
 			if ( $node['type'] === 'group' ) {
 				$path = array_merge( $rootPath, [ $nodeCount, 'metadata' ] );

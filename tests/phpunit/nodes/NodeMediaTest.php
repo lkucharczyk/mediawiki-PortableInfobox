@@ -87,7 +87,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 	 * @covers       PortableInfobox\Helpers\HtmlHelper
 	 */
 	public function testTabberData() {
-		$input = '<div class="tabber"><div class="tabbertab" title="_title_"><p><a><img src="_src_"></a></p></div></div>';
+		$input = '<div class="tabber"><div class="tabbertab" title="_title_">' .
+			'<p><a><img src="_src_"></a></p></div></div>';
 		$expected = [
 			[
 				'label' => '_title_',
@@ -105,7 +106,7 @@ class NodeMediaTest extends MediaWikiTestCase {
 	 * @param $expected
 	 */
 	public function testMarkers( $ext, $value, $expected ) {
-		$this->assertEquals( $expected, PortableInfobox\Parser\Nodes\NodeMedia::getMarkers( $value, $ext ) );
+		$this->assertEquals( $expected, NodeMedia::getMarkers( $value, $ext ) );
 	}
 
 	public function markersProvider() {
@@ -117,7 +118,9 @@ class NodeMediaTest extends MediaWikiTestCase {
 			],
 			[
 				'GALLERY',
-				"\x7f'\"`UNIQ--tAbBeR-12345678-QINU`\"'\x7f<center>\x7f'\"`UNIQ--gAlLeRy-12345678-QINU`\"'\x7f</center>\x7f'\"`UNIQ--gAlLeRy-87654321-QINU`\"'\x7f",
+				"\x7f'\"`UNIQ--tAbBeR-12345678-QINU`\"'\x7f" .
+				"<center>\x7f'\"`UNIQ--gAlLeRy-12345678-QINU`\"'\x7f</center>" .
+				"\x7f'\"`UNIQ--gAlLeRy-87654321-QINU`\"'\x7f",
 				[ "\x7f'\"`UNIQ--gAlLeRy-12345678-QINU`\"'\x7f", "\x7f'\"`UNIQ--gAlLeRy-87654321-QINU`\"'\x7f" ]
 			],
 			[
@@ -313,14 +316,18 @@ class NodeMediaTest extends MediaWikiTestCase {
 				[ 'img', 'alt', 'cap' ]
 			],
 			[
-				'<media source="img"><alt source="alt"><default>{{{def}}}</default></alt><caption source="cap"/></media>',
+				'<media source="img">' .
+				'<alt source="alt"><default>{{{def}}}</default></alt><caption source="cap"/>' .
+				'</media>',
 				[ 'img', 'alt', 'def', 'cap' ] ],
 			[
 				'<media/>',
 				[]
 			],
 			[
-				'<image source="img"><caption source="cap"><format>Test {{{cap}}} and {{{fcap}}}</format></caption></image>',
+				'<image source="img">' .
+				'<caption source="cap"><format>Test {{{cap}}} and {{{fcap}}}</format></caption>' .
+				'</image>',
 				[ 'img', 'cap', 'fcap' ]
 			]
 		];
@@ -336,12 +343,17 @@ class NodeMediaTest extends MediaWikiTestCase {
 	public function metadataProvider() {
 		return [
 			[
-				'<media source="img"><caption source="cap"><format>Test {{{cap}}} and {{{fcap}}}</format></caption></media>',
-				[ 'type' => 'media', 'sources' => [
-					'img' => [ 'label' => '', 'primary' => true ],
-					'cap' => [ 'label' => '' ],
-					'fcap' => [ 'label' => '' ]
-				] ]
+				'<media source="img">' .
+				'<caption source="cap"><format>Test {{{cap}}} and {{{fcap}}}</format></caption>' .
+				'</media>',
+				[
+					'type' => 'media',
+					'sources' => [
+						'img' => [ 'label' => '', 'primary' => true ],
+						'cap' => [ 'label' => '' ],
+						'fcap' => [ 'label' => '' ]
+					]
+				]
 			]
 		];
 	}

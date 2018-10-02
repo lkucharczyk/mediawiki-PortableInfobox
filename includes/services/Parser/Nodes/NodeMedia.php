@@ -20,7 +20,8 @@ class NodeMedia extends Node {
 	private $helper;
 
 	public static function getMarkers( $value, $ext ) {
-		if ( preg_match_all( '/' . \Parser::MARKER_PREFIX . '-' . $ext . '-[A-F0-9]{8}' . \Parser::MARKER_SUFFIX . '/is', $value, $out ) ) {
+		$regex = '/' . \Parser::MARKER_PREFIX . "-$ext-[A-F0-9]{8}" . \Parser::MARKER_SUFFIX . '/i';
+		if ( preg_match_all( $regex, $value, $out ) ) {
 			return $out[0];
 		} else {
 			return [];
@@ -75,12 +76,13 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc Checks if parser preprocessed string containg Tabber or Gallery extension
+	 * Checks if parser preprocessed string containg Tabber or Gallery extension
 	 * @param string $str String to check
 	 * @return bool
 	 */
 	private function containsTabberOrGallery( $str ) {
-		return !empty( self::getMarkers( $str, self::TABBER ) ) || !empty( self::getMarkers( $str, self::GALLERY ) );
+		return !empty( self::getMarkers( $str, self::TABBER ) ) ||
+			!empty( self::getMarkers( $str, self::GALLERY ) );
 	}
 
 	private function getImagesData( $value ) {
@@ -116,7 +118,7 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc prepare infobox image node data.
+	 * Prepare infobox image node data.
 	 *
 	 * @param $title
 	 * @param $alt
@@ -200,7 +202,7 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc returns image url for given image title
+	 * Returns image url for given image title
 	 * @param File|null $file
 	 * @return string url or '' if image doesn't exist
 	 */
@@ -209,7 +211,7 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc checks if file media type is allowed
+	 * Checks if file media type is allowed
 	 * @param string $type
 	 * @return bool
 	 */

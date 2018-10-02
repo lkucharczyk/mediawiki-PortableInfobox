@@ -8,5 +8,6 @@ class NodeUnimplemented extends Node {
 	}
 }
 
+// phpcs:ignore Generic.Files.OneObjectStructurePerFile.MultipleFound
 class UnimplementedNodeException extends \Exception {
 }

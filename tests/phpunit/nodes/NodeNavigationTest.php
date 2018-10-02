@@ -11,20 +11,28 @@ class NodeNavigationTest extends MediaWikiTestCase {
 	 * @dataProvider dataProvider
 	 *
 	 * @param $markup
-	 * @param $params
 	 * @param $expected
 	 */
-	public function testData( $markup, $params, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+	public function testData( $markup, $expected ) {
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
 
 		$this->assertEquals( $expected, $node->getData() );
 	}
 
 	public function dataProvider() {
 		return [
-			[ '<navigation></navigation>', [], [ 'value' => '' ] ],
-			[ '<navigation>kjdflkja dafkjlsdkfj</navigation>', [], [ 'value' => 'kjdflkja dafkjlsdkfj' ] ],
-			[ '<navigation>kjdflkja<ref>dafkjlsdkfj</ref></navigation>', [], [ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ] ],
+			[
+				'<navigation></navigation>',
+				[ 'value' => '' ]
+			],
+			[
+				'<navigation>kjdflkja dafkjlsdkfj</navigation>',
+				[ 'value' => 'kjdflkja dafkjlsdkfj' ]
+			],
+			[
+				'<navigation>kjdflkja<ref>dafkjlsdkfj</ref></navigation>',
+				[ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ]
+			]
 		];
 	}
 

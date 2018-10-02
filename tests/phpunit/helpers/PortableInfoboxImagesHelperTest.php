@@ -90,7 +90,10 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 	 * @param $originalDimension
 	 * @dataProvider customWidthProvider
 	 */
-	public function testCustomWidthLogic( $customWidth, $preferredWidth, $resultDimensions, $thumbnailDimensions, $thumbnail2xDimensions, $originalDimension ) {
+	public function testCustomWidthLogic(
+		$customWidth, $preferredWidth, $resultDimensions, $thumbnailDimensions, $thumbnail2xDimensions,
+		$originalDimension
+	) {
 		$expected = [
 			'thumbnail' => null,
 			'thumbnail2x' => null,
@@ -105,15 +108,26 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 			->disableOriginalConstructor()
 			->setMethods( [ 'exists', 'transform', 'getWidth', 'getHeight', 'getMediaType' ] )
 			->getMock();
-		$file->expects( $this->once() )->method( 'exists' )->will( $this->returnValue( true ) );
-		$file->expects( $this->once() )->method( 'getWidth' )->will( $this->returnValue( $originalDimension['width'] ) );
-		$file->expects( $this->once() )->method( 'getHeight' )->will( $this->returnValue( $originalDimension['height'] ) );
-		$file->expects( $this->once() )->method( 'getMediaType' )->will( $this->returnValue( MEDIATYPE_BITMAP ) );
+		$file->expects( $this->once() )
+			->method( 'exists' )
+			->willReturn( true );
+		$file->expects( $this->once() )
+			->method( 'getWidth' )
+			->willReturn( $originalDimension['width'] );
+		$file->expects( $this->once() )
+			->method( 'getHeight' )
+			->willReturn( $originalDimension['height'] );
+		$file->expects( $this->once() )
+			->method( 'getMediaType' )
+			->willReturn( MEDIATYPE_BITMAP );
 
 		$file->expects( $this->any() )
 			->method( 'transform' )
-			->with( $this->logicalOr( $this->equalTo( $thumbnailDimensions ), $this->equalTo( $thumbnail2xDimensions ) ) )
-			->will( $this->returnValue( $thumb ) );
+			->with( $this->logicalOr(
+				$this->equalTo( $thumbnailDimensions ),
+				$this->equalTo( $thumbnail2xDimensions )
+			) )
+			->willReturn( $thumb );
 
 		global $wgPortableInfoboxCustomImageWidth;
 		$wgPortableInfoboxCustomImageWidth = $customWidth;
@@ -175,5 +189,4 @@ class PortableInfoboxImagesHelperTest extends MediaWikiTestCase {
 			],
 		];
 	}
-
 }

@@ -2,7 +2,8 @@
 
 namespace PortableInfobox\Helpers;
 
-// original class & authors: https://github.com/Wikia/app/blob/dev/includes/wikia/helpers/HtmlHelper.class.php
+// original class & authors:
+// https://github.com/Wikia/app/blob/dev/includes/wikia/helpers/HtmlHelper.class.php
 class HtmlHelper {
 
 	/**
@@ -18,7 +19,7 @@ class HtmlHelper {
 		$document = new \DOMDocument();
 
 		if ( !empty( $html ) ) {
-			//encode for correct load
+			// encode for correct load
 			$document->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) );
 		}
 

@@ -34,9 +34,9 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 	}
 
 	/**
-	 * @desc As a infobox template label we want to return a nice, clean text, without e.g. '_' signs
+	 * As a infobox template label we want to return a nice, clean text, without e.g. '_' signs
 	 * @param $text infobox template title
-	 * @return String
+	 * @return string
 	 */
 	private function createLabel( $text ) {
 		$title = Title::newFromText( $text, NS_TEMPLATE );

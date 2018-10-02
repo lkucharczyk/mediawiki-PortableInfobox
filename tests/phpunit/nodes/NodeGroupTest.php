@@ -66,93 +66,192 @@ class NodeGroupTest extends MediaWikiTestCase {
 
 	public function groupNodeTestProvider() {
 		return [
-			[ '<group><data source="elem1"><label>l1</label><default>def1</default></data><data source="elem2">
-				<label>l2</label><default>def2</default></data><data source="elem3"><label>l2</label></data></group>',
-			  [ 'elem1' => 1, 'elem2' => 2 ],
-			  [ 'value' =>
-					[
-						[ 'type' => 'data', 'isEmpty' => false, 'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem1' ] ],
-						[ 'type' => 'data', 'isEmpty' => false, 'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem2' ] ],
-						[ 'type' => 'data', 'isEmpty' => true, 'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem3' ] ]
+			[
+				'<group>' .
+				'<data source="elem1"><label>l1</label><default>def1</default></data>' .
+				'<data source="elem2"><label>l2</label><default>def2</default></data>' .
+				'<data source="elem3"><label>l2</label></data>' .
+				'</group>',
+				[ 'elem1' => 1, 'elem2' => 2 ],
+				[
+					'value' => [
+						[
+							'type' => 'data',
+							'isEmpty' => false,
+							'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
+							'source' => [ 'elem1' ]
+						],
+						[
+							'type' => 'data',
+							'isEmpty' => false,
+							'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
+							'source' => [ 'elem2' ]
+						],
+						[
+							'type' => 'data',
+							'isEmpty' => true,
+							'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
+							'source' => [ 'elem3' ]
+						]
 					],
-				'layout' => 'default',
-				'collapse' => null,
-				'row-items' => null
-			  ] ],
-			[ '<group layout="horizontal"><data source="elem1"><label>l1</label><default>def1</default></data><data source="elem2">
-				<label>l2</label><default>def2</default></data><data source="elem3"><label>l2</label></data></group>',
-			  [ 'elem1' => 1, 'elem2' => 2 ],
-			  [ 'value' =>
-					[
-						[ 'type' => 'data', 'isEmpty' => false, 'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem1' ] ],
-						[ 'type' => 'data', 'isEmpty' => false, 'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem2' ] ],
-						[ 'type' => 'data', 'isEmpty' => true, 'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem3' ] ],
+					'layout' => 'default',
+					'collapse' => null,
+					'row-items' => null
+				]
+			],
+			[
+				'<group layout="horizontal">' .
+				'<data source="elem1"><label>l1</label><default>def1</default></data>' .
+				'<data source="elem2"><label>l2</label><default>def2</default></data>' .
+				'<data source="elem3"><label>l2</label></data>' .
+				'</group>',
+				[ 'elem1' => 1, 'elem2' => 2 ],
+				[
+					'value' => [
+						[
+							'type' => 'data',
+							'isEmpty' => false,
+							'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
+							'source' => [ 'elem1' ]
+						],
+						[
+							'type' => 'data',
+							'isEmpty' => false,
+							'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
+							'source' => [ 'elem2' ]
+						],
+						[
+							'type' => 'data',
+							'isEmpty' => true,
+							'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
+							'source' => [ 'elem3' ]
+						],
 					],
-				'layout' => 'horizontal',
-				'collapse' => null,
-				'row-items' => null
-			  ] ],
-			[ '<group  layout="loool"><data source="elem1"><label>l1</label><default>def1</default></data><data source="elem2">
-				<label>l2</label><default>def2</default></data><data source="elem3"><label>l2</label></data></group>',
-			  [ 'elem1' => 1, 'elem2' => 2 ],
-			  [ 'value' =>
-					[
-						[ 'type' => 'data', 'isEmpty' => false, 'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem1' ] ],
-						[ 'type' => 'data', 'isEmpty' => false, 'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem2' ] ],
-						[ 'type' => 'data', 'isEmpty' => true, 'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
-						  'source' => [ 'elem3' ] ],
+					'layout' => 'horizontal',
+					'collapse' => null,
+					'row-items' => null
+				]
+			],
+			[
+				'<group  layout="loool">' .
+				'<data source="elem1"><label>l1</label><default>def1</default></data>' .
+				'<data source="elem2"><label>l2</label><default>def2</default></data>' .
+				'<data source="elem3"><label>l2</label></data>' .
+				'</group>',
+				[ 'elem1' => 1, 'elem2' => 2 ],
+				[
+					'value' => [
+						[
+							'type' => 'data',
+							'isEmpty' => false,
+							'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
+							 'source' => [ 'elem1' ]
+						],
+						[
+							'type' => 'data',
+							'isEmpty' => false,
+							'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
+							 'source' => [ 'elem2' ]
+						],
+						[
+							'type' => 'data',
+							'isEmpty' => true,
+							'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
+							'source' => [ 'elem3' ]
+						]
 					],
-				'layout' => 'default',
-				'collapse' => null,
-				'row-items' => null
-			  ] ],
-			[ '<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>',
-			  [ '1' => 'one', '2' => 'two' ],
-			  [ 'value' => [
-				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [] ],
-				  [ 'type' => 'data', 'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => false,
-					'source' => [ '1' ] ],
-				  [ 'type' => 'data', 'data' => [ 'value' => 'two', 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => false,
-					'source' => [ '2' ] ],
-			  ],
-				'layout' => 'default',
-				'collapse' => null,
-				'row-items' => null
-			  ] ],
-			[ '<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>',
-			  [ '1' => 'one' ],
-			  [ 'value' => [
-				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [] ],
-				  [ 'type' => 'data', 'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => false,
-					'source' => [ '1' ] ],
-				  [ 'type' => 'data', 'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => true,
-					'source' => [ '2' ] ]
-			  ],
-				'layout' => 'default',
-				'collapse' => null,
-				'row-items' => null
-
-			  ] ],
-			[ '<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>', [],
-			  [ 'value' => [
-				  [ 'type' => 'header', 'data' => [ 'value' => 'h' ], 'isEmpty' => false, 'source' => [] ],
-				  [ 'type' => 'data', 'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => true,
-					'source' => [ '1' ] ],
-				  [ 'type' => 'data', 'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ], 'isEmpty' => true,
-					'source' => [ '2' ] ],
-			  ],
-				'layout' => 'default',
-				'collapse' => null,
-				'row-items' => null
-			  ] ]
+					'layout' => 'default',
+					'collapse' => null,
+					'row-items' => null
+				]
+			],
+			[
+				'<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>',
+				[ '1' => 'one', '2' => 'two' ],
+				[
+					'value' => [
+						[
+							'type' => 'header',
+							'data' => [ 'value' => 'h' ],
+							'isEmpty' => false,
+							'source' => []
+						],
+						[
+							'type' => 'data',
+							'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ],
+							'isEmpty' => false,
+							'source' => [ '1' ]
+						],
+						[
+							'type' => 'data',
+							'data' => [ 'value' => 'two', 'label' => '', 'span' => 1, 'layout' => null ],
+							'isEmpty' => false,
+							'source' => [ '2' ]
+						]
+					],
+					'layout' => 'default',
+					'collapse' => null,
+					'row-items' => null
+				]
+			],
+			[
+				'<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>',
+				[ '1' => 'one' ],
+				[
+					'value' => [
+						[
+							'type' => 'header',
+							'data' => [ 'value' => 'h' ],
+							'isEmpty' => false,
+							'source' => []
+						],
+						[
+							'type' => 'data',
+							'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ],
+							'isEmpty' => false,
+							'source' => [ '1' ]
+						],
+						[
+							'type' => 'data',
+							'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ],
+							'isEmpty' => true,
+							'source' => [ '2' ]
+						]
+					],
+					'layout' => 'default',
+					'collapse' => null,
+					'row-items' => null
+				]
+			],
+			[
+				'<group show="incomplete"><header>h</header><data source="1"/><data source="2"/></group>',
+				[],
+				[
+					'value' => [
+						[
+							'type' => 'header',
+							'data' => [ 'value' => 'h' ],
+							'isEmpty' => false,
+							'source' => []
+						],
+						[
+							'type' => 'data',
+							'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ],
+							'isEmpty' => true,
+							'source' => [ '1' ]
+						],
+						[
+							'type' => 'data',
+							'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ],
+							'isEmpty' => true,
+							'source' => [ '2' ]
+						]
+					],
+					'layout' => 'default',
+					'collapse' => null,
+					'row-items' => null
+				]
+			]
 		];
 	}
 }

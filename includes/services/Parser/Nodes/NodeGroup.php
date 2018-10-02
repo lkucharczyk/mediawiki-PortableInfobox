@@ -91,20 +91,21 @@ class NodeGroup extends Node {
 	protected function getDisplay() {
 		$show = $this->getXmlAttribute( $this->xmlNode, self::SHOW_ATTR_NAME );
 
-		return ( isset( $show ) && in_array( strtolower( $show ), $this->supportedGroupDisplays ) ) ? $show
-			: self::SHOW_DEFAULT_OPTION;
+		return ( isset( $show ) && in_array( strtolower( $show ), $this->supportedGroupDisplays ) ) ?
+			$show : self::SHOW_DEFAULT_OPTION;
 	}
 
 	protected function getCollapse() {
 		$collapse = $this->getXmlAttribute( $this->xmlNode, self::COLLAPSE_ATTR_NAME );
-		return ( isset( $collapse ) && in_array( $collapse, $this->supportedGroupCollapses ) ) ? $collapse : null;
+		return ( isset( $collapse ) && in_array( $collapse, $this->supportedGroupCollapses ) ) ?
+			$collapse : null;
 	}
 
 	protected function getLayout() {
 		$layout = $this->getXmlAttribute( $this->xmlNode, self::LAYOUT_ATTR_NAME );
 
-		return ( isset( $layout ) && in_array( $layout, $this->supportedGroupLayouts ) ) ? $layout
-			: self::LAYOUT_DEFAULT_OPTION;
+		return ( isset( $layout ) && in_array( $layout, $this->supportedGroupLayouts ) ) ?
+			$layout : self::LAYOUT_DEFAULT_OPTION;
 	}
 
 	protected function getRowItems() {

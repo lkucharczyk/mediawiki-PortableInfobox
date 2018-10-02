@@ -39,7 +39,9 @@ class Node {
 		$metadata = [];
 		$sources = $this->getSources();
 		$sourcesLength = count( $sources );
-		$baseLabel = \Sanitizer::stripAllTags( $this->getInnerValue( $this->xmlNode->{self::LABEL_TAG_NAME} ) );
+		$baseLabel = \Sanitizer::stripAllTags(
+			$this->getInnerValue( $this->xmlNode->{self::LABEL_TAG_NAME} )
+		);
 
 		foreach ( $sources as $source ) {
 			$metadata[$source] = [];
@@ -49,7 +51,8 @@ class Node {
 		}
 
 		if ( $sourcesLength > 0 && $this->hasPrimarySource( $this->xmlNode ) ) {
-			// self::extractSourcesFromNode() puts the value of the `source` attribute as the first element of $sources
+			// self::extractSourcesFromNode() puts the value of the `source` attribute
+			// as the first element of $sources
 			$firstSource = reset( $sources );
 			$metadata[$firstSource]['primary'] = true;
 		}
@@ -121,7 +124,7 @@ class Node {
 	}
 
 	/**
-	 * @desc Check if node is empty.
+	 * Check if node is empty.
 	 * Note that a '0' value cannot be treated like a null
 	 *
 	 * @return bool
@@ -201,7 +204,9 @@ class Node {
 	protected function getRawValueWithDefault( \SimpleXMLElement $xmlNode ) {
 		$value = $this->getRawInfoboxData( $this->getXmlAttribute( $xmlNode, self::DATA_SRC_ATTR_NAME ) );
 		if ( !$value && $xmlNode->{self::DEFAULT_TAG_NAME} ) {
-			$value = $this->getExternalParser()->replaceVariables( (string)$xmlNode->{self::DEFAULT_TAG_NAME} );
+			$value = $this->getExternalParser()->replaceVariables(
+				(string)$xmlNode->{self::DEFAULT_TAG_NAME}
+			);
 		}
 
 		return $value;
@@ -248,7 +253,6 @@ class Node {
 	 * @param \SimpleXMLElement $xmlNode
 	 *
 	 * @return array
-	 *
 	 */
 	protected function extractSourcesFromNode( \SimpleXMLElement $xmlNode ) {
 		$sources = $this->hasPrimarySource( $xmlNode ) ?

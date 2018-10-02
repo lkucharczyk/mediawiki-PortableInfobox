@@ -6,8 +6,16 @@ use MediaWiki\Logger\LoggerFactory;
 
 class PortableInfoboxParsingHelper {
 
+	protected $parserTagController;
+	protected $logger;
+
+	public function __construct() {
+		$this->parserTagController = \PortableInfoboxParserTagController::getInstance();
+		$this->logger = LoggerFactory::getInstance( 'PortableInfobox' );
+	}
+
 	/**
-	 * @desc Try to find out if infobox got "hidden" inside includeonly tag. Parse it if that's the case.
+	 * Try to find out if infobox got "hidden" inside includeonly tag. Parse it if that's the case.
 	 *
 	 * @param \Title $title
 	 *
@@ -29,14 +37,16 @@ class PortableInfoboxParsingHelper {
 				// clear up cache before parsing
 				foreach ( $infoboxes as $infobox ) {
 					try {
-						\PortableInfoboxParserTagController::getInstance()->render( $infobox, $parser, $frame );
+						$this->parserTagController->render( $infobox, $parser, $frame );
 					} catch ( \Exception $e ) {
-						LoggerFactory::getInstance( 'PortableInfobox' )->info( 'Invalid infobox syntax in includeonly tag' );
+						$this->logger->info( 'Invalid infobox syntax in includeonly tag' );
 					}
 				}
 
-				return json_decode( $parser->getOutput()
-					->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ), true );
+				return json_decode(
+					$parser->getOutput()->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ),
+					true
+				);
 			}
 		}
 
@@ -48,8 +58,10 @@ class PortableInfoboxParsingHelper {
 		$parserOptions = new \ParserOptions();
 		$parser->parse( $this->fetchArticleContent( $title ), $title, $parserOptions );
 
-		return json_decode( $parser->getOutput()
-			->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ), true );
+		return json_decode(
+			$parser->getOutput()->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ),
+			true
+		);
 	}
 
 	/**
@@ -62,7 +74,9 @@ class PortableInfoboxParsingHelper {
 			$wikipage = \WikiPage::factory( $title );
 
 			if ( $wikipage && $wikipage->exists() ) {
-				$content = \ContentHandler::getContentText( $wikipage->getRevision()->getContent( \Revision::RAW ) );
+				$content = \ContentHandler::getContentText(
+					$wikipage->getRevision()->getContent( \Revision::RAW )
+				);
 			}
 		}
 
@@ -79,7 +93,7 @@ class PortableInfoboxParsingHelper {
 	}
 
 	/**
-	 * @desc for given template text returns it without text in <nowiki> and <pre> tags
+	 * For given template text returns it without text in <nowiki> and <pre> tags
 	 *
 	 * @param string $text
 	 *
@@ -93,7 +107,7 @@ class PortableInfoboxParsingHelper {
 	}
 
 	/**
-	 * @desc From the template without <includeonly> tags, creates an array of
+	 * From the template without <includeonly> tags, creates an array of
 	 * strings containing only infoboxes. All template content which is not an infobox is removed.
 	 *
 	 * @param string $text Content of template which uses the <includeonly> tags

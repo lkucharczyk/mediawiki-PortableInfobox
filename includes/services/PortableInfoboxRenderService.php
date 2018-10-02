@@ -25,7 +25,9 @@ class PortableInfoboxRenderService {
 	 * @param string $accentColorText
 	 * @return string - infobox HTML
 	 */
-	public function renderInfobox( array $infoboxdata, $theme, $layout, $accentColor, $accentColorText ) {
+	public function renderInfobox(
+		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText
+	) {
 		$this->inlineStyles = $this->getInlineStyles( $accentColor, $accentColorText );
 
 		$infoboxHtmlContent = $this->renderChildren( $infoboxdata );
@@ -91,7 +93,7 @@ class PortableInfoboxRenderService {
 	 *
 	 * @return string - group HTML markup
 	 */
-	protected function renderGroup( $groupData ) {
+	protected function renderGroup( array $groupData ) {
 		$cssClasses = [];
 		$groupHTMLContent = '';
 		$children = $groupData['value'];
@@ -128,7 +130,7 @@ class PortableInfoboxRenderService {
 	 * @param array $data
 	 * @return string
 	 */
-	protected function renderMedia( $data ) {
+	protected function renderMedia( array $data ) {
 		if ( count( $data ) === 0 || !$data[0] ) {
 			return '';
 		}
@@ -145,19 +147,19 @@ class PortableInfoboxRenderService {
 		return $this->render( $templateName, $data );
 	}
 
-	protected function renderTitle( $data ) {
+	protected function renderTitle( array $data ) {
 		$data['inlineStyles'] = $this->inlineStyles;
 
 		return $this->render( 'title', $data );
 	}
 
-	protected function renderHeader( $data ) {
+	protected function renderHeader( array $data ) {
 		$data['inlineStyles'] = $this->inlineStyles;
 
 		return $this->render( 'header', $data );
 	}
 
-	protected function renderChildren( $children ) {
+	protected function renderChildren( array $children ) {
 		$result = '';
 		foreach ( $children as $child ) {
 			$type = $child['type'];
@@ -176,7 +178,7 @@ class PortableInfoboxRenderService {
 		return "{$backgroundColor}{$color}";
 	}
 
-	private function createHorizontalGroupData( $groupData ) {
+	private function createHorizontalGroupData( array $groupData ) {
 		$horizontalGroupData = [
 			'labels' => [],
 			'values' => [],
@@ -202,7 +204,7 @@ class PortableInfoboxRenderService {
 		return $horizontalGroupData;
 	}
 
-	private function createSmartGroups( $groupData, $rowCapacity ) {
+	private function createSmartGroups( array $groupData, $rowCapacity ) {
 		$result = [];
 		$rowSpan = 0;
 		$rowItems = [];
@@ -210,7 +212,7 @@ class PortableInfoboxRenderService {
 		foreach ( $groupData as $item ) {
 			$data = $item['data'];
 
-			if ( $item['type'] === 'data' && ( !isset( $data['layout'] ) || $data['layout'] !== 'default' ) ) {
+			if ( $item['type'] === 'data' && $data['layout'] !== 'default' ) {
 
 				if ( !empty( $rowItems ) && $rowSpan + $data['span'] > $rowCapacity ) {
 					$result[] = $this->createSmartGroupItem( $rowItems, $rowSpan );
@@ -236,14 +238,14 @@ class PortableInfoboxRenderService {
 		return $result;
 	}
 
-	private function createSmartGroupItem( $rowItems, $rowSpan ) {
+	private function createSmartGroupItem( array $rowItems, $rowSpan ) {
 		return [
 			'type' => 'smart-group',
 			'data' => $this->createSmartGroupSections( $rowItems, $rowSpan )
 		];
 	}
 
-	private function createSmartGroupSections( $rowItems, $capacity ) {
+	private function createSmartGroupSections( array $rowItems, $capacity ) {
 		return array_reduce( $rowItems, function ( $result, $item ) use ( $capacity ) {
 			$width = $item['data']['span'] / $capacity * 100;
 			$styles = "width: {$width}%";

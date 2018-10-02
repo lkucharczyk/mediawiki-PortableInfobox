@@ -34,10 +34,11 @@ class XmlParser {
 	}
 
 	protected static function logXmlParseError( $level, $code, $message ) {
-		LoggerFactory::getInstance( 'PortableInfobox' )->info( 'PortableInfobox XML Parser problem: [ level: "{level}", code: "{code}", message: "{message}" ]', [
-			"level" => $level,
-			"code" => $code,
-			"message" => $message ] );
+		LoggerFactory::getInstance( 'PortableInfobox' )->info( 'PortableInfobox XML Parser problem', [
+			'level' => $level,
+			'code' => $code,
+			'message' => $message
+		] );
 	}
 
 	/**
@@ -48,7 +49,10 @@ class XmlParser {
 	protected static function prepareXml( $xmlString ) {
 		foreach ( self::$contentTags as $tag ) {
 			// wrap content in CDATA for content tags
-			$xmlString = preg_replace( '|(<' . $tag . '.*>)(.*)(</' . $tag . '>)|sU', '$1<![CDATA[$2]]>$3', $xmlString );
+			$xmlString = preg_replace(
+				'|(<' . $tag . '.*>)(.*)(</' . $tag . '>)|sU', '$1<![CDATA[$2]]>$3',
+				$xmlString
+			);
 		}
 		$decoded = str_replace( '&', '&amp;', html_entity_decode( $xmlString ) );
 
@@ -57,6 +61,7 @@ class XmlParser {
 
 }
 
+// phpcs:ignore Generic.Files.OneObjectStructurePerFile.MultipleFound
 class XmlMarkupParseErrorException extends \Exception {
 	private $errors;
 

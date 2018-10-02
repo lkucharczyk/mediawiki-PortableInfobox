@@ -58,7 +58,17 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 			[
 				[
 					'parser_tag_version' => PortableInfoboxParserTagController::PARSER_TAG_VERSION,
-					'data' => [ [ 'type' => 'data', 'data' => [ 'label' => null, 'value' => 1, 'layout' => null, 'span' => 1 ] ] ],
+					'data' => [
+						[
+							'type' => 'data',
+							'data' => [
+								'label' => null,
+								'value' => 1,
+								'layout' => null,
+								'span' => 1
+							]
+						]
+					],
 					'metadata' => [
 						[
 							'type' => 'data',

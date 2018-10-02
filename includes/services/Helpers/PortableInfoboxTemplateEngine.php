@@ -58,8 +58,6 @@ class PortableInfoboxTemplateEngine {
 			return self::$cache[$type];
 		}
 
-		global $wgPortableInfoboxUseHeadings;
-
 		$cachekey = self::$memcache->makeKey(
 			__CLASS__, \PortableInfoboxParserTagController::PARSER_TAG_VERSION, $type
 		);

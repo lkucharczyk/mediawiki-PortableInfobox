@@ -24,9 +24,14 @@ class PortableInfoboxImagesHelper {
 
 		// get dimensions
 		$originalWidth = $file->getWidth();
-		// we need to have different thumbnail file dimensions to support (not to have pixelated images) wider infoboxes than default width
-		$fileDimensions = $this->getThumbnailSizes( $thumbnailFileWidth, self::MAX_DESKTOP_THUMBNAIL_HEIGHT,
-			$originalWidth, $file->getHeight() );
+		// we need to have different thumbnail file dimensions to support (not to have pixelated images)
+		// wider infoboxes than default width
+		$fileDimensions = $this->getThumbnailSizes(
+			$thumbnailFileWidth,
+			self::MAX_DESKTOP_THUMBNAIL_HEIGHT,
+			$originalWidth,
+			$file->getHeight()
+		);
 		$imgTagDimensions =
 			empty( $thumbnailImgTagWidth )
 				? $fileDimensions

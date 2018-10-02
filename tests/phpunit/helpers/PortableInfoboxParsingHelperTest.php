@@ -9,7 +9,6 @@ class PortableInfoboxParsingHelperTest extends MediaWikiTestCase {
 	 * @dataProvider parsingIncludeonlyInfoboxesDataProvider
 	 */
 	public function testParsingIncludeonlyInfoboxes( $markup, $expected ) {
-		/** @var PHPUnit_Framework_MockObject_MockObject|PortableInfobox\Helpers\PortableInfoboxParsingHelper $helper */
 		$helper = $this->getMockBuilder( PortableInfobox\Helpers\PortableInfoboxParsingHelper::class )
 			->setMethods( [ 'fetchArticleContent' ] )
 			->getMock();
