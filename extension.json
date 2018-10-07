@@ -68,7 +68,6 @@
 		"PortableInfobox\\Parser\\Nodes\\NodeVideo": "includes/services/Parser/Nodes/NodeVideo.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeUnimplemented": "includes/services/Parser/Nodes/NodeUnimplemented.php",
 		"PortableInfobox\\Helpers\\FileNamespaceSanitizeHelper": "includes/services/Helpers/FileNamespaceSanitizeHelper.php",
-		"PortableInfobox\\Helpers\\HtmlHelper": "includes/services/Helpers/HtmlHelper.php",
 		"PortableInfobox\\Helpers\\InfoboxParamsValidator": "includes/services/Helpers/InfoboxParamsValidator.php",
 		"PortableInfobox\\Helpers\\PortableInfoboxDataBag": "includes/services/Helpers/PortableInfoboxDataBag.php",
 		"PortableInfobox\\Helpers\\PortableInfoboxTemplateEngine": "includes/services/Helpers/PortableInfoboxTemplateEngine.php",

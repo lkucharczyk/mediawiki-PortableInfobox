@@ -84,7 +84,6 @@ class NodeMediaTest extends MediaWikiTestCase {
 
 	/**
 	 * @covers       PortableInfobox\Parser\Nodes\NodeMedia::getTabberData
-	 * @covers       PortableInfobox\Helpers\HtmlHelper
 	 */
 	public function testTabberData() {
 		$input = '<div class="tabber"><div class="tabbertab" title="_title_">' .

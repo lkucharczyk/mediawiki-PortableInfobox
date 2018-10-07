@@ -2,7 +2,6 @@
 namespace PortableInfobox\Parser\Nodes;
 
 use PortableInfobox\Helpers\FileNamespaceSanitizeHelper;
-use PortableInfobox\Helpers\HtmlHelper;
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
 use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
 
@@ -40,13 +39,22 @@ class NodeMedia extends Node {
 
 	public static function getTabberData( $html ) {
 		$data = [];
-		$doc = HtmlHelper::createDOMDocumentFromText( $html );
-		$sxml = simplexml_import_dom( $doc );
-		$divs = $sxml->xpath( '//div[@class=\'tabbertab\']' );
+
+		$doc = new \DOMDocument();
+		$libXmlErrorSetting = libxml_use_internal_errors( true );
+
+		// encode for correct load
+		$doc->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) );
+
+		libxml_clear_errors();
+		libxml_use_internal_errors( $libXmlErrorSetting );
+
+		$xpath = new \DOMXpath( $doc );
+		$divs = $xpath->query( '//div[@class=\'tabbertab\']' );
 		foreach ( $divs as $div ) {
-			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $div->asXML(), $out ) ) {
+			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $doc->saveXml( $div ), $out ) ) {
 				$data[] = [
-					'label' => (string)$div['title'],
+					'label' => $div->getAttribute( 'title' ),
 					'title' => $out[1]
 				];
 			}
