@@ -1,17 +1,24 @@
 <?php
 
+use PortableInfobox\Helpers\PortableInfoboxParsingHelper;
+
 class AllinfoboxesQueryPage extends PageQueryPage {
 
 	const ALL_INFOBOXES_TYPE = 'AllInfoboxes';
-	private static $subpagesBlacklist = [];
+	private $compatibleMode;
+	private $subpagesBlacklist = [];
+	private $parsingHelper;
 
 	function __construct() {
 		parent::__construct( self::ALL_INFOBOXES_TYPE );
 
 		$blacklist = $this->getConfig( 'AllInfoboxesSubpagesBlacklist' );
 		if ( is_array( $blacklist ) ) {
-			self::$subpagesBlacklist = $blacklist;
+			$this->subpagesBlacklist = $blacklist;
 		}
+
+		$this->compatibleMode = $this->getConfig()->get( 'AllInfoboxesCompatibleMode' );
+		$this->parsingHelper = new PortableInfoboxParsingHelper();
 	}
 
 	function getGroupName() {
@@ -42,18 +49,33 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 	}
 
 	function getQueryInfo() {
-		return [
+		$query = [
 			'tables' => [ 'page' ],
 			'fields' => [
-				'namespace' => 'page_namespace',
-				'title' => 'page_title',
-				'value' => 'page_id'
+				'namespace' => 'page.page_namespace',
+				'title' => 'page.page_title',
+				'value' => 'page.page_id'
 			],
 			'conds' => [
-				'page_is_redirect' => 0,
-				'page_namespace' => NS_TEMPLATE
+				'page.page_is_redirect' => 0,
+				'page.page_namespace' => NS_TEMPLATE
 			]
 		];
+
+		if ( !$this->compatibleMode ) {
+			$query = array_merge_recursive( $query, [
+				'tables' => [ 'revision', 'text' ],
+				'fields' => [
+					'text' => 'text.old_text'
+				],
+				'join_conds' => [
+					'revision' => [ 'LEFT JOIN', 'page.page_latest = revision.rev_id' ],
+					'text' => [ 'LEFT JOIN', 'revision.rev_text_id = text.old_id AND text.old_flags = "utf-8"' ]
+				]
+			] );
+		}
+
+		return $query;
 	}
 
 	/**
@@ -104,20 +126,19 @@ class AllinfoboxesQueryPage extends PageQueryPage {
 		return new FakeResultWrapper( $out );
 	}
 
-	private function hasInfobox( Title $title ) {
-		// omit subages from blacklist
-		return !(
-				$title->isSubpage() &&
-				in_array( mb_strtolower( $title->getSubpageText() ), self::$subpagesBlacklist )
-			) &&
-			!empty( PortableInfoboxDataService::newFromTitle( $title )->getData() );
-	}
-
 	private function filterInfoboxes( $tmpl ) {
 		$title = Title::newFromID( $tmpl->value );
 
 		return $title &&
 			$title->exists() &&
-			$this->hasInfobox( $title );
+			!(
+				$title->isSubpage() &&
+				in_array( mb_strtolower( $title->getSubpageText() ), $this->subpagesBlacklist )
+			) &&
+			(
+				$this->compatibleMode ?
+				!empty( PortableInfoboxDataService::newFromTitle( $title )->getData() ) :
+				$this->parsingHelper->hasInfobox( is_null( $tmpl->text ) ? $title : $tmpl->text )
+			);
 	}
 }

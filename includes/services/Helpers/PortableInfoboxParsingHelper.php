@@ -3,6 +3,7 @@
 namespace PortableInfobox\Helpers;
 
 use MediaWiki\Logger\LoggerFactory;
+use PortableInfobox\Parser\Nodes\NodeFactory;
 
 class PortableInfoboxParsingHelper {
 
@@ -23,7 +24,7 @@ class PortableInfoboxParsingHelper {
 	 */
 	public function parseIncludeonlyInfoboxes( $title ) {
 		// for templates we need to check for include tags
-		$templateText = $this->removeNowikiPre( $this->fetchArticleContent( $title ) );
+		$templateText = $this->fetchArticleContent( $title );
 
 		if ( $templateText ) {
 			$parser = new \Parser();
@@ -31,15 +32,14 @@ class PortableInfoboxParsingHelper {
 			$frame = $parser->getPreprocessor()->newFrame();
 
 			$includeonlyText = $parser->getPreloadText( $templateText, $title, $parserOptions );
-			$infoboxes = $this->getInfoboxes( $includeonlyText );
+			$infoboxes = $this->getInfoboxes( $this->removeNowikiPre( $includeonlyText ) );
 
 			if ( $infoboxes ) {
-				// clear up cache before parsing
 				foreach ( $infoboxes as $infobox ) {
 					try {
-						$this->parserTagController->render( $infobox, $parser, $frame );
+						$this->parserTagController->prepareInfobox( $infobox, $parser, $frame );
 					} catch ( \Exception $e ) {
-						$this->logger->info( 'Invalid infobox syntax in includeonly tag' );
+						$this->logger->info( 'Invalid infobox syntax' );
 					}
 				}
 
@@ -49,11 +49,10 @@ class PortableInfoboxParsingHelper {
 				);
 			}
 		}
-
 		return false;
 	}
 
-	public function reparseArticle( $title ) {
+	public function reparseArticle( \Title $title ) {
 		$parser = new \Parser();
 		$parserOptions = new \ParserOptions();
 		$parser->parse( $this->fetchArticleContent( $title ), $title, $parserOptions );
@@ -64,6 +63,33 @@ class PortableInfoboxParsingHelper {
 		);
 	}
 
+	public function hasInfobox( $template ) {
+		$parser = new \Parser();
+		$parserOptions = new \ParserOptions();
+
+		if ( $template instanceof \Title ) {
+			$text = $this->fetchArticleContent( $template );
+			$title = $template;
+		} else {
+			$text = $template;
+			$title = new \Title();
+		}
+
+		$includeonlyText = $parser->getPreloadText( $text, $title, $parserOptions );
+		$infoboxes = $this->getInfoboxes( $this->removeNowikiPre( $includeonlyText ) );
+
+		if ( $infoboxes ) {
+			try {
+				NodeFactory::newFromXML( $infoboxes[0] );
+				return true;
+			} catch ( \Exception $e ) {
+				$this->logger->info( 'Invalid infobox syntax' );
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * @param \Title $title
 	 *
@@ -71,13 +97,9 @@ class PortableInfoboxParsingHelper {
 	 */
 	protected function fetchArticleContent( \Title $title ) {
 		if ( $title && $title->exists() ) {
-			$wikipage = \WikiPage::factory( $title );
-
-			if ( $wikipage && $wikipage->exists() ) {
-				$content = \ContentHandler::getContentText(
-					$wikipage->getRevision()->getContent( \Revision::RAW )
-				);
-			}
+			$content = \WikiPage::factory( $title )
+				->getContent( \Revision::FOR_PUBLIC )
+				->getNativeData();
 		}
 
 		return isset( $content ) && $content ? $content : '';
@@ -100,8 +122,7 @@ class PortableInfoboxParsingHelper {
 	 * @return string
 	 */
 	protected function removeNowikiPre( $text ) {
-		$text = preg_replace( "/<nowiki>.+<\/nowiki>/sU", '', $text );
-		$text = preg_replace( "/<pre>.+<\/pre>/sU", '', $text );
+		$text = preg_replace( '/<(nowiki|pre)>.+<\/\g1>/sU', '', $text );
 
 		return $text;
 	}
@@ -115,9 +136,7 @@ class PortableInfoboxParsingHelper {
 	 * @return array of striped infoboxes ready to parse
 	 */
 	protected function getInfoboxes( $text ) {
-		preg_match_all( "/<infobox[^>]*\\/>/sU", $text, $empty );
-		preg_match_all( "/<infobox.+<\/infobox>/sU", $text, $result );
-
-		return array_merge( $empty[0], $result[0] );
+		preg_match_all( '/<infobox(?:[^>]*\/>|.+<\/infobox>)/sU', $text, $result );
+		return $result[0];
 	}
 }

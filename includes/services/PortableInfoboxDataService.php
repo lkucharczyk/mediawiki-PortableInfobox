@@ -62,14 +62,13 @@ class PortableInfoboxDataService {
 	 * @return array in format [ [ 'data' => [], 'metadata' => [] ] or [] will be returned
 	 */
 	public function getData() {
-		if ( $this->title && $this->title->exists() && $this->title->inNamespace( NS_TEMPLATE ) ) {
-			$incOnlyTemplates = $this->parsingHelper->parseIncludeonlyInfoboxes( $this->title );
-			$this->delete();
-			$this->set( $incOnlyTemplates );
+		if ( $this->title->exists() && $this->title->inNamespace( NS_TEMPLATE ) ) {
+			$result = $this->reparseArticle();
+		} else {
+			$result = $this->get();
 		}
-		$result = $this->get();
 
-		return $result !== null ? $result : [];
+		return $result ? $result : [];
 	}
 
 	/**
@@ -198,6 +197,22 @@ class PortableInfoboxDataService {
 		return [];
 	}
 
+	protected function reparseArticle() {
+		if ( $this->title->inNamespace( NS_TEMPLATE ) ) {
+			$result = $this->parsingHelper->parseIncludeonlyInfoboxes( $this->title );
+		} else {
+			$result = $this->parsingHelper->reparseArticle( $this->title );
+		}
+
+		if ( $result ) {
+			$this->set( $result );
+		} else {
+			$this->delete();
+		}
+
+		return $result;
+	}
+
 	/**
 	 * If PageProps has an old version of infobox data/metadata then reparse the page
 	 * and store fresh data. If it doesn't have infoboxes property,
@@ -215,8 +230,7 @@ class PortableInfoboxDataService {
 					!isset( $infobox['parser_tag_version'] ) ||
 					$infobox['parser_tag_version'] !== PortableInfoboxParserTagController::PARSER_TAG_VERSION
 				) {
-					$infoboxes = $this->parsingHelper->reparseArticle( $this->title );
-					$this->set( $infoboxes );
+					$infoboxes = $this->reparseArticle();
 				}
 			}
 		}
