@@ -3,7 +3,6 @@
 namespace PortableInfobox\Helpers;
 
 use MediaWiki\Logger\LoggerFactory;
-use PortableInfobox\Parser\Nodes\NodeFactory;
 
 class PortableInfoboxParsingHelper {
 
@@ -61,33 +60,6 @@ class PortableInfoboxParsingHelper {
 			$parser->getOutput()->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ),
 			true
 		);
-	}
-
-	public function hasInfobox( $template ) {
-		$parser = new \Parser();
-		$parserOptions = new \ParserOptions();
-
-		if ( $template instanceof \Title ) {
-			$text = $this->fetchArticleContent( $template );
-			$title = $template;
-		} else {
-			$text = $template;
-			$title = new \Title();
-		}
-
-		$includeonlyText = $parser->getPreloadText( $text, $title, $parserOptions );
-		$infoboxes = $this->getInfoboxes( $this->removeNowikiPre( $includeonlyText ) );
-
-		if ( $infoboxes ) {
-			try {
-				NodeFactory::newFromXML( $infoboxes[0] );
-				return true;
-			} catch ( \Exception $e ) {
-				$this->logger->info( 'Invalid infobox syntax' );
-			}
-		}
-
-		return false;
 	}
 
 	/**
