@@ -101,7 +101,7 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 			->purge()
 			->setPagePropsProxy( new PagePropsProxyDummy() )
 			->setParsingHelper( new ParsingHelperDummy( null, $data ) )
-			->getData();
+			->reparseArticle();
 
 		$this->assertEquals( $data, $result );
 	}

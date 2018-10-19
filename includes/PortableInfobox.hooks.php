@@ -36,7 +36,12 @@ class PortableInfoboxHooks {
 	 * @return bool
 	 */
 	public static function onPageContentSave( Page $article ) {
-		PortableInfoboxDataService::newFromTitle( $article->getTitle() )->delete();
+		$dataService = PortableInfoboxDataService::newFromTitle( $article->getTitle() );
+		$dataService->delete();
+
+		if ( $article->getTitle()->inNamespace( NS_TEMPLATE ) ) {
+			$dataService->reparseArticle( true );
+		}
 
 		return true;
 	}

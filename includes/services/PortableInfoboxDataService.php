@@ -62,11 +62,7 @@ class PortableInfoboxDataService {
 	 * @return array in format [ [ 'data' => [], 'metadata' => [] ] or [] will be returned
 	 */
 	public function getData() {
-		if ( $this->title->exists() && $this->title->inNamespace( NS_TEMPLATE ) ) {
-			$result = $this->reparseArticle();
-		} else {
-			$result = $this->get();
-		}
+		$result = $this->get();
 
 		return $result ? $result : [];
 	}
@@ -197,7 +193,7 @@ class PortableInfoboxDataService {
 		return [];
 	}
 
-	protected function reparseArticle() {
+	public function reparseArticle() {
 		if ( $this->title->inNamespace( NS_TEMPLATE ) ) {
 			$result = $this->parsingHelper->parseIncludeonlyInfoboxes( $this->title );
 		} else {
@@ -231,6 +227,7 @@ class PortableInfoboxDataService {
 					$infobox['parser_tag_version'] !== PortableInfoboxParserTagController::PARSER_TAG_VERSION
 				) {
 					$infoboxes = $this->reparseArticle();
+					break;
 				}
 			}
 		}
