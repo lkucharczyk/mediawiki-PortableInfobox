@@ -15,7 +15,6 @@ wfLoadExtension( 'PortableInfobox' );
 
 ## Configuration
 You can use several variables to modify extension's behaviour:
-- `$wgAllInfoboxesMiserMode` (bool) - force AllInfoboxes query to be cached, even if `$wgMiserMode` is disabled. (default: true)
 - `$wgAllInfoboxesSubpagesBlacklist` (array) - list of subpages in template namespace to omit by AllInfoboxes query. (default: [ "doc", "draft", "test" ])
 - `$wgPortableInfoboxCustomImageWidth` (int) - size of image thumbnails used in infoboxes. (default: 300)
 

@@ -9,7 +9,7 @@ $specialPageAliases = [];
 
 /** English **/
 $specialPageAliases['en'] = [
-	'AllInfoboxes' => [ 'Allinfoboxes', 'All Infoboxes', 'All infoboxes' ]
+	'AllInfoboxes' => [ 'AllInfoboxes' ]
 ];
 
 /** Polish */

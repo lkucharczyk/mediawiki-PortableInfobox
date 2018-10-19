@@ -13,8 +13,6 @@
 		"MediaWiki": ">= 1.27.0"
 	},
 	"config": {
-		"AllInfoboxesCompatibleMode": false,
-		"AllInfoboxesMiserMode": true,
 		"AllInfoboxesSubpagesBlacklist": [ "doc", "draft", "test" ],
 		"PortableInfoboxCustomImageWidth": 300,
 		"PortableInfoboxUseHeadings": true,
