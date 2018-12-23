@@ -38,7 +38,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 		$infoboxRenderService = new PortableInfoboxRenderService();
 
 		$actualOutput = $infoboxRenderService->renderInfobox(
-			$input, '', '', $accentColor, $accentColorText
+			$input, '', '', $accentColor, $accentColorText, ''
 		);
 		$expectedHtml = $this->normalizeHTML( $expectedOutput );
 		$actualHtml = $this->normalizeHTML( $actualOutput );
@@ -70,7 +70,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Only title',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -86,7 +87,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Only title with custom colors',
 				'accentColor' => '#FFF',
-				'accentColorText' => '#000'
+				'accentColorText' => '#000',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -117,7 +119,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Only image',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -144,7 +147,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Only video',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -160,7 +164,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'navigation only',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -180,7 +185,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Only pair',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -227,7 +233,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Simple infobox with title, image and key-value pair',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -258,7 +265,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Simple infobox with title, INVALID image and key-value pair',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -285,7 +293,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Simple infobox with title, empty image and key-value pair',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -342,7 +351,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Infobox with title, group with header and two key-value pairs',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -400,7 +410,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 				'description' => 'Infobox with title, group with header and two key-value pairs, custom' .
 					'accent color and accent text color',
 				'accentColor' => '#FFF',
-				'accentColorText' => '#000'
+				'accentColorText' => '#000',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -456,7 +467,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Infobox with horizontal group',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -499,7 +511,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Infobox with horizontal group without header and labels',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -517,7 +530,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Infobox with navigation',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			// horizontal group tests
 			[
@@ -567,7 +581,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Horizontal group data without header',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -623,7 +638,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Horizontal group data with empty label',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -666,7 +682,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Horizontal group data with empty label',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -754,7 +771,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 5 elements with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -831,7 +849,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 4 elements with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -869,7 +888,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of a single element with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -918,7 +938,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 2 + 1 with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -967,7 +988,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 2 + 1 with row size 7',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1039,7 +1061,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 2 + 2 + 2 with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1140,7 +1163,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 1 + 1 + default + 1 + 1 + 1 with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1241,7 +1265,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 1 + 1 + 1 + 1 + 1 + default with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1307,7 +1332,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 40 + 1 + 1 with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1379,7 +1405,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 1 + 40 + 1 with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1452,7 +1479,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 1 + 1 + title + 1 with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1532,7 +1560,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Flex wrapped group of 1 (no label) + 1 (no label) + title + 1 (no label) + 1 with row size 3',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1598,7 +1627,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Simple infobox with title and image collection',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1655,7 +1685,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Infobox with title, collapsible group with header and two key-value pairs',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			],
 			[
 				'input' => [
@@ -1712,7 +1743,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					</aside>',
 				'description' => 'Infobox with title, collapsed group with header and two key-value pairs',
 				'accentColor' => '',
-				'accentColorText' => ''
+				'accentColorText' => '',
+				'type' => ''
 			]
 		];
 	}

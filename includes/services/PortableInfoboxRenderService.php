@@ -23,10 +23,11 @@ class PortableInfoboxRenderService {
 	 * @param string $layout
 	 * @param string $accentColor
 	 * @param string $accentColorText
+	 * @param string $type
 	 * @return string - infobox HTML
 	 */
 	public function renderInfobox(
-		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText
+		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText, $type
 	) {
 		$this->inlineStyles = $this->getInlineStyles( $accentColor, $accentColorText );
 
@@ -36,7 +37,8 @@ class PortableInfoboxRenderService {
 			$output = $this->renderItem( 'wrapper', [
 				'content' => $infoboxHtmlContent,
 				'theme' => $theme,
-				'layout' => $layout
+				'layout' => $layout,
+				'type' => $type
 			] );
 		} else {
 			$output = '';
