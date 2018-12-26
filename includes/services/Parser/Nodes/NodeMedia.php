@@ -143,7 +143,7 @@ class NodeMedia extends Node {
 		}
 
 		if ( $titleObj instanceof \Title ) {
-			$this->getExternalParser()->addImage( $titleObj->getDBkey() );
+			$this->getExternalParser()->addImage( $titleObj );
 		}
 
 		$mediatype = $fileObj->getMediaType();
