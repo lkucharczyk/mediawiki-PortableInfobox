@@ -24,57 +24,57 @@ class NodeTitleTest extends MediaWikiTestCase {
 			[
 				'<title source="test"/>',
 				[ 'test' => 'test' ],
-				[ 'value' => 'test' ]
+				[ 'value' => 'test', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[],
-				[ 'value' => 'def' ]
+				[ 'value' => 'def', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[],
-				[ 'value' => 'def' ]
+				[ 'value' => 'def', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[ 'l' => 1 ],
-				[ 'value' => 'def' ]
+				[ 'value' => 'def', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[ 'l' => 1 ],
-				[ 'value' => 'def' ]
+				[ 'value' => 'def', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[ 'test' => 1 ],
-				[ 'value' => 1 ]
+				[ 'value' => 1, 'source' => 'test' ]
 			],
 			[
 				'<title></title>',
 				[],
-				[ 'value' => null ]
+				[ 'value' => null, 'source' => null ]
 			],
 			[
 				'<title source="test"><format>{{{test}}}%</format><default>def</default></title>',
 				[ 'test' => 1 ],
-				[ 'value' => '{{{test}}}%' ]
+				[ 'value' => '{{{test}}}%', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><format>{{{not_defined_var}}}%</format><default>def</default></title>',
 				[ 'test' => 1 ],
-				[ 'value' => '{{{not_defined_var}}}%' ]
+				[ 'value' => '{{{not_defined_var}}}%', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><format>{{{test}}}%</format><default>def</default></title>',
 				[],
-				[ 'value' => 'def' ]
+				[ 'value' => 'def', 'source' => 'test' ]
 			],
 			[
 				'<title source="test"><format>{{{test}}}%</format></title>',
 				[ 'test' => 0 ],
-				[ 'value' => '{{{test}}}%' ]
+				[ 'value' => '{{{test}}}%', 'source' => 'test' ]
 			]
 		];
 	}

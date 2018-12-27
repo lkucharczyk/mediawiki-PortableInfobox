@@ -65,7 +65,8 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 								'label' => null,
 								'value' => 1,
 								'layout' => null,
-								'span' => 1
+								'span' => 1,
+								'source' => 'test'
 							]
 						]
 					],

@@ -3,17 +3,17 @@
 	{{#if renderLabels}}
 	<thead>
 		<tr>
-		{{#each labels}}
-			<th class="pi-horizontal-group-item pi-data-label pi-secondary-font pi-border-color pi-item-spacing">{{{.}}}</th>
+		{{#each data}}
+			<th class="pi-horizontal-group-item pi-data-label pi-secondary-font pi-border-color pi-item-spacing"{{#if source}} data-source="{{source}}"{{/if}}>{{{label}}}</th>
 		{{/each}}
 		</tr>
 	</thead>
 	{{/if}}
 	<tbody>
-	<tr>
-	{{#each values}}
-		<td class="pi-horizontal-group-item pi-data-value pi-font pi-border-color pi-item-spacing">{{{.}}}</td>
-	{{/each}}
-	</tr>
+		<tr>
+		{{#each data}}
+			<td class="pi-horizontal-group-item pi-data-value pi-font pi-border-color pi-item-spacing"{{#if source}} data-source="{{source}}"{{/if}}>{{{value}}}</td>
+		{{/each}}
+		</tr>
 	</tbody>
 </table>

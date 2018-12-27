@@ -1,4 +1,4 @@
-<figure class="pi-item pi-media{{#if isImage}} pi-image{{/if}}{{#if isVideo}} pi-video{{/if}}{{#if isAudio}} pi-audio{{/if}}">
+<figure class="pi-item pi-media{{#if isImage}} pi-image{{/if}}{{#if isVideo}} pi-video{{/if}}{{#if isAudio}} pi-audio{{/if}}"{{#if source}} data-source="{{source}}"{{/if}}>
 	<a href="{{url}}" class="{{#if isImage}}image image-thumbnail{{/if}}{{#if isVideo}}video{{/if}}{{#if isAudio}}audio{{/if}}" title="{{alt}}">
 		{{#if isImage}}<img src="{{thumbnail}}" srcset="{{thumbnail}} 1x, {{thumbnail2x}} 2x" class="pi-image-thumbnail" alt="{{alt}}" width="{{{width}}}" height="{{{height}}}"/>
 		{{else}}{{#if isVideo}}<video src="{{url}}" class="pi-video-player" controls="true" controlsList="nodownload" preload="metadata">{{alt}}</video>

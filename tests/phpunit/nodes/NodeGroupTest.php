@@ -78,19 +78,37 @@ class NodeGroupTest extends MediaWikiTestCase {
 						[
 							'type' => 'data',
 							'isEmpty' => false,
-							'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
+							'data' => [
+								'label' => 'l1',
+								'value' => 1,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem1'
+							],
 							'source' => [ 'elem1' ]
 						],
 						[
 							'type' => 'data',
 							'isEmpty' => false,
-							'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
+							'data' => [
+								'label' => 'l2',
+								'value' => 2,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem2'
+							],
 							'source' => [ 'elem2' ]
 						],
 						[
 							'type' => 'data',
 							'isEmpty' => true,
-							'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
+							'data' => [
+								'label' => 'l2',
+								'value' => null,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem3'
+							],
 							'source' => [ 'elem3' ]
 						]
 					],
@@ -111,19 +129,37 @@ class NodeGroupTest extends MediaWikiTestCase {
 						[
 							'type' => 'data',
 							'isEmpty' => false,
-							'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
+							'data' => [
+								'label' => 'l1',
+								'value' => 1,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem1'
+							],
 							'source' => [ 'elem1' ]
 						],
 						[
 							'type' => 'data',
 							'isEmpty' => false,
-							'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
+							'data' => [
+								'label' => 'l2',
+								'value' => 2,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem2'
+							],
 							'source' => [ 'elem2' ]
 						],
 						[
 							'type' => 'data',
 							'isEmpty' => true,
-							'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
+							'data' => [
+								'label' => 'l2',
+								'value' => null,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem3'
+							],
 							'source' => [ 'elem3' ]
 						],
 					],
@@ -144,19 +180,37 @@ class NodeGroupTest extends MediaWikiTestCase {
 						[
 							'type' => 'data',
 							'isEmpty' => false,
-							'data' => [ 'label' => 'l1', 'value' => 1, 'span' => 1, 'layout' => null ],
-							 'source' => [ 'elem1' ]
+							'data' => [
+								'label' => 'l1',
+								'value' => 1,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem1'
+							],
+							'source' => [ 'elem1' ]
 						],
 						[
 							'type' => 'data',
 							'isEmpty' => false,
-							'data' => [ 'label' => 'l2', 'value' => 2, 'span' => 1, 'layout' => null ],
-							 'source' => [ 'elem2' ]
+							'data' => [
+								'label' => 'l2',
+								'value' => 2,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem2'
+							],
+							'source' => [ 'elem2' ]
 						],
 						[
 							'type' => 'data',
 							'isEmpty' => true,
-							'data' => [ 'label' => 'l2', 'value' => null, 'span' => 1, 'layout' => null ],
+							'data' => [
+								'label' => 'l2',
+								'value' => null,
+								'span' => 1,
+								'layout' => null,
+								'source' => 'elem3'
+							],
 							'source' => [ 'elem3' ]
 						]
 					],
@@ -172,19 +226,33 @@ class NodeGroupTest extends MediaWikiTestCase {
 					'value' => [
 						[
 							'type' => 'header',
-							'data' => [ 'value' => 'h' ],
+							'data' => [
+								'value' => 'h'
+							],
 							'isEmpty' => false,
 							'source' => []
 						],
 						[
 							'type' => 'data',
-							'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ],
+							'data' => [
+								'value' => 'one',
+								'label' => '',
+								'span' => 1,
+								'layout' => null,
+								'source' => '1'
+							],
 							'isEmpty' => false,
 							'source' => [ '1' ]
 						],
 						[
 							'type' => 'data',
-							'data' => [ 'value' => 'two', 'label' => '', 'span' => 1, 'layout' => null ],
+							'data' => [
+								'value' => 'two',
+								'label' => '',
+								'span' => 1,
+								'layout' => null,
+								'source' => '2'
+							],
 							'isEmpty' => false,
 							'source' => [ '2' ]
 						]
@@ -207,13 +275,25 @@ class NodeGroupTest extends MediaWikiTestCase {
 						],
 						[
 							'type' => 'data',
-							'data' => [ 'value' => 'one', 'label' => '', 'span' => 1, 'layout' => null ],
+							'data' => [
+								'value' => 'one',
+								'label' => '',
+								'span' => 1,
+								'layout' => null,
+								'source' => '1'
+							],
 							'isEmpty' => false,
 							'source' => [ '1' ]
 						],
 						[
 							'type' => 'data',
-							'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ],
+							'data' => [
+								'value' => null,
+								'label' => '',
+								'span' => 1,
+								'layout' => null,
+								'source' => '2'
+							],
 							'isEmpty' => true,
 							'source' => [ '2' ]
 						]
@@ -236,13 +316,25 @@ class NodeGroupTest extends MediaWikiTestCase {
 						],
 						[
 							'type' => 'data',
-							'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ],
+							'data' => [
+								'value' => null,
+								'label' => '',
+								'span' => 1,
+								'layout' => null,
+								'source' => '1'
+							],
 							'isEmpty' => true,
 							'source' => [ '1' ]
 						],
 						[
 							'type' => 'data',
-							'data' => [ 'value' => null, 'label' => '', 'span' => 1, 'layout' => null ],
+							'data' => [
+								'value' => null,
+								'label' => '',
+								'span' => 1,
+								'layout' => null,
+								'source' => '2'
+							],
 							'isEmpty' => true,
 							'source' => [ '2' ]
 						]

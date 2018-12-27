@@ -110,7 +110,10 @@ class Node {
 
 	public function getData() {
 		if ( !isset( $this->data ) ) {
-			$this->data = [ 'value' => (string)$this->xmlNode ];
+			$this->data = [
+				'value' => (string)$this->xmlNode,
+				'source' => $this->getXmlAttribute( $this->xmlNode, self::DATA_SRC_ATTR_NAME )
+			];
 		}
 
 		return $this->data;

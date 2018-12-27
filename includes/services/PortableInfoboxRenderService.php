@@ -142,7 +142,7 @@ class PortableInfoboxRenderService {
 			$templateName = 'media';
 		} else {
 			// More than one image means image collection
-			$data = [ 'images' => $data ];
+			$data = [ 'images' => $data, 'source' => $data[0]['source'] ?? "" ];
 			$templateName = 'media-collection';
 		}
 
@@ -182,8 +182,7 @@ class PortableInfoboxRenderService {
 
 	private function createHorizontalGroupData( array $groupData ) {
 		$horizontalGroupData = [
-			'labels' => [],
-			'values' => [],
+			'data' => [],
 			'renderLabels' => false
 		];
 
@@ -191,8 +190,11 @@ class PortableInfoboxRenderService {
 			$data = $item['data'];
 
 			if ( $item['type'] === 'data' ) {
-				array_push( $horizontalGroupData['labels'], $data['label'] );
-				array_push( $horizontalGroupData['values'], $data['value'] );
+				$horizontalGroupData['data'][] = [
+					'label' => $data['label'],
+					'value' => $data['value'],
+					'source' => $item['data']['source'] ?? ""
+				];
 
 				if ( !empty( $data['label'] ) ) {
 					$horizontalGroupData['renderLabels'] = true;
@@ -256,10 +258,14 @@ class PortableInfoboxRenderService {
 			if ( !empty( $label ) ) {
 				$result['renderLabels'] = true;
 			}
-			$result['labels'][] = [ 'value' => $label, 'inlineStyles' => $styles ];
-			$result['values'][] = [ 'value' => $item['data']['value'], 'inlineStyles' => $styles ];
+			$result['data'][] = [
+				'label' => $label,
+				'value' => $item['data']['value'],
+				'inlineStyles' => $styles,
+				'source' => $item['data']['source'] ?? ""
+			];
 
 			return $result;
-		}, [ 'labels' => [], 'values' => [], 'renderLabels' => false ] );
+		}, [ 'data' => [], 'renderLabels' => false ] );
 	}
 }

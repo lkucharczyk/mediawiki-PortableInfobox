@@ -1,14 +1,14 @@
 <section class="pi-item pi-smart-group pi-border-color">
     {{#if renderLabels}}
         <section class="pi-smart-group-head">
-            {{#each labels}}
-                <{{#if ../useHeadings}}h3{{else}}div{{/if}} class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="{{{inlineStyles}}}">{{{value}}}</{{#if ../useHeadings}}h3{{else}}div{{/if}}>
+            {{#each data}}
+                <{{#if ../useHeadings}}h3{{else}}div{{/if}} class="pi-smart-data-label pi-data-label pi-secondary-font pi-item-spacing" style="{{{inlineStyles}}}"{{#if source}} data-source="{{source}}"{{/if}}>{{{label}}}</{{#if ../useHeadings}}h3{{else}}div{{/if}}>
             {{/each}}
         </section>
     {{/if}}
     <section class="pi-smart-group-body">
-        {{#each values}}
-            <div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="{{{inlineStyles}}}">{{{value}}}</div>
+        {{#each data}}
+            <div class="pi-smart-data-value pi-data-value pi-font pi-item-spacing" style="{{{inlineStyles}}}"{{#if source}} data-source="{{source}}"{{/if}}>{{{value}}}</div>
         {{/each}}
     </section>
 </section>
