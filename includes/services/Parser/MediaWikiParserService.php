@@ -71,7 +71,9 @@ class MediaWikiParserService implements ExternalParser {
 		$this->parser->getOutput()->addImage( $title, $tmstmp, $sha1 );
 
 		// Pass PI images to PageImages extension if available (Popups and og:image)
-		if ( \method_exists( '\PageImages\Hooks\ParserFileProcessingHookHandlers', 'onParserMakeImageParams' ) ) {
+		if ( \method_exists(
+			'\PageImages\Hooks\ParserFileProcessingHookHandlers', 'onParserMakeImageParams'
+		) ) {
 			$params = [];
 			\PageImages\Hooks\ParserFileProcessingHookHandlers::onParserMakeImageParams(
 				$title, $file, $params, $this->parser
