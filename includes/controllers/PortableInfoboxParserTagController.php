@@ -124,13 +124,13 @@ class PortableInfoboxParserTagController {
 			$renderedValue = $this->render( $markup, $parser, $frame, $params );
 		} catch ( UnimplementedNodeException $e ) {
 			return $this->handleError(
-				wfMessage( ERR_UNIMPLEMENTEDNODE, [ $e->getMessage() ] )->escaped()
+				wfMessage( self::ERR_UNIMPLEMENTEDNODE, [ $e->getMessage() ] )->escaped()
 			);
 		} catch ( XmlMarkupParseErrorException $e ) {
 			return $this->handleXmlParseError( $e->getErrors(), $text );
 		} catch ( InvalidInfoboxParamsException $e ) {
 			return $this->handleError(
-				wfMessage( ERR_UNSUPPORTEDATTR, [ $e->getMessage() ] )->escaped()
+				wfMessage( self::ERR_UNSUPPORTEDATTR, [ $e->getMessage() ] )->escaped()
 			);
 		}
 
