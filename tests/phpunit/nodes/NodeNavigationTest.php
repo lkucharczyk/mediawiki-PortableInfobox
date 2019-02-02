@@ -23,15 +23,15 @@ class NodeNavigationTest extends MediaWikiTestCase {
 		return [
 			[
 				'<navigation></navigation>',
-				[ 'value' => '' ]
+				[ 'value' => '', 'item-name' => null ]
 			],
 			[
 				'<navigation>kjdflkja dafkjlsdkfj</navigation>',
-				[ 'value' => 'kjdflkja dafkjlsdkfj' ]
+				[ 'value' => 'kjdflkja dafkjlsdkfj', 'item-name' => null ]
 			],
 			[
 				'<navigation>kjdflkja<ref>dafkjlsdkfj</ref></navigation>',
-				[ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ]
+				[ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>', 'item-name' => null ]
 			]
 		];
 	}

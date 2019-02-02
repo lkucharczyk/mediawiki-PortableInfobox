@@ -24,57 +24,57 @@ class NodeTitleTest extends MediaWikiTestCase {
 			[
 				'<title source="test"/>',
 				[ 'test' => 'test' ],
-				[ 'value' => 'test', 'source' => 'test' ]
+				[ 'value' => 'test', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[],
-				[ 'value' => 'def', 'source' => 'test' ]
+				[ 'value' => 'def', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[],
-				[ 'value' => 'def', 'source' => 'test' ]
+				[ 'value' => 'def', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[ 'l' => 1 ],
-				[ 'value' => 'def', 'source' => 'test' ]
+				[ 'value' => 'def', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[ 'l' => 1 ],
-				[ 'value' => 'def', 'source' => 'test' ]
+				[ 'value' => 'def', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><default>def</default></title>',
 				[ 'test' => 1 ],
-				[ 'value' => 1, 'source' => 'test' ]
+				[ 'value' => 1, 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title></title>',
 				[],
-				[ 'value' => null, 'source' => null ]
+				[ 'value' => null, 'source' => null, 'item-name' => null ]
 			],
 			[
 				'<title source="test"><format>{{{test}}}%</format><default>def</default></title>',
 				[ 'test' => 1 ],
-				[ 'value' => '{{{test}}}%', 'source' => 'test' ]
+				[ 'value' => '{{{test}}}%', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><format>{{{not_defined_var}}}%</format><default>def</default></title>',
 				[ 'test' => 1 ],
-				[ 'value' => '{{{not_defined_var}}}%', 'source' => 'test' ]
+				[ 'value' => '{{{not_defined_var}}}%', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><format>{{{test}}}%</format><default>def</default></title>',
 				[],
-				[ 'value' => 'def', 'source' => 'test' ]
+				[ 'value' => 'def', 'source' => 'test', 'item-name' => null ]
 			],
 			[
 				'<title source="test"><format>{{{test}}}%</format></title>',
 				[ 'test' => 0 ],
-				[ 'value' => '{{{test}}}%', 'source' => 'test' ]
+				[ 'value' => '{{{test}}}%', 'source' => 'test', 'item-name' => null ]
 			]
 		];
 	}

@@ -1,10 +1,10 @@
-<table class="pi-horizontal-group{{#unless renderLabels}} pi-horizontal-group-no-labels{{/unless}}">
+<table class="pi-horizontal-group{{#unless renderLabels}} pi-horizontal-group-no-labels{{/unless}}"{{#if item-name}} data-item-name="{{item-name}}"{{/if}}>
 	{{#if header}}<caption class="pi-header pi-secondary-font pi-secondary-background pi-item-spacing"{{#if inlineStyles}} style="{{inlineStyles}}"{{/if}}>{{{header}}}</caption>{{/if}}
 	{{#if renderLabels}}
 	<thead>
 		<tr>
 		{{#each data}}
-			<th class="pi-horizontal-group-item pi-data-label pi-secondary-font pi-border-color pi-item-spacing"{{#if source}} data-source="{{source}}"{{/if}}>{{{label}}}</th>
+			<th class="pi-horizontal-group-item pi-data-label pi-secondary-font pi-border-color pi-item-spacing"{{#if source}} data-source="{{source}}"{{/if}}{{#if item-name}} data-item-name="{{item-name}}"{{/if}}>{{{label}}}</th>
 		{{/each}}
 		</tr>
 	</thead>
@@ -12,7 +12,7 @@
 	<tbody>
 		<tr>
 		{{#each data}}
-			<td class="pi-horizontal-group-item pi-data-value pi-font pi-border-color pi-item-spacing"{{#if source}} data-source="{{source}}"{{/if}}>{{{value}}}</td>
+			<td class="pi-horizontal-group-item pi-data-value pi-font pi-border-color pi-item-spacing"{{#if source}} data-source="{{source}}"{{/if}}{{#if item-name}} data-item-name="{{item-name}}"{{/if}}>{{{value}}}</td>
 		{{/each}}
 		</tr>
 	</tbody>

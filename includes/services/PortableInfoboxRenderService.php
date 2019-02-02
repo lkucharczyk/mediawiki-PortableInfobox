@@ -24,10 +24,11 @@ class PortableInfoboxRenderService {
 	 * @param string $accentColor
 	 * @param string $accentColorText
 	 * @param string $type
+	 * @param string $itemName
 	 * @return string - infobox HTML
 	 */
 	public function renderInfobox(
-		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText, $type
+		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText, $type, $itemName
 	) {
 		$this->inlineStyles = $this->getInlineStyles( $accentColor, $accentColorText );
 
@@ -38,7 +39,8 @@ class PortableInfoboxRenderService {
 				'content' => $infoboxHtmlContent,
 				'theme' => $theme,
 				'layout' => $layout,
-				'type' => $type
+				'type' => $type,
+				'item-name' => $itemName
 			] );
 		} else {
 			$output = '';
@@ -122,7 +124,8 @@ class PortableInfoboxRenderService {
 
 		return $this->render( 'group', [
 			'content' => $groupHTMLContent,
-			'cssClasses' => implode( ' ', $cssClasses )
+			'cssClasses' => implode( ' ', $cssClasses ),
+			'item-name' => $groupData['item-name']
 		] );
 	}
 
@@ -193,7 +196,8 @@ class PortableInfoboxRenderService {
 				$horizontalGroupData['data'][] = [
 					'label' => $data['label'],
 					'value' => $data['value'],
-					'source' => $item['data']['source'] ?? ""
+					'source' => $item['data']['source'] ?? "",
+					'item-name' => $item['data']['item-name']
 				];
 
 				if ( !empty( $data['label'] ) ) {
@@ -262,7 +266,8 @@ class PortableInfoboxRenderService {
 				'label' => $label,
 				'value' => $item['data']['value'],
 				'inlineStyles' => $styles,
-				'source' => $item['data']['source'] ?? ""
+				'source' => $item['data']['source'] ?? "",
+				'item-name' => $item['data']['item-name']
 			];
 
 			return $result;

@@ -155,7 +155,8 @@ class NodeMedia extends Node {
 			'isImage' => in_array( $mediatype, [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] ),
 			'isVideo' => $mediatype === MEDIATYPE_VIDEO,
 			'isAudio' => $mediatype === MEDIATYPE_AUDIO,
-			'source' => $this->getXmlAttribute( $this->xmlNode, self::DATA_SRC_ATTR_NAME )
+			'source' => $this->getPrimarySource(),
+			'item-name' => $this->getItemName()
 		];
 
 		if ( $image['isImage'] ) {

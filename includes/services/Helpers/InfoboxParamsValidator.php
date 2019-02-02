@@ -10,7 +10,8 @@ class InfoboxParamsValidator {
 		'layout',
 		'theme',
 		'theme-source',
-		'type'
+		'type',
+		'name'
 	];
 
 	private static $supportedLayouts = [

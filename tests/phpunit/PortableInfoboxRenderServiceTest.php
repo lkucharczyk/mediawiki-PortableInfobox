@@ -38,7 +38,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 		$infoboxRenderService = new PortableInfoboxRenderService();
 
 		$actualOutput = $infoboxRenderService->renderInfobox(
-			$input, '', '', $accentColor, $accentColorText, ''
+			$input, '', '', $accentColor, $accentColorText, '', ''
 		);
 		$expectedHtml = $this->normalizeHTML( $expectedOutput );
 		$actualHtml = $this->normalizeHTML( $actualOutput );
@@ -61,7 +61,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					]
 				],
@@ -78,7 +79,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					]
 				],
@@ -103,7 +105,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'height' => '200',
 								'thumbnail' => 'http://thumbnail.jpg',
 								'thumbnail2x' => 'http://thumbnail2x.jpg',
-								'isImage' => true
+								'isImage' => true,
+								'item-name' => null
 							]
 						]
 					]
@@ -131,7 +134,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'alt' => 'image alt',
 								'url' => 'http://image.jpg',
 								'caption' => 'Lorem ipsum dolor',
-								'isVideo' => true
+								'isVideo' => true,
+								'item-name' => null
 							]
 						]
 					]
@@ -156,6 +160,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						'type' => 'navigation',
 						'data' => [
 							'value' => 'navigation value',
+							'item-name' => null
 						]
 					]
 				],
@@ -173,7 +178,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						'type' => 'data',
 						'data' => [
 							'label' => 'test label',
-							'value' => 'test value'
+							'value' => 'test value',
+							'item-name' => null
 						]
 					]
 				],
@@ -193,7 +199,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
@@ -206,7 +213,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'height' => '200',
 								'thumbnail' => 'http://thumbnail.jpg',
 								'thumbnail2x' => 'http://thumbnail2x.jpg',
-								'isImage' => true
+								'isImage' => true,
+								'item-name' => null
 							]
 						]
 					],
@@ -214,7 +222,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						'type' => 'data',
 						'data' => [
 							'label' => 'test label',
-							'value' => 'test value'
+							'value' => 'test value',
+							'item-name' => null
 						]
 					]
 				],
@@ -241,7 +250,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
@@ -252,7 +262,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 						'type' => 'data',
 						'data' => [
 							'label' => 'test label',
-							'value' => 'test value'
+							'value' => 'test value',
+							'item-name' => null
 						]
 					]
 				],
@@ -273,14 +284,16 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
 						'type' => 'data',
 						'data' => [
 							'label' => 'test label',
-							'value' => 'test value'
+							'value' => 'test value',
+							'item-name' => null
 						]
 					]
 				],
@@ -301,7 +314,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
@@ -311,27 +325,31 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								[
 									'type' => 'header',
 									'data' => [
-										'value' => 'Test Header'
+										'value' => 'Test Header',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'default',
 							'collapse' => null,
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -359,7 +377,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
@@ -369,27 +388,31 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								[
 									'type' => 'header',
 									'data' => [
-										'value' => 'Test Header'
+										'value' => 'Test Header',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'default',
 							'collapse' => null,
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -422,27 +445,31 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								[
 									'type' => 'header',
 									'data' => [
-										'value' => 'Test header'
+										'value' => 'Test header',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'horizontal',
 							'collapse' => null,
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -480,20 +507,23 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 									'type' => 'data',
 									'data' => [
 										'label' => '',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => '',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'horizontal',
 							'collapse' => null,
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -519,7 +549,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'navigation',
 						'data' => [
-							'value' => '<p>Links</p>'
+							'value' => '<p>Links</p>',
+							'item-name' => null
 						]
 					]
 				],
@@ -544,20 +575,23 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label 1',
-										'value' => 'test value 1'
+										'value' => 'test value 1',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label 2',
-										'value' => 'test value 2'
+										'value' => 'test value 2',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'horizontal',
 							'collapse' => null,
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -593,27 +627,31 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								[
 									'type' => 'header',
 									'data' => [
-										'value' => 'test header'
+										'value' => 'test header',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => '',
-										'value' => 'test value 1'
+										'value' => 'test value 1',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label 2',
-										'value' => 'test value 2'
+										'value' => 'test value 2',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'horizontal',
 							'collapse' => null,
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -651,20 +689,23 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 									'type' => 'data',
 									'data' => [
 										'label' => '',
-										'value' => 'test value 1'
+										'value' => 'test value 1',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => '',
-										'value' => 'test value 2'
+										'value' => 'test value 2',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'horizontal',
 							'collapse' => null,
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -697,7 +738,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -706,7 +748,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -715,7 +758,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -724,7 +768,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 4',
 										'value' => 'test value 4',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -733,13 +778,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 5',
 										'value' => 'test value 5',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -786,7 +833,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -795,7 +843,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -804,7 +853,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -813,13 +863,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 4',
 										'value' => 'test value 4',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -864,13 +916,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -903,7 +957,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 2,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -912,13 +967,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -953,7 +1010,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 2,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -962,13 +1020,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 7
+							'row-items' => 7,
+							'item-name' => null
 						]
 					]
 				],
@@ -1003,7 +1063,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 2,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1012,7 +1073,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 2,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1021,13 +1083,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => 2,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -1076,7 +1140,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1085,7 +1150,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1094,7 +1160,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => null,
-										'layout' => 'default'
+										'layout' => 'default',
+										'item-name' => null
 									]
 								],
 								[
@@ -1103,7 +1170,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 4',
 										'value' => 'test value 4',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1112,7 +1180,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 5',
 										'value' => 'test value 5',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1121,13 +1190,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 6',
 										'value' => 'test value 6',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -1178,7 +1249,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1187,7 +1259,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1196,7 +1269,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1205,7 +1279,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 4',
 										'value' => 'test value 4',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1214,7 +1289,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 5',
 										'value' => 'test value 5',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1223,13 +1299,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 6',
 										'value' => 'test value 6',
 										'span' => null,
-										'layout' => 'default'
+										'layout' => 'default',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -1280,7 +1358,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 40,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1289,7 +1368,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1298,13 +1378,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -1347,7 +1429,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1356,7 +1439,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 40,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1365,13 +1449,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -1420,7 +1506,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 1',
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1429,13 +1516,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 2',
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'title',
 									'data' => [
-										'value' => 'title value'
+										'value' => 'title value',
+										'item-name' => null
 									]
 								],
 								[
@@ -1444,13 +1533,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 3',
 										'value' => 'test value 3',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -1494,7 +1585,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => null,
 										'value' => 'test value 1',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1503,13 +1595,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => null,
 										'value' => 'test value 2',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'title',
 									'data' => [
-										'value' => 'title value'
+										'value' => 'title value',
+										'item-name' => null
 									]
 								],
 								[
@@ -1518,7 +1612,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => null,
 										'value' => 'test value 3',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								],
 								[
@@ -1527,13 +1622,15 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 										'label' => 'Test 4',
 										'value' => 'test value 4',
 										'span' => 1,
-										'layout' => null
+										'layout' => null,
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => null,
 							'collapse' => null,
-							'row-items' => 3
+							'row-items' => 3,
+							'item-name' => null
 						]
 					]
 				],
@@ -1568,7 +1665,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
@@ -1584,7 +1682,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'thumbnail' => 'http://thumbnail.jpg',
 								'thumbnail2x' => 'http://thumbnail2x.jpg',
 								'isImage' => true,
-								'isFirst' => true
+								'isFirst' => true,
+								'item-name' => null
 							],
 							[
 								'alt' => 'image alt',
@@ -1595,7 +1694,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'height' => '200',
 								'thumbnail' => 'http://thumbnail.jpg',
 								'thumbnail2x' => 'http://thumbnail2x.jpg',
-								'isImage' => true
+								'isImage' => true,
+								'item-name' => null
 							]
 						]
 					]
@@ -1635,7 +1735,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
@@ -1645,27 +1746,31 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								[
 									'type' => 'header',
 									'data' => [
-										'value' => 'Test Header'
+										'value' => 'Test Header',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'default',
 							'collapse' => 'open',
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],
@@ -1693,7 +1798,8 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 					[
 						'type' => 'title',
 						'data' => [
-							'value' => 'Test Title'
+							'value' => 'Test Title',
+							'item-name' => null
 						]
 					],
 					[
@@ -1703,27 +1809,31 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								[
 									'type' => 'header',
 									'data' => [
-										'value' => 'Test Header'
+										'value' => 'Test Header',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								],
 								[
 									'type' => 'data',
 									'data' => [
 										'label' => 'test label',
-										'value' => 'test value'
+										'value' => 'test value',
+										'item-name' => null
 									]
 								]
 							],
 							'layout' => 'default',
 							'collapse' => 'closed',
-							'row-items' => null
+							'row-items' => null,
+							'item-name' => null
 						]
 					]
 				],

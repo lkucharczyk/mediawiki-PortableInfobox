@@ -7,7 +7,8 @@ class NodeTitle extends Node {
 			$title = $this->getValueWithDefault( $this->xmlNode );
 			$this->data = [
 				'value' => $title,
-				'source' => $this->getXmlAttribute( $this->xmlNode, self::DATA_SRC_ATTR_NAME )
+				'source' => $this->getXmlAttribute( $this->xmlNode, self::DATA_SRC_ATTR_NAME ),
+				'item-name' => $this->getItemName()
 			];
 		}
 

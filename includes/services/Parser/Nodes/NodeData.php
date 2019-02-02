@@ -15,7 +15,8 @@ class NodeData extends Node {
 				'value' => $this->getValueWithDefault( $this->xmlNode ),
 				'span' => $this->getSpan(),
 				'layout' => $this->getLayout(),
-				'source' => $this->getXmlAttribute( $this->xmlNode, self::DATA_SRC_ATTR_NAME )
+				'source' => $this->getPrimarySource(),
+				'item-name' => $this->getItemName()
 			];
 		}
 

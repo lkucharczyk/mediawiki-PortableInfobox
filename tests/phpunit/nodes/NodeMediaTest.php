@@ -180,7 +180,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'isImage' => true,
 					'isVideo' => false,
 					'isAudio' => false,
-					'source' => 'img'
+					'source' => 'img',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -195,7 +196,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'isImage' => true,
 					'isVideo' => false,
 					'isAudio' => false,
-					'source' => 'img'
+					'source' => 'img',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -210,7 +212,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'isImage' => true,
 					'isVideo' => false,
 					'isAudio' => false,
-					'source' => 'img'
+					'source' => 'img',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -225,7 +228,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'isImage' => true,
 					'isVideo' => false,
 					'isAudio' => false,
-					'source' => 'img'
+					'source' => 'img',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -240,7 +244,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'isImage' => false,
 					'isVideo' => true,
 					'isAudio' => false,
-					'source' => 'media'
+					'source' => 'media',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -261,7 +266,8 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'isImage' => false,
 					'isVideo' => false,
 					'isAudio' => true,
-					'source' => 'media'
+					'source' => 'media',
+					'item-name' => null
 				] ]
 			],
 			[
