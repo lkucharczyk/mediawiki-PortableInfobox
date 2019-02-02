@@ -106,6 +106,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'thumbnail' => 'http://thumbnail.jpg',
 								'thumbnail2x' => 'http://thumbnail2x.jpg',
 								'isImage' => true,
+								'source' => null,
 								'item-name' => null
 							]
 						]
@@ -135,6 +136,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'url' => 'http://image.jpg',
 								'caption' => 'Lorem ipsum dolor',
 								'isVideo' => true,
+								'source' => null,
 								'item-name' => null
 							]
 						]
@@ -214,6 +216,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'thumbnail' => 'http://thumbnail.jpg',
 								'thumbnail2x' => 'http://thumbnail2x.jpg',
 								'isImage' => true,
+								'source' => null,
 								'item-name' => null
 							]
 						]
@@ -1683,6 +1686,7 @@ class PortableInfoboxRenderServiceTest extends MediaWikiTestCase {
 								'thumbnail2x' => 'http://thumbnail2x.jpg',
 								'isImage' => true,
 								'isFirst' => true,
+								'source' => null,
 								'item-name' => null
 							],
 							[

@@ -145,7 +145,11 @@ class PortableInfoboxRenderService {
 			$templateName = 'media';
 		} else {
 			// More than one image means image collection
-			$data = [ 'images' => $data, 'source' => $data[0]['source'] ?? "" ];
+			$data = [
+				'images' => $data,
+				'source' => $data[0]['source'] ?? "",
+				'item-name' => $data[0]['item-name'] ?? ""
+			];
 			$templateName = 'media-collection';
 		}
 
