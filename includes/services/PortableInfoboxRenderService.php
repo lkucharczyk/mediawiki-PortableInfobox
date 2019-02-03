@@ -23,10 +23,12 @@ class PortableInfoboxRenderService {
 	 * @param string $layout
 	 * @param string $accentColor
 	 * @param string $accentColorText
+	 * @param string $type
+	 * @param string $itemName
 	 * @return string - infobox HTML
 	 */
 	public function renderInfobox(
-		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText
+		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText, $type, $itemName
 	) {
 		$this->inlineStyles = $this->getInlineStyles( $accentColor, $accentColorText );
 
@@ -36,7 +38,9 @@ class PortableInfoboxRenderService {
 			$output = $this->renderItem( 'wrapper', [
 				'content' => $infoboxHtmlContent,
 				'theme' => $theme,
-				'layout' => $layout
+				'layout' => $layout,
+				'type' => $type,
+				'item-name' => $itemName
 			] );
 		} else {
 			$output = '';
@@ -120,7 +124,8 @@ class PortableInfoboxRenderService {
 
 		return $this->render( 'group', [
 			'content' => $groupHTMLContent,
-			'cssClasses' => implode( ' ', $cssClasses )
+			'cssClasses' => implode( ' ', $cssClasses ),
+			'item-name' => $groupData['item-name']
 		] );
 	}
 
@@ -140,7 +145,11 @@ class PortableInfoboxRenderService {
 			$templateName = 'media';
 		} else {
 			// More than one image means image collection
-			$data = [ 'images' => $data ];
+			$data = [
+				'images' => $data,
+				'source' => $data[0]['source'],
+				'item-name' => $data[0]['item-name']
+			];
 			$templateName = 'media-collection';
 		}
 
@@ -180,8 +189,7 @@ class PortableInfoboxRenderService {
 
 	private function createHorizontalGroupData( array $groupData ) {
 		$horizontalGroupData = [
-			'labels' => [],
-			'values' => [],
+			'data' => [],
 			'renderLabels' => false
 		];
 
@@ -189,8 +197,12 @@ class PortableInfoboxRenderService {
 			$data = $item['data'];
 
 			if ( $item['type'] === 'data' ) {
-				array_push( $horizontalGroupData['labels'], $data['label'] );
-				array_push( $horizontalGroupData['values'], $data['value'] );
+				$horizontalGroupData['data'][] = [
+					'label' => $data['label'],
+					'value' => $data['value'],
+					'source' => $item['data']['source'] ?? "",
+					'item-name' => $item['data']['item-name']
+				];
 
 				if ( !empty( $data['label'] ) ) {
 					$horizontalGroupData['renderLabels'] = true;
@@ -254,10 +266,15 @@ class PortableInfoboxRenderService {
 			if ( !empty( $label ) ) {
 				$result['renderLabels'] = true;
 			}
-			$result['labels'][] = [ 'value' => $label, 'inlineStyles' => $styles ];
-			$result['values'][] = [ 'value' => $item['data']['value'], 'inlineStyles' => $styles ];
+			$result['data'][] = [
+				'label' => $label,
+				'value' => $item['data']['value'],
+				'inlineStyles' => $styles,
+				'source' => $item['data']['source'] ?? "",
+				'item-name' => $item['data']['item-name']
+			];
 
 			return $result;
-		}, [ 'labels' => [], 'values' => [], 'renderLabels' => false ] );
+		}, [ 'data' => [], 'renderLabels' => false ] );
 	}
 }

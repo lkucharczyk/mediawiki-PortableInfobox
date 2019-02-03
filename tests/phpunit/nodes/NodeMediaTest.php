@@ -179,7 +179,9 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'caption' => null,
 					'isImage' => true,
 					'isVideo' => false,
-					'isAudio' => false
+					'isAudio' => false,
+					'source' => 'img',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -193,7 +195,9 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'caption' => null,
 					'isImage' => true,
 					'isVideo' => false,
-					'isAudio' => false
+					'isAudio' => false,
+					'source' => 'img',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -207,7 +211,9 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'caption' => null,
 					'isImage' => true,
 					'isVideo' => false,
-					'isAudio' => false
+					'isAudio' => false,
+					'source' => 'img',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -221,7 +227,25 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'caption' => 'test.jpg',
 					'isImage' => true,
 					'isVideo' => false,
-					'isAudio' => false
+					'isAudio' => false,
+					'source' => 'img',
+					'item-name' => null
+				] ]
+			],
+			[
+				'<media source="img" name="img" />',
+				[ 'img' => 'test.jpg' ],
+				MEDIATYPE_BITMAP,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.jpg',
+					'alt' => 'Test.jpg',
+					'caption' => null,
+					'isImage' => true,
+					'isVideo' => false,
+					'isAudio' => false,
+					'source' => 'img',
+					'item-name' => 'img'
 				] ]
 			],
 			[
@@ -235,7 +259,9 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'caption' => null,
 					'isImage' => false,
 					'isVideo' => true,
-					'isAudio' => false
+					'isAudio' => false,
+					'source' => 'media',
+					'item-name' => null
 				] ]
 			],
 			[
@@ -255,7 +281,9 @@ class NodeMediaTest extends MediaWikiTestCase {
 					'caption' => null,
 					'isImage' => false,
 					'isVideo' => false,
-					'isAudio' => true
+					'isAudio' => true,
+					'source' => 'media',
+					'item-name' => null
 				] ]
 			],
 			[

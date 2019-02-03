@@ -154,7 +154,9 @@ class NodeMedia extends Node {
 			'caption' => $caption ?: null,
 			'isImage' => in_array( $mediatype, [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] ),
 			'isVideo' => $mediatype === MEDIATYPE_VIDEO,
-			'isAudio' => $mediatype === MEDIATYPE_AUDIO
+			'isAudio' => $mediatype === MEDIATYPE_AUDIO,
+			'source' => $this->getPrimarySource(),
+			'item-name' => $this->getItemName()
 		];
 
 		if ( $image['isImage'] ) {

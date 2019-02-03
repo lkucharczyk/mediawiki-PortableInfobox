@@ -34,7 +34,8 @@ class NodeGroup extends Node {
 				'value' => $this->getDataForChildren(),
 				'layout' => $this->getLayout(),
 				'collapse' => $this->getCollapse(),
-				'row-items' => $this->getRowItems()
+				'row-items' => $this->getRowItems(),
+				'item-name' => $this->getItemName()
 			];
 		}
 
@@ -57,7 +58,8 @@ class NodeGroup extends Node {
 				'value' => $value,
 				'layout' => $this->getLayout(),
 				'collapse' => $this->getCollapse(),
-				'row-items' => $this->getRowItems()
+				'row-items' => $this->getRowItems(),
+				'item-name' => $this->getItemName()
 			],
 		];
 	}

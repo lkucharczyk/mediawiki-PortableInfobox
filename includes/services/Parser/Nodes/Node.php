@@ -7,6 +7,7 @@ use PortableInfobox\Parser\SimpleParser;
 class Node {
 
 	const DATA_SRC_ATTR_NAME = 'source';
+	const NAME_ATTR_NAME = 'name';
 	const DEFAULT_TAG_NAME = 'default';
 	const FORMAT_TAG_NAME = 'format';
 	const LABEL_TAG_NAME = 'label';
@@ -110,7 +111,11 @@ class Node {
 
 	public function getData() {
 		if ( !isset( $this->data ) ) {
-			$this->data = [ 'value' => (string)$this->xmlNode ];
+			$this->data = [
+				'value' => (string)$this->xmlNode,
+				'source' => $this->getPrimarySource(),
+				'item-name' => $this->getItemName()
+			];
 		}
 
 		return $this->data;
@@ -276,5 +281,13 @@ class Node {
 		preg_match_all( self::EXTRACT_SOURCE_REGEX, (string)$node, $sources );
 
 		return array_unique( array_merge( $source, $sources[1] ) );
+	}
+
+	protected function getPrimarySource() {
+		return $this->getXmlAttribute( $this->xmlNode, self::DATA_SRC_ATTR_NAME );
+	}
+
+	protected function getItemName() {
+		return $this->getXmlAttribute( $this->xmlNode, self::NAME_ATTR_NAME );
 	}
 }

@@ -13,6 +13,7 @@ class PortableInfoboxParserTagController {
 	const DEFAULT_LAYOUT_NAME = 'default';
 	const INFOBOX_THEME_PREFIX = 'pi-theme-';
 	const INFOBOX_LAYOUT_PREFIX = 'pi-layout-';
+	const INFOBOX_TYPE_PREFIX = 'pi-type-';
 	const ACCENT_COLOR = 'accent-color';
 	const ACCENT_COLOR_TEXT = 'accent-color-text';
 	const ERR_UNIMPLEMENTEDNODE = 'portable-infobox-unimplemented-infobox-tag';
@@ -64,10 +65,12 @@ class PortableInfoboxParserTagController {
 		$layout = $this->getLayout( $params );
 		$accentColor = $this->getColor( self::ACCENT_COLOR, $params, $frame );
 		$accentColorText = $this->getColor( self::ACCENT_COLOR_TEXT, $params, $frame );
+		$type = $this->getType( $params );
+		$itemName = $this->getItemName( $params );
 
 		$renderService = new PortableInfoboxRenderService();
 		return $renderService->renderInfobox(
-			$data, implode( ' ', $themeList ), $layout, $accentColor, $accentColorText
+			$data, implode( ' ', $themeList ), $layout, $accentColor, $accentColorText, $type, $itemName
 		);
 	}
 
@@ -233,6 +236,16 @@ class PortableInfoboxParserTagController {
 		}
 
 		return $color;
+	}
+
+	private function getType( $params ) {
+		return !empty( $params['type'] ) ? Sanitizer::escapeClass(
+				self::INFOBOX_TYPE_PREFIX . preg_replace( '|\s+|s', '-', $params['type'] )
+			) : '';
+	}
+
+	private function getItemName( $params ) {
+		return !empty( $params['name'] ) ? Sanitizer::encodeAttribute( $params['name'] ) : '';
 	}
 
 	private function sanitizeColor( $color ) {
