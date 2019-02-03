@@ -32,6 +32,10 @@ class NodeNavigationTest extends MediaWikiTestCase {
 			[
 				'<navigation>kjdflkja<ref>dafkjlsdkfj</ref></navigation>',
 				[ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>', 'item-name' => null ]
+			],
+			[
+				'<navigation name="ihatetests">kjdflkja dafkjlsdkfj</navigation>',
+				[ 'value' => 'kjdflkja dafkjlsdkfj', 'item-name' => 'ihatetests' ]
 			]
 		];
 	}

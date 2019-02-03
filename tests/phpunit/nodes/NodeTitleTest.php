@@ -75,6 +75,16 @@ class NodeTitleTest extends MediaWikiTestCase {
 				'<title source="test"><format>{{{test}}}%</format></title>',
 				[ 'test' => 0 ],
 				[ 'value' => '{{{test}}}%', 'source' => 'test', 'item-name' => null ]
+			],
+			[
+				'<title source="test" name="nametest" />',
+				[ 'test' => 'abc' ],
+				[ 'value' => 'abc', 'source' => 'test', 'item-name' => 'nametest' ]
+			],
+			[
+				'<title name="nametest"><default>def</default></title>',
+				[],
+				[ 'value' => 'def', 'source' => null, 'item-name' => 'nametest' ]
 			]
 		];
 	}

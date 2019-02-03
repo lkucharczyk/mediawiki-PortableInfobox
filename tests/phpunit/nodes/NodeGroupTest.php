@@ -368,6 +368,40 @@ class NodeGroupTest extends MediaWikiTestCase {
 					'row-items' => null,
 					'item-name' => null
 				]
+			],
+			[
+				'<group name="g"><header name="h">h</header><data source="d" name="d"/></group>',
+				[ 'd' => 'data' ],
+				[
+					'value' => [
+						[
+							'type' => 'header',
+							'data' => [
+								'value' => 'h',
+								'item-name' => 'h'
+							],
+							'isEmpty' => false,
+							'source' => []
+						],
+						[
+							'type' => 'data',
+							'data' => [
+								'value' => 'data',
+								'label' => '',
+								'span' => 1,
+								'layout' => null,
+								'source' => 'd',
+								'item-name' => 'd'
+							],
+							'isEmpty' => false,
+							'source' => [ 'd' ]
+						]
+					],
+					'layout' => 'default',
+					'collapse' => null,
+					'row-items' => null,
+					'item-name' => 'g'
+				]
 			]
 		];
 	}

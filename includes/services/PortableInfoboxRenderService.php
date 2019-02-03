@@ -147,8 +147,8 @@ class PortableInfoboxRenderService {
 			// More than one image means image collection
 			$data = [
 				'images' => $data,
-				'source' => $data[0]['source'] ?? "",
-				'item-name' => $data[0]['item-name'] ?? ""
+				'source' => $data[0]['source'],
+				'item-name' => $data[0]['item-name']
 			];
 			$templateName = 'media-collection';
 		}

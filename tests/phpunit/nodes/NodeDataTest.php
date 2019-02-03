@@ -834,6 +834,21 @@ class NodeDataTest extends MediaWikiTestCase {
 					]
 				]
 			],
+			[
+				'<data source="test" name="data name"></data>',
+				[ 'test' => 'test' ],
+				[
+					'type' => 'data',
+					'data' => [
+						'value' => 'test',
+						'label' => '',
+						'span' => 1,
+						'layout' => null,
+						'source' => 'test',
+						'item-name' => 'data name'
+					]
+				]
+			]
 		];
 	}
 

@@ -233,6 +233,22 @@ class NodeMediaTest extends MediaWikiTestCase {
 				] ]
 			],
 			[
+				'<media source="img" name="img" />',
+				[ 'img' => 'test.jpg' ],
+				MEDIATYPE_BITMAP,
+				[ [
+					'url' => 'http://test.url',
+					'name' => 'Test.jpg',
+					'alt' => 'Test.jpg',
+					'caption' => null,
+					'isImage' => true,
+					'isVideo' => false,
+					'isAudio' => false,
+					'source' => 'img',
+					'item-name' => 'img'
+				] ]
+			],
+			[
 				'<media source="media" />',
 				[ 'media' => 'test.webm' ],
 				MEDIATYPE_VIDEO,

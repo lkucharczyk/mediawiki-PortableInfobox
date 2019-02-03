@@ -32,6 +32,10 @@ class NodeHeaderTest extends MediaWikiTestCase {
 			[
 				'<header>kjdflkja<ref>dafkjlsdkfj</ref></header>',
 				[ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>', 'item-name' => null ]
+			],
+			[
+				'<header name="headertest">kjdflkja dafkjlsdkfj</header>',
+				[ 'value' => 'kjdflkja dafkjlsdkfj', 'item-name' => 'headertest' ]
 			]
 		];
 	}
