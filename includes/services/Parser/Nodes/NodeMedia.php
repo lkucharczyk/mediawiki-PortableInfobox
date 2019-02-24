@@ -52,7 +52,7 @@ class NodeMedia extends Node {
 		$xpath = new \DOMXpath( $doc );
 		$divs = $xpath->query( '//div[@class=\'tabbertab\']' );
 		foreach ( $divs as $div ) {
-			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $doc->saveXml( $div ), $out ) ) {
+			if ( preg_match( '# src="(?:[^"]*/)?(?:\d+px-)?([^"]*?)"#', $doc->saveXml( $div ), $out ) ) {
 				$data[] = [
 					'label' => $div->getAttribute( 'title' ),
 					'title' => $out[1]
