@@ -63,6 +63,8 @@
 		"PortableInfobox\\Parser\\Nodes\\NodeImage": "includes/services/Parser/Nodes/NodeImage.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeMedia": "includes/services/Parser/Nodes/NodeMedia.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeNavigation": "includes/services/Parser/Nodes/NodeNavigation.php",
+		"PortableInfobox\\Parser\\Nodes\\NodePanel": "includes/services/Parser/Nodes/NodePanel.php",
+		"PortableInfobox\\Parser\\Nodes\\NodeSection": "includes/services/Parser/Nodes/NodeSection.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeTitle": "includes/services/Parser/Nodes/NodeTitle.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeVideo": "includes/services/Parser/Nodes/NodeVideo.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeUnimplemented": "includes/services/Parser/Nodes/NodeUnimplemented.php",
