@@ -82,6 +82,12 @@ class PortableInfoboxRenderService {
 			case 'title':
 				$result = $this->renderTitle( $data );
 				break;
+			case 'panel':
+				$result = $this->renderPanel( $data );
+				break;
+			case 'section':
+				$result = '';
+				break;
 			default:
 				$result = $this->render( $type, $data );
 				break;
@@ -178,6 +184,71 @@ class PortableInfoboxRenderService {
 		}
 
 		return $result;
+	}
+
+	protected function renderPanel( $data, $type = 'panel' ) {
+		$cssClasses = [];
+		$sections = [];
+		$collapse = $data['collapse'];
+		$header = '';
+		$shouldShowToggles = false;
+
+		foreach ( $data['value'] as $index => $child ) {
+			switch ( $child['type'] ) {
+				case 'header':
+					if ( empty( $header ) ) {
+						$header = $this->renderHeader( $child['data'] );
+					}
+					break;
+				case 'section':
+					$sectionData = $this->getSectionData( $child, $index );
+					// section needs to have content in order to render it
+					if ( !empty( $sectionData['content'] ) ) {
+						$sections[] = $sectionData;
+						if ( !empty( $sectionData['label'] ) ) {
+							$shouldShowToggles = true;
+						}
+					}
+					break;
+				default:
+					// we do not support any other tags than section and header inside panel
+					break;
+			}
+		}
+		if ( $collapse !== null && count( $tabContents ) > 0 && !empty( $header ) ) {
+			$cssClasses[] = 'pi-collapse';
+			$cssClasses[] = 'pi-collapse-' . $collapse;
+		}
+		if ( count( $sections ) > 0 ) {
+			$sections[0]['active'] = true;
+		} else {
+			// do not render empty panel
+			return '';
+		}
+		if ( !$shouldShowToggles ) {
+			$sections = array_map( function ( $content ) {
+				$content['active'] = true;
+				return $content;
+			}, $sections );
+		}
+
+		return $this->render( $type, [
+			'item-name' => $data['item-name'],
+			'cssClasses' => implode( ' ', $cssClasses ),
+			'header' => $header,
+			'sections' => $sections,
+			'shouldShowToggles' => $shouldShowToggles,
+		] );
+	}
+
+	private function getSectionData( $section, $index ) {
+		$content = $this->renderChildren( $section['data']['value'] );
+		return [
+			'index' => $index,
+			'item-name' => $section['data']['item-name'],
+			'label' => $section['data']['label'],
+			'content' => !empty( $content ) ? $content : null
+		];
 	}
 
 	private function getInlineStyles( $accentColor, $accentColorText ) {
