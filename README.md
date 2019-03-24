@@ -16,6 +16,7 @@ wfLoadExtension( 'PortableInfobox' );
 ## Configuration
 You can use several variables to modify extension's behaviour:
 - `$wgAllInfoboxesSubpagesBlacklist` (array) - list of subpages in template namespace to omit by AllInfoboxes query. (default: [ "doc", "draft", "test" ])
+- `$wgPortableInfoboxCacheRenderers` (bool) - cache internal infobox renderers. (default: true)
 - `$wgPortableInfoboxCustomImageWidth` (int) - size of image thumbnails used in infoboxes. (default: 300)
 - `$wgPortableInfoboxUseHeadings` (bool) - use heading tags for infobox titles and group headers, it may cause [incompatibilites](https://github.com/Luqgreg/mediawiki-PortableInfobox/issues/15) with other extensions. (default: true)
 - `$wgPortableInfoboxUseTidy` (bool) - use [RemexHtml](https://www.mediawiki.org/wiki/RemexHtml) for validating HTML in infoboxes (default: true)
