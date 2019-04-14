@@ -23,6 +23,7 @@ class PortableInfoboxTemplateEngine {
 		'horizontal-group-content' => 'PortableInfoboxHorizontalGroupContent.hbs',
 		'navigation' => 'PortableInfoboxItemNavigation.hbs',
 		'media-collection' => 'PortableInfoboxItemMediaCollection.hbs',
+		'panel' => 'PortableInfoboxPanel.hbs',
 		'xml-parse-error' => 'PortableInfoboxMarkupDebug.hbs'
 	];
 
