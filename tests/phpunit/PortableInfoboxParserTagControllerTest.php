@@ -5,6 +5,9 @@
  */
 class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 
+	const THEME_PREFIX = PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX;
+	const THEME_DEFAULT = self::THEME_PREFIX . PortableInfoboxParserTagController::DEFAULT_THEME_NAME;
+
 	/** @var Parser */
 	protected $parser;
 
@@ -92,27 +95,49 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 
 	public function themeNamesProvider() {
 		return [
-			// static theme, variable name, variable theme, [ classes ], message
-			[ ' ', '', [
-				PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . PortableInfoboxParserTagController::DEFAULT_THEME_NAME
-			], "Should use default when theme names are invalid" ],
-			[ 'test', null, [ PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . 'test' ],
-				"Should contain static theme" ],
-			[ null, 'variable', [
-				PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . 'variable'
-			], "Should contain theme from params" ],
-			[ 'default', 'variable', [
-				PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . 'default',
-				PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . 'variable'
-			], "Should contain static and param themes" ],
-			[ null, null, [
-				PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . PortableInfoboxParserTagController::DEFAULT_THEME_NAME
-			], "Should contain default theme" ],
-			[ ' test test', null, [ PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . 'test-test' ],
-				"Should sanitize infobox theme name" ],
-			[ "test    test\n test\ttest", null, [
-				PortableInfoboxParserTagController::INFOBOX_THEME_PREFIX . 'test-test-test-test'
-			], "Should sanitize multiline infobox theme name" ]
+			// static theme, variable theme, [ classes ], message
+			[
+				' ',
+				'',
+				[ self::THEME_DEFAULT ],
+				'Should use default when theme names are invalid'
+			],
+			[
+				'test',
+				null,
+				[ self::THEME_PREFIX . 'test' ],
+				'Should contain static theme'
+			],
+			[
+				null,
+				'variable',
+				[ self::THEME_PREFIX . 'variable' ],
+				'Should contain theme from params'
+			],
+			[
+				'default',
+				'variable',
+				[ self::THEME_PREFIX . 'default', self::THEME_PREFIX . 'variable' ],
+				'Should contain static and param themes'
+			],
+			[
+				null,
+				null,
+				[ self::THEME_DEFAULT ],
+				'Should contain default theme'
+			],
+			[
+				' test test',
+				null,
+				[ self::THEME_PREFIX . 'test-test' ],
+				'Should sanitize infobox theme name'
+			],
+			[
+				"test    test\n test\ttest",
+				null,
+				[ self::THEME_PREFIX . 'test-test-test-test' ],
+				'Should sanitize multiline infobox theme name'
+			]
 		];
 	}
 
@@ -120,8 +145,10 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 	 * @dataProvider getLayoutDataProvider
 	 */
 	public function testGetLayout( $layout, $expectedOutput, $text, $message ) {
-		$output = $this->controller->renderInfobox( $text, $layout, $this->parser,
-			$this->parser->getPreprocessor()->newFrame() )[0];
+		$output = $this->controller->renderInfobox(
+			$text, $layout, $this->parser,
+			$this->parser->getPreprocessor()->newFrame()
+		)[0];
 
 		$this->assertTrue( $this->containsClassName(
 			$output,
@@ -174,118 +201,119 @@ class PortableInfoboxParserTagControllerTest extends MediaWikiTestCase {
 	 * @dataProvider getColorDataProvider
 	 */
 	public function testGetColor( $params, $expectedOutput, $text, $templateInvocation, $message ) {
-		$output = $this->controller->renderInfobox( $text, $params, $this->parser,
-			$this->parser->getPreprocessor()->newCustomFrame( $templateInvocation ) )[0];
+		$output = $this->controller->renderInfobox(
+			$text, $params, $this->parser,
+			$this->parser->getPreprocessor()->newCustomFrame( $templateInvocation )
+		)[0];
 
-		$this->assertEquals( $this->normalizeHTML( $expectedOutput ), $this->normalizeHTML( $output ), $message );
+		$this->assertEquals(
+			$this->normalizeHTML( $expectedOutput ),
+			$this->normalizeHTML( $output ),
+			$message
+		);
 	}
 
 	public function getColorDataProvider() {
 		return [
 			[
-				'params' => [ 'accent-color-default' => '#fff' ],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#fff;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
-				'templateInvocation' => [],
-				'message' => 'accent-color-default set'
+				[ 'accent-color-default' => '#fff' ],
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#fff;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
+				[],
+				'accent-color-default set'
 			],
 			[
-				'params' => [ 'accent-color-source' => 'color-source' ],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#000;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
-				'templateInvocation' => [
-					'color-source' => '#000'
-				],
-				'message' => 'accent-color-source set'
+				[ 'accent-color-source' => 'color-source' ],
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#000;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
+				[ 'color-source' => '#000' ],
+				'accent-color-source set'
 			],
 			[
-				'params' => [
-					'accent-color-default' => '#fff' ,
+				[
+					'accent-color-default' => '#fff',
 					'accent-color-source' => 'color-source'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#000;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
-				'templateInvocation' => [
-					'color-source' => '#000'
-				],
-				'message' => 'accent-color-default and accent-color-source set'
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#000;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
+				[ 'color-source' => '#000' ],
+				'accent-color-default and accent-color-source set'
 			],
 			[
-				'params' => [ 'accent-color-text-default' => '#fff' ],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="color:#fff;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
-				'templateInvocation' => [],
-				'message' => 'accent-color-text-default set'
+				[ 'accent-color-text-default' => '#fff' ],
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title" style="color:#fff;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
+				[],
+				'accent-color-text-default set'
 			],
 			[
-				'params' => [
-					'accent-color-text-default' => '#fff' ,
+				[
+					'accent-color-text-default' => '#fff',
 					'accent-color-text-source' => 'color-source'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="color:#000;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
-				'templateInvocation' => [
-					'color-source' => '#000'
-				],
-				'message' => 'accent-color-text-source set'
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title" style="color:#000;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
+				[ 'color-source' => '#000' ],
+				'accent-color-text-source set'
 			],
 			[
-				'params' => [
-					'accent-color-text-default' => '#fff' ,
+				[
+					'accent-color-text-default' => '#fff',
 					'accent-color-text-source' => 'color-source'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="color:#000;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
-				'templateInvocation' => [
-					'color-source' => '#000'
-				],
-				'message' => 'accent-color-text-default and accent-color-text-source set'
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title" style="color:#000;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
+				[ 'color-source' => '#000' ],
+				'accent-color-text-default and accent-color-text-source set'
 			],
 			[
-				'params' => [
+				[
 					'accent-color-text-default' => '#fff' ,
 					'accent-color-text-source' => 'color-source',
 					'accent-color-default' => '#fff' ,
 					'accent-color-source' => 'color-source2'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#001;color:#000;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
-				'templateInvocation' => [
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title"
+						style="background-color:#001;color:#000;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
+				[
 					'color-source' => '#000',
 					'color-source2' => '#001'
 				],
-				'message' => 'accent-color-text-default and accent-color-text-source, accent-color-default, accent-color-source set'
+				'accent-color-text-default and accent-color-text-source, accent-color-default, ' .
+					'accent-color-source set'
 			],
 			[
-				'params' => [
+				[
 					'accent-color-text-default' => 'fff' ,
 					'accent-color-text-source' => 'color-source',
 					'accent-color-default' => 'fff' ,
 					'accent-color-source' => 'color-source2'
 				],
-				'expectedOutput' => '<aside class="portable-infobox pi-background pi-theme-default pi-layout-default">
-										<h2 class="pi-item pi-item-spacing pi-title" style="background-color:#001;color:#000;">test</h2>
-									</aside>',
-				'text' => '<title><default>test</default></title>',
+				'<aside class="portable-infobox noexcerpt pi-background pi-theme-default pi-layout-default">
+					<h2 class="pi-item pi-item-spacing pi-title" 
+						style="background-color:#001;color:#000;">test</h2>
+				</aside>',
+				'<title><default>test</default></title>',
 				'templateInvocation' => [
 					'color-source' => '000',
 					'color-source2' => '001'
 				],
-				'message' => 'colors without #'
+				'colors without #'
 			],
 		];
 	}

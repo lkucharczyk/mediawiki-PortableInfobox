@@ -26,12 +26,16 @@ class MediaWikiParserTest extends MediaWikiTestCase {
 	}
 
 	protected function parse( $wikitext, $params, $newline = false ) {
-		$withVars = $this->parser->replaceVariables( $wikitext,
-			$this->parser->getPreprocessor()->newCustomFrame( $params ) );
-		$parserOutput = $this->parser->parse( $withVars, $this->parser->getTitle(), $this->parser->getOptions(),
-			$newline );
+		$withVars = $this->parser->replaceVariables(
+			$wikitext, $this->parser->getPreprocessor()->newCustomFrame( $params )
+		);
+		$parserOutput = $this->parser->parse(
+			$withVars, $this->parser->getTitle(), $this->parser->getOptions(), $newline
+		);
 
-		return preg_replace( '|{{{.*}}}|Us', '', preg_replace( '|[\n\r]|Us', '', $parserOutput->getText() ) );
+		return preg_replace(
+			'|{{{.*}}}|Us', '', preg_replace( '|[\n\r]|Us', '', $parserOutput->getText() )
+		);
 	}
 
 	/* Fails - it needs a modification in the core to pass

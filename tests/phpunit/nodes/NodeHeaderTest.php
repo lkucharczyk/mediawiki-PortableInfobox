@@ -11,20 +11,32 @@ class NodeHeaderTest extends MediaWikiTestCase {
 	 * @dataProvider dataProvider
 	 *
 	 * @param $markup
-	 * @param $params
 	 * @param $expected
 	 */
-	public function testData( $markup, $params, $expected ) {
-		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup, $params );
+	public function testData( $markup, $expected ) {
+		$node = PortableInfobox\Parser\Nodes\NodeFactory::newFromXML( $markup );
 
 		$this->assertEquals( $expected, $node->getData() );
 	}
 
 	public function dataProvider() {
 		return [
-			[ '<header></header>', [], [ 'value' => '' ] ],
-			[ '<header>kjdflkja dafkjlsdkfj</header>', [], [ 'value' => 'kjdflkja dafkjlsdkfj' ] ],
-			[ '<header>kjdflkja<ref>dafkjlsdkfj</ref></header>', [], [ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>' ] ],
+			[
+				'<header></header>',
+				[ 'value' => '', 'item-name' => null ]
+			],
+			[
+				'<header>kjdflkja dafkjlsdkfj</header>',
+				[ 'value' => 'kjdflkja dafkjlsdkfj', 'item-name' => null ]
+			],
+			[
+				'<header>kjdflkja<ref>dafkjlsdkfj</ref></header>',
+				[ 'value' => 'kjdflkja<ref>dafkjlsdkfj</ref>', 'item-name' => null ]
+			],
+			[
+				'<header name="headertest">kjdflkja dafkjlsdkfj</header>',
+				[ 'value' => 'kjdflkja dafkjlsdkfj', 'item-name' => 'headertest' ]
+			]
 		];
 	}
 

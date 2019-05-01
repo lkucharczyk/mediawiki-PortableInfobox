@@ -10,6 +10,8 @@ class InfoboxParamsValidator {
 		'layout',
 		'theme',
 		'theme-source',
+		'type',
+		'name'
 	];
 
 	private static $supportedLayouts = [
@@ -175,11 +177,13 @@ class InfoboxParamsValidator {
 	const REGEX_HEXRGB = '/^#?[a-f0-9]{3}(?:[a-f0-9]{3}(?:[a-f0-9]{2})?|[a-f0-9])?$/';
 	const REGEX_RGB = '/^rgb\((?:' . self::REGEX_RGBVAL . ',){2}' . self::REGEX_RGBVAL . '\)$/';
 	const REGEX_RGBA = '/^rgba\((?:' . self::REGEX_RGBVAL . ',){3}' . self::REGEX_ALPHAVAL . '\)$/';
-	const REGEX_HSL = '/^hsl\(' . self::REGEX_HUE . ',' . self::REGEX_PERCENT . ',' . self::REGEX_PERCENT . '\)$/';
-	const REGEX_HSLA = '/^hsla\(' . self::REGEX_HUE . ',(?:' . self::REGEX_PERCENT . ',){2}' . self::REGEX_ALPHAVAL . '\)$/';
+	const REGEX_HSL = '/^hsl\(' . self::REGEX_HUE . ',' . self::REGEX_PERCENT . ',' .
+		self::REGEX_PERCENT . '\)$/';
+	const REGEX_HSLA = '/^hsla\(' . self::REGEX_HUE . ',(?:' . self::REGEX_PERCENT . ',){2}' .
+		self::REGEX_ALPHAVAL . '\)$/';
 
 	public function __construct() {
-		if( is_null( self::$colorNamesFlipped ) ) {
+		if ( is_null( self::$colorNamesFlipped ) ) {
 			self::$colorNamesFlipped = array_flip( self::$colorNames );
 		}
 	}
@@ -235,5 +239,6 @@ class InfoboxParamsValidator {
 	}
 }
 
+// phpcs:ignore Generic.Files.OneObjectStructurePerFile.MultipleFound
 class InvalidInfoboxParamsException extends \Exception {
 }

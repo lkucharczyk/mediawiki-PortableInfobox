@@ -14,38 +14,14 @@ class ApiPortableInfobox extends ApiBase {
 			$this->addWarning( 'apiwarn-infobox-invalidargs' );
 		}
 
-		/*
-		This commented block is an another/alternative approach to the same problem. Potentially
-		it is better because it parses wikitext in a way identical to how it is parser for article
-		view - however it is not able to throw exception if the passed text is not a valid infobox.
-		I'm keeping it here because I think it is a great approach and in the future I'm planning
-		to create an separated API that uses this approach. - Inez Korczyński
-
-		$fakeTemplate = 'FakeTemplate' . wfRandomString( 4 );
-		$fakeTemplateTitle = Title::newFromText( $fakeTemplate, NS_TEMPLATE );
-
-		$parametersWT = '';
-		foreach( $arguments as $key => $value ) {
-			$parametersWT .= '|' . $key . '=' . $value;
-		}
-		$callWT = '{{' . $fakeTemplate . $parametersWT . '}}';
-
-		global $wgParser;
-		$popts = ParserOptions::newFromContext( $this->getContext() );
-		$popts->setTemplateCallback( function ( $title, $parser = false ) use ( $fakeTemplateTitle, $text ) {
-			if ( $title->equals( $fakeTemplateTitle ) ) {
-				return array( 'text' => $text );
-			} else {
-				return Parser::statelessFetchTemplate( $title, $parser );
-			}
-		} );
-		$output = $wgParser->parse( $callWT, Title::newFromText( $title ), $popts )->getText();
-		$this->getResult()->addValue( null, $this->getModuleName(), [ 'text' => [ '*' => $output ] ] );
-		*/
-
 		global $wgParser;
 		$wgParser->firstCallInit();
-		$wgParser->startExternalParse( Title::newFromText( $title ), ParserOptions::newFromContext( $this->getContext() ), Parser::OT_HTML, true );
+		$wgParser->startExternalParse(
+			Title::newFromText( $title ),
+			ParserOptions::newFromContext( $this->getContext() ),
+			Parser::OT_HTML,
+			true
+		);
 
 		if ( is_array( $arguments ) ) {
 			foreach ( $arguments as $key => &$value ) {
@@ -59,11 +35,20 @@ class ApiPortableInfobox extends ApiBase {
 			$output = PortableInfoboxParserTagController::getInstance()->render( $text, $wgParser, $frame );
 			$this->getResult()->addValue( null, $this->getModuleName(), [ 'text' => [ '*' => $output ] ] );
 		} catch ( \PortableInfobox\Parser\Nodes\UnimplementedNodeException $e ) {
-			$this->dieUsage( wfMessage( 'portable-infobox-unimplemented-infobox-tag', [ $e->getMessage() ] )->escaped(), 'notimplemented' );
+			$this->dieUsage(
+				wfMessage( 'portable-infobox-unimplemented-infobox-tag', [ $e->getMessage() ] )->escaped(),
+				'notimplemented'
+			);
 		} catch ( \PortableInfobox\Parser\XmlMarkupParseErrorException $e ) {
 			$this->dieUsage( wfMessage( 'portable-infobox-xml-parse-error' )->text(), 'badxml' );
 		} catch ( \PortableInfobox\Helpers\InvalidInfoboxParamsException $e ) {
-			$this->dieUsage( wfMessage( 'portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported', [ $e->getMessage() ] )->escaped(), 'invalidparams' );
+			$this->dieUsage(
+				wfMessage(
+					'portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported',
+					[ $e->getMessage() ]
+				)->escaped(),
+				'invalidparams'
+			);
 		}
 	}
 
@@ -87,8 +72,10 @@ class ApiPortableInfobox extends ApiBase {
 	public function getExamples() {
 		return [
 			'api.php?action=infobox',
-			'api.php?action=infobox&text=<infobox><data><default>{{PAGENAME}}</default></data></infobox>&title=Test',
-			'api.php?action=infobox&text=<infobox><data source="test" /></infobox>&args={"test": "test value"}',
+			'api.php?action=infobox&text=<infobox><data><default>{{PAGENAME}}</default></data></infobox>' .
+				'&title=Test',
+			'api.php?action=infobox&text=<infobox><data source="test" /></infobox>' .
+				'&args={"test": "test value"}'
 		];
 	}
 

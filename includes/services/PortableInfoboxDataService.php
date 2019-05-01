@@ -62,14 +62,9 @@ class PortableInfoboxDataService {
 	 * @return array in format [ [ 'data' => [], 'metadata' => [] ] or [] will be returned
 	 */
 	public function getData() {
-		if ( $this->title && $this->title->exists() && $this->title->inNamespace( NS_TEMPLATE ) ) {
-			$incOnlyTemplates = $this->parsingHelper->parseIncludeonlyInfoboxes( $this->title );
-			$this->delete();
-			$this->set( $incOnlyTemplates );
-		}
 		$result = $this->get();
 
-		return $result !== null ? $result : [];
+		return $result ? $result : [];
 	}
 
 	/**
@@ -101,9 +96,9 @@ class PortableInfoboxDataService {
 	 */
 	private function getImageFromOneInfoboxData( $infoboxData ) {
 		$images = [];
-		foreach ( $infoboxData as $infoboxDataField ) {
-			if ( $infoboxDataField['type'] === self::IMAGE_FIELD_TYPE && isset( $infoboxDataField['data'] ) ) {
-				$images = array_merge( $images, $this->getImagesFromOneNodeImageData( $infoboxDataField['data'] ) );
+		foreach ( $infoboxData as $field ) {
+			if ( $field['type'] === self::IMAGE_FIELD_TYPE && isset( $field['data'] ) ) {
+				$images = array_merge( $images, $this->getImagesFromOneNodeImageData( $field['data'] ) );
 			}
 		}
 		return $images;
@@ -184,19 +179,40 @@ class PortableInfoboxDataService {
 	protected function load() {
 		$id = $this->title->getArticleID();
 		if ( $id ) {
-			return $this->memcached->getWithSetCallback( $this->cachekey, self::CACHE_TTL, function () use ( $id ) {
-				return $this->reparseArticleIfNeeded(
-					json_decode( $this->propsProxy->get( $id, self::INFOBOXES_PROPERTY_NAME ), true )
-				);
-			} );
+			return $this->memcached->getWithSetCallback(
+				$this->cachekey,
+				self::CACHE_TTL,
+				function () use ( $id ) {
+					return $this->reparseArticleIfNeeded(
+						json_decode( $this->propsProxy->get( $id, self::INFOBOXES_PROPERTY_NAME ), true )
+					);
+				}
+			);
 		}
 
 		return [];
 	}
 
+	public function reparseArticle() {
+		if ( $this->title->inNamespace( NS_TEMPLATE ) ) {
+			$result = $this->parsingHelper->parseIncludeonlyInfoboxes( $this->title );
+		} else {
+			$result = $this->parsingHelper->reparseArticle( $this->title );
+		}
+
+		if ( $result ) {
+			$this->set( $result );
+		} else {
+			$this->delete();
+		}
+
+		return $result;
+	}
+
 	/**
-	 * If PageProps has an old version of infobox data/metadata then reparse the page and store fresh data
-	 * If it doesn't have infoboxes property, we treat it as a page without infoboxes - there might be false negatives
+	 * If PageProps has an old version of infobox data/metadata then reparse the page
+	 * and store fresh data. If it doesn't have infoboxes property,
+	 * we treat it as a page without infoboxes - there might be false negatives
 	 *
 	 * @param array $infoboxes
 	 *
@@ -210,8 +226,8 @@ class PortableInfoboxDataService {
 					!isset( $infobox['parser_tag_version'] ) ||
 					$infobox['parser_tag_version'] !== PortableInfoboxParserTagController::PARSER_TAG_VERSION
 				) {
-					$infoboxes = $this->parsingHelper->reparseArticle( $this->title );
-					$this->set( $infoboxes );
+					$infoboxes = $this->reparseArticle();
+					break;
 				}
 			}
 		}

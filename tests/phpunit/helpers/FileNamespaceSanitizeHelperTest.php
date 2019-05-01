@@ -33,7 +33,9 @@ class FileNamespaceSanitizeHelperTest extends TestCase {
 	 * @param $description
 	 * @dataProvider sanitizeImageFilenameDataProvider
 	 */
-	public function testSanitizeImageFilename( $inputFileName, $contentLanguageCode, $fileNamespaceAlias, $expectedOutput, $description ) {
+	public function testSanitizeImageFilename(
+		$inputFileName, $contentLanguageCode, $fileNamespaceAlias, $expectedOutput, $description
+	) {
 		global $wgNamespaceAliases;
 
 		$language = new \Language();
@@ -43,7 +45,9 @@ class FileNamespaceSanitizeHelperTest extends TestCase {
 			$wgNamespaceAliases[$fileNamespaceAlias] = NS_FILE;
 		}
 
-		$actualOutput = $this->fileNamespaceSanitizeHelper->sanitizeImageFileName( $inputFileName, $language );
+		$actualOutput = $this->fileNamespaceSanitizeHelper->sanitizeImageFileName(
+			$inputFileName, $language
+		);
 
 		$this->assertEquals( $expectedOutput, $actualOutput, $description );
 	}
@@ -291,96 +295,6 @@ class FileNamespaceSanitizeHelperTest extends TestCase {
 				null,
 				'luke+1.jpg',
 				'Link to filename with lower case letters'
-			]
-		];
-	}
-
-	/**
-	 * @param $wikitext
-	 * @param $contentLanguageCode
-	 * @param $expectedOutput
-	 *
-	 * @dataProvider stripFilesFromWikitextDataProvider
-	 */
-	public function testStripFilesFromWikitext( $wikitext, $contentLanguageCode, $expectedOutput ) {
-		$language = new \Language();
-		$language->setCode( $contentLanguageCode );
-
-		$actualOutput = $this->fileNamespaceSanitizeHelper->stripFilesFromWikitext( $wikitext, $language );
-
-		$this->assertEquals( $expectedOutput, $actualOutput );
-	}
-
-	public function stripFilesFromWikitextDataProvider() {
-		return [
-			[
-				'[[File:image.jpg|300px|lorem ipsum]]His clothes are not the same as they were in The Sims 2.',
-				'en',
-				'His clothes are not the same as they were in The Sims 2.'
-			],
-			[
-				'His [[Image:image.jpg|300px|lorem ipsum|other param]]clothes are not the same as they were in The Sims 2[[File:image.jpg|300px|lorem ipsum]].',
-				'en',
-				'His clothes are not the same as they were in The Sims 2.'
-			],
-			[
-				'Der ehrgeizige Sim nimmt sich mehr vor, als seine Zeitgenossen und verfolgt seine Ziele mit eiserner Disziplin.[[Datei:Merkmal-Ehrgeizig.jpg|left]]',
-				'de',
-				'Der ehrgeizige Sim nimmt sich mehr vor, als seine Zeitgenossen und verfolgt seine Ziele mit eiserner Disziplin.'
-			],
-			[
-				'[[Plik:Medina_Hoit.png]]Ma siwe włosy, ciemną skórę, [[Grafika:Medina_Hoit.png]]małe okulary oraz nosi białą koszulę i niebieskie spodnie. [[File:Merkmal-Ehrgeizig.jpg|left]]',
-				'pl',
-				'Ma siwe włosy, ciemną skórę, małe okulary oraz nosi białą koszulę i niebieskie spodnie. '
-			]
-		];
-	}
-
-	/**
-	 * @param $wikitext
-	 * @param $lang
-	 * @param $expectedOutput
-	 *
-	 * @dataProvider getCleanFileMarkersFromWikitextDataProvider
-	 */
-	public function testGetCleanFileMarkersFromWikitext( $wikitext, $lang, $expectedOutput ) {
-		$language = new \Language();
-		$language->setCode( $lang );
-		$actualOutput = $this->fileNamespaceSanitizeHelper->getCleanFileMarkersFromWikitext( $wikitext, $language );
-
-		$this->assertEquals( $expectedOutput, $actualOutput );
-	}
-
-	public function getCleanFileMarkersFromWikitextDataProvider() {
-		return [
-			[
-				'His clothes are not the same as they were in The Sims 2.',
-				'en',
-				false
-			],
-			[
-				'His [[Image:image.jpg|300px|lorem ipsum|other param]]clothes are not the same as they were in The Sims 2[[File:image.jpg|300px|lorem ipsum]].',
-				'en',
-				[
-					'Image:image.jpg',
-					'File:image.jpg'
-				]
-			],
-			[
-				'Der ehrgeizige Sim nimmt sich mehr vor, als seine Zeitgenossen und verfolgt seine Ziele mit eiserner Disziplin.[[Datei:Merkmal-Ehrgeizig.jpg|left]]',
-				'de',
-				[
-					'Datei:Merkmal-Ehrgeizig.jpg'
-				]
-			],
-			[
-				'[[Plik:Medina_Hoit.png]]Ma siwe włosy, ciemną skórę, [[Grafika:Medina_Hoit.png]]małe okulary oraz nosi białą koszulę i niebieskie spodnie. [[File:Merkmal-Ehrgeizig.jpg|left]]',
-				'pl',
-				[
-					'Plik:Medina_Hoit.png',
-					'Grafika:Medina_Hoit.png',
-					'File:Merkmal-Ehrgeizig.jpg'
-				]
 			]
 		];
 	}

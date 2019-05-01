@@ -1,0 +1,21 @@
+<section class="pi-item pi-panel pi-border-color{{#if cssClasses}} {{{cssClasses}}}{{/if}}"{{#if item-name}} data-item-name="{{item-name}}"{{/if}}>
+	{{{header}}}
+	{{#if shouldShowToggles}}
+		<div class="pi-panel-scroll-wrapper">
+			<ul class="pi-section-navigation">
+				{{#each sections}}
+					<li class="pi-section-tab pi-item-spacing{{#if active}} pi-section-active{{/if}}" data-ref="{{index}}"{{#if item-name}} data-item-name="{{item-name}}"{{/if}}>
+						<div class="pi-section-label">{{#if label}}{{label}}{{else}}{{index}}{{/if}}</div>
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	{{/if}}
+	<div class="pi-section-contents">
+		{{#each sections}}
+			<div class="pi-section-content{{#if active}} pi-section-active{{/if}}" data-ref="{{index}}"{{#if item-name}} data-item-name="{{item-name}}"{{/if}}>
+				{{{content}}}
+			</div>
+		{{/each}}
+	</div>
+</section>

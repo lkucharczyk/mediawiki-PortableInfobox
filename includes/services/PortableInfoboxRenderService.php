@@ -23,9 +23,13 @@ class PortableInfoboxRenderService {
 	 * @param string $layout
 	 * @param string $accentColor
 	 * @param string $accentColorText
+	 * @param string $type
+	 * @param string $itemName
 	 * @return string - infobox HTML
 	 */
-	public function renderInfobox( array $infoboxdata, $theme, $layout, $accentColor, $accentColorText ) {
+	public function renderInfobox(
+		array $infoboxdata, $theme, $layout, $accentColor, $accentColorText, $type, $itemName
+	) {
 		$this->inlineStyles = $this->getInlineStyles( $accentColor, $accentColorText );
 
 		$infoboxHtmlContent = $this->renderChildren( $infoboxdata );
@@ -34,7 +38,9 @@ class PortableInfoboxRenderService {
 			$output = $this->renderItem( 'wrapper', [
 				'content' => $infoboxHtmlContent,
 				'theme' => $theme,
-				'layout' => $layout
+				'layout' => $layout,
+				'type' => $type,
+				'item-name' => $itemName
 			] );
 		} else {
 			$output = '';
@@ -76,6 +82,12 @@ class PortableInfoboxRenderService {
 			case 'title':
 				$result = $this->renderTitle( $data );
 				break;
+			case 'panel':
+				$result = $this->renderPanel( $data );
+				break;
+			case 'section':
+				$result = '';
+				break;
 			default:
 				$result = $this->render( $type, $data );
 				break;
@@ -91,7 +103,7 @@ class PortableInfoboxRenderService {
 	 *
 	 * @return string - group HTML markup
 	 */
-	protected function renderGroup( $groupData ) {
+	protected function renderGroup( array $groupData ) {
 		$cssClasses = [];
 		$groupHTMLContent = '';
 		$children = $groupData['value'];
@@ -118,7 +130,8 @@ class PortableInfoboxRenderService {
 
 		return $this->render( 'group', [
 			'content' => $groupHTMLContent,
-			'cssClasses' => implode( ' ', $cssClasses )
+			'cssClasses' => implode( ' ', $cssClasses ),
+			'item-name' => $groupData['item-name']
 		] );
 	}
 
@@ -128,7 +141,7 @@ class PortableInfoboxRenderService {
 	 * @param array $data
 	 * @return string
 	 */
-	protected function renderMedia( $data ) {
+	protected function renderMedia( array $data ) {
 		if ( count( $data ) === 0 || !$data[0] ) {
 			return '';
 		}
@@ -138,26 +151,30 @@ class PortableInfoboxRenderService {
 			$templateName = 'media';
 		} else {
 			// More than one image means image collection
-			$data = [ 'images' => $data ];
+			$data = [
+				'images' => $data,
+				'source' => $data[0]['source'],
+				'item-name' => $data[0]['item-name']
+			];
 			$templateName = 'media-collection';
 		}
 
 		return $this->render( $templateName, $data );
 	}
 
-	protected function renderTitle( $data ) {
+	protected function renderTitle( array $data ) {
 		$data['inlineStyles'] = $this->inlineStyles;
 
 		return $this->render( 'title', $data );
 	}
 
-	protected function renderHeader( $data ) {
+	protected function renderHeader( array $data ) {
 		$data['inlineStyles'] = $this->inlineStyles;
 
 		return $this->render( 'header', $data );
 	}
 
-	protected function renderChildren( $children ) {
+	protected function renderChildren( array $children ) {
 		$result = '';
 		foreach ( $children as $child ) {
 			$type = $child['type'];
@@ -169,6 +186,71 @@ class PortableInfoboxRenderService {
 		return $result;
 	}
 
+	protected function renderPanel( $data, $type = 'panel' ) {
+		$cssClasses = [];
+		$sections = [];
+		$collapse = $data['collapse'];
+		$header = '';
+		$shouldShowToggles = false;
+
+		foreach ( $data['value'] as $index => $child ) {
+			switch ( $child['type'] ) {
+				case 'header':
+					if ( empty( $header ) ) {
+						$header = $this->renderHeader( $child['data'] );
+					}
+					break;
+				case 'section':
+					$sectionData = $this->getSectionData( $child, $index );
+					// section needs to have content in order to render it
+					if ( !empty( $sectionData['content'] ) ) {
+						$sections[] = $sectionData;
+						if ( !empty( $sectionData['label'] ) ) {
+							$shouldShowToggles = true;
+						}
+					}
+					break;
+				default:
+					// we do not support any other tags than section and header inside panel
+					break;
+			}
+		}
+		if ( $collapse !== null && count( $tabContents ) > 0 && !empty( $header ) ) {
+			$cssClasses[] = 'pi-collapse';
+			$cssClasses[] = 'pi-collapse-' . $collapse;
+		}
+		if ( count( $sections ) > 0 ) {
+			$sections[0]['active'] = true;
+		} else {
+			// do not render empty panel
+			return '';
+		}
+		if ( !$shouldShowToggles ) {
+			$sections = array_map( function ( $content ) {
+				$content['active'] = true;
+				return $content;
+			}, $sections );
+		}
+
+		return $this->render( $type, [
+			'item-name' => $data['item-name'],
+			'cssClasses' => implode( ' ', $cssClasses ),
+			'header' => $header,
+			'sections' => $sections,
+			'shouldShowToggles' => $shouldShowToggles,
+		] );
+	}
+
+	private function getSectionData( $section, $index ) {
+		$content = $this->renderChildren( $section['data']['value'] );
+		return [
+			'index' => $index,
+			'item-name' => $section['data']['item-name'],
+			'label' => $section['data']['label'],
+			'content' => !empty( $content ) ? $content : null
+		];
+	}
+
 	private function getInlineStyles( $accentColor, $accentColorText ) {
 		$backgroundColor = empty( $accentColor ) ? '' : "background-color:{$accentColor};";
 		$color = empty( $accentColorText ) ? '' : "color:{$accentColorText};";
@@ -176,10 +258,9 @@ class PortableInfoboxRenderService {
 		return "{$backgroundColor}{$color}";
 	}
 
-	private function createHorizontalGroupData( $groupData ) {
+	private function createHorizontalGroupData( array $groupData ) {
 		$horizontalGroupData = [
-			'labels' => [],
-			'values' => [],
+			'data' => [],
 			'renderLabels' => false
 		];
 
@@ -187,8 +268,12 @@ class PortableInfoboxRenderService {
 			$data = $item['data'];
 
 			if ( $item['type'] === 'data' ) {
-				array_push( $horizontalGroupData['labels'], $data['label'] );
-				array_push( $horizontalGroupData['values'], $data['value'] );
+				$horizontalGroupData['data'][] = [
+					'label' => $data['label'],
+					'value' => $data['value'],
+					'source' => $item['data']['source'] ?? "",
+					'item-name' => $item['data']['item-name']
+				];
 
 				if ( !empty( $data['label'] ) ) {
 					$horizontalGroupData['renderLabels'] = true;
@@ -202,7 +287,7 @@ class PortableInfoboxRenderService {
 		return $horizontalGroupData;
 	}
 
-	private function createSmartGroups( $groupData, $rowCapacity ) {
+	private function createSmartGroups( array $groupData, $rowCapacity ) {
 		$result = [];
 		$rowSpan = 0;
 		$rowItems = [];
@@ -210,7 +295,7 @@ class PortableInfoboxRenderService {
 		foreach ( $groupData as $item ) {
 			$data = $item['data'];
 
-			if ( $item['type'] === 'data' && ( !isset( $data['layout'] ) || $data['layout'] !== 'default' ) ) {
+			if ( $item['type'] === 'data' && $data['layout'] !== 'default' ) {
 
 				if ( !empty( $rowItems ) && $rowSpan + $data['span'] > $rowCapacity ) {
 					$result[] = $this->createSmartGroupItem( $rowItems, $rowSpan );
@@ -236,14 +321,14 @@ class PortableInfoboxRenderService {
 		return $result;
 	}
 
-	private function createSmartGroupItem( $rowItems, $rowSpan ) {
+	private function createSmartGroupItem( array $rowItems, $rowSpan ) {
 		return [
 			'type' => 'smart-group',
 			'data' => $this->createSmartGroupSections( $rowItems, $rowSpan )
 		];
 	}
 
-	private function createSmartGroupSections( $rowItems, $capacity ) {
+	private function createSmartGroupSections( array $rowItems, $capacity ) {
 		return array_reduce( $rowItems, function ( $result, $item ) use ( $capacity ) {
 			$width = $item['data']['span'] / $capacity * 100;
 			$styles = "width: {$width}%";
@@ -252,10 +337,15 @@ class PortableInfoboxRenderService {
 			if ( !empty( $label ) ) {
 				$result['renderLabels'] = true;
 			}
-			$result['labels'][] = [ 'value' => $label, 'inlineStyles' => $styles ];
-			$result['values'][] = [ 'value' => $item['data']['value'], 'inlineStyles' => $styles ];
+			$result['data'][] = [
+				'label' => $label,
+				'value' => $item['data']['value'],
+				'inlineStyles' => $styles,
+				'source' => $item['data']['source'] ?? "",
+				'item-name' => $item['data']['item-name']
+			];
 
 			return $result;
-		}, [ 'labels' => [], 'values' => [], 'renderLabels' => false ] );
+		}, [ 'data' => [], 'renderLabels' => false ] );
 	}
 }

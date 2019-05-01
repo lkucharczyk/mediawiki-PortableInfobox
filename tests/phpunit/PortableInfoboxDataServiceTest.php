@@ -58,7 +58,19 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 			[
 				[
 					'parser_tag_version' => PortableInfoboxParserTagController::PARSER_TAG_VERSION,
-					'data' => [ [ 'type' => 'data', 'data' => [ 'label' => null, 'value' => 1, 'layout' => null, 'span' => 1 ] ] ],
+					'data' => [
+						[
+							'type' => 'data',
+							'data' => [
+								'label' => null,
+								'value' => 1,
+								'layout' => null,
+								'span' => 1,
+								'source' => 'test',
+								'item-name' => null
+							]
+						]
+					],
 					'metadata' => [
 						[
 							'type' => 'data',
@@ -91,7 +103,7 @@ class PortableInfoboxDataServiceTest extends MediaWikiTestCase {
 			->purge()
 			->setPagePropsProxy( new PagePropsProxyDummy() )
 			->setParsingHelper( new ParsingHelperDummy( null, $data ) )
-			->getData();
+			->reparseArticle();
 
 		$this->assertEquals( $data, $result );
 	}

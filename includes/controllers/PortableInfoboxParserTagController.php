@@ -13,13 +13,14 @@ class PortableInfoboxParserTagController {
 	const DEFAULT_LAYOUT_NAME = 'default';
 	const INFOBOX_THEME_PREFIX = 'pi-theme-';
 	const INFOBOX_LAYOUT_PREFIX = 'pi-layout-';
+	const INFOBOX_TYPE_PREFIX = 'pi-type-';
 	const ACCENT_COLOR = 'accent-color';
 	const ACCENT_COLOR_TEXT = 'accent-color-text';
+	const ERR_UNIMPLEMENTEDNODE = 'portable-infobox-unimplemented-infobox-tag';
+	const ERR_UNSUPPORTEDATTR = 'portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported';
 
-	private $markerNumber = 0;
 	private $infoboxParamsValidator = null;
 
-	protected $markers = [];
 	protected static $instance;
 
 	/**
@@ -34,7 +35,7 @@ class PortableInfoboxParserTagController {
 	}
 
 	/**
-	 * @desc Parser hook: used to register parser tag in MW
+	 * Parser hook: used to register parser tag in MW
 	 *
 	 * @param Parser $parser
 	 *
@@ -58,11 +59,40 @@ class PortableInfoboxParserTagController {
 	 * @throws InvalidInfoboxParamsException when unsupported attributes exist in params array
 	 */
 	public function render( $markup, Parser $parser, PPFrame $frame, $params = null ) {
+		$data = $this->prepareInfobox( $markup, $parser, $frame, $params );
+
+		$themeList = $this->getThemes( $params, $frame );
+		$layout = $this->getLayout( $params );
+		$accentColor = $this->getColor( self::ACCENT_COLOR, $params, $frame );
+		$accentColorText = $this->getColor( self::ACCENT_COLOR_TEXT, $params, $frame );
+		$type = $this->getType( $params );
+		$itemName = $this->getItemName( $params );
+
+		$renderService = new PortableInfoboxRenderService();
+		return $renderService->renderInfobox(
+			$data, implode( ' ', $themeList ), $layout, $accentColor, $accentColorText, $type, $itemName
+		);
+	}
+
+	/**
+	 * @param string $markup
+	 * @param Parser $parser
+	 * @param PPFrame $frame
+	 * @param array|null $params
+	 *
+	 * @return array
+	 * @throws UnimplementedNodeException when node used in markup does not exists
+	 * @throws XmlMarkupParseErrorException xml not well formatted
+	 * @throws InvalidInfoboxParamsException when unsupported attributes exist in params array
+	 */
+	public function prepareInfobox( $markup, Parser $parser, PPFrame $frame, $params = null ) {
 		$frameArguments = $frame->getArguments();
 		$infoboxNode = Nodes\NodeFactory::newFromXML( $markup, $frameArguments ? $frameArguments : [] );
-		$infoboxNode->setExternalParser( new PortableInfobox\Parser\MediaWikiParserService( $parser, $frame ) );
+		$infoboxNode->setExternalParser(
+			new PortableInfobox\Parser\MediaWikiParserService( $parser, $frame )
+		);
 
-		//get params if not overridden
+		// get params if not overridden
 		if ( !isset( $params ) ) {
 			$params = ( $infoboxNode instanceof Nodes\NodeInfobox ) ? $infoboxNode->getParams() : [];
 		}
@@ -70,20 +100,14 @@ class PortableInfoboxParserTagController {
 		$this->getParamsValidator()->validateParams( $params );
 
 		$data = $infoboxNode->getRenderData();
-		//save for later api usage
+		// save for later api usage
 		$this->saveToParserOutput( $parser->getOutput(), $infoboxNode );
 
-		$themeList = $this->getThemes( $params, $frame );
-		$layout = $this->getLayout( $params );
-		$accentColor = $this->getColor( self::ACCENT_COLOR, $params, $frame );
-		$accentColorText = $this->getColor( self::ACCENT_COLOR_TEXT, $params, $frame );
-
-		$renderService = new PortableInfoboxRenderService();
-		return $renderService->renderInfobox( $data, implode( ' ', $themeList ), $layout, $accentColor, $accentColorText );
+		return $data;
 	}
 
 	/**
-	 * @desc Renders Infobox
+	 * Renders Infobox
 	 *
 	 * @param string $text
 	 * @param Array $params
@@ -93,27 +117,32 @@ class PortableInfoboxParserTagController {
 	 * @return string $html
 	 */
 	public function renderInfobox( $text, $params, $parser, $frame ) {
-		$this->markerNumber++;
 		$markup = '<' . self::PARSER_TAG_NAME . '>' . $text . '</' . self::PARSER_TAG_NAME . '>';
+		$parserOutput = $parser->getOutput();
 
-		$parser->getOutput()->addModuleStyles( 'ext.PortableInfobox.styles' );
-		$parser->getOutput()->addModules( 'ext.PortableInfobox.scripts' );
+		$parserOutput->addModuleStyles( 'ext.PortableInfobox.styles' );
+		$parserOutput->addModules( 'ext.PortableInfobox.scripts' );
 
 		try {
 			$renderedValue = $this->render( $markup, $parser, $frame, $params );
 		} catch ( UnimplementedNodeException $e ) {
-			return $this->handleError( wfMessage( 'portable-infobox-unimplemented-infobox-tag', [ $e->getMessage() ] )->escaped() );
+			return $this->handleError(
+				wfMessage( self::ERR_UNIMPLEMENTEDNODE, [ $e->getMessage() ] )->escaped()
+			);
 		} catch ( XmlMarkupParseErrorException $e ) {
 			return $this->handleXmlParseError( $e->getErrors(), $text );
 		} catch ( InvalidInfoboxParamsException $e ) {
-			return $this->handleError( wfMessage( 'portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported', [ $e->getMessage() ] )->escaped() );
+			return $this->handleError(
+				wfMessage( self::ERR_UNSUPPORTEDATTR, [ $e->getMessage() ] )->escaped()
+			);
 		}
 
 		return [ $renderedValue, 'markerType' => 'nowiki' ];
 	}
 
 	protected function saveToParserOutput( \ParserOutput $parserOutput, Nodes\NodeInfobox $raw ) {
-		// parser output stores this in page_props table, therefore we can reuse the data in data provider service
+		// parser output stores this in page_props table,
+		// therefore we can reuse the data in data provider service
 		// (see: PortableInfoboxDataService.class.php)
 		if ( $raw ) {
 			$infoboxes = json_decode(
@@ -174,14 +203,16 @@ class PortableInfoboxParserTagController {
 		$themes = !empty( $themes ) ? $themes : [ self::DEFAULT_THEME_NAME ];
 
 		return array_map( function ( $name ) {
-			return Sanitizer::escapeClass( self::INFOBOX_THEME_PREFIX . preg_replace( '|\s+|s', '-', $name ) );
+			return Sanitizer::escapeClass(
+				self::INFOBOX_THEME_PREFIX . preg_replace( '|\s+|s', '-', $name )
+			);
 		}, $themes );
 	}
 
 	private function getLayout( $params ) {
 		$layoutName = isset( $params['layout'] ) ? $params['layout'] : false;
 		if ( $this->getParamsValidator()->validateLayout( $layoutName ) ) {
-			//make sure no whitespaces, prevents side effects
+			// make sure no whitespaces, prevents side effects
 			return self::INFOBOX_LAYOUT_PREFIX . $layoutName;
 		}
 
@@ -205,6 +236,16 @@ class PortableInfoboxParserTagController {
 		}
 
 		return $color;
+	}
+
+	private function getType( $params ) {
+		return !empty( $params['type'] ) ? Sanitizer::escapeClass(
+				self::INFOBOX_TYPE_PREFIX . preg_replace( '|\s+|s', '-', $params['type'] )
+			) : '';
+	}
+
+	private function getItemName( $params ) {
+		return !empty( $params['name'] ) ? Sanitizer::encodeAttribute( $params['name'] ) : '';
 	}
 
 	private function sanitizeColor( $color ) {

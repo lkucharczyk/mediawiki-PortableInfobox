@@ -1,6 +1,6 @@
-<div class="pi-item pi-data pi-item-spacing pi-border-color{{#if cssClasses}} {{{cssClasses}}}{{/if}}"{{#if inlineStyles}} style="{{inlineStyles}}"{{/if}}>
+<div class="pi-item pi-data pi-item-spacing pi-border-color{{#if cssClasses}} {{{cssClasses}}}{{/if}}"{{#if inlineStyles}} style="{{inlineStyles}}"{{/if}}{{#if source}} data-source="{{source}}"{{/if}}{{#if item-name}} data-item-name="{{item-name}}"{{/if}}>
 	{{#if label}}
-		<h3 class="pi-data-label pi-secondary-font">{{{label}}}</h3>
+		<{{#if useHeadings}}h3{{else}}div{{/if}} class="pi-data-label pi-secondary-font">{{{label}}}</{{#if useHeadings}}h3{{else}}div{{/if}}>
 	{{/if}}
 	<div class="pi-data-value pi-font">{{{value}}}</div>
 </div>

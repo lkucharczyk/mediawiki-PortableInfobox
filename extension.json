@@ -13,9 +13,10 @@
 		"MediaWiki": ">= 1.27.0"
 	},
 	"config": {
-		"AllInfoboxesMiserMode": true,
 		"AllInfoboxesSubpagesBlacklist": [ "doc", "draft", "test" ],
+		"PortableInfoboxCacheRenderers": false,
 		"PortableInfoboxCustomImageWidth": 300,
+		"PortableInfoboxUseHeadings": true,
 		"PortableInfoboxUseTidy": true
 	},
 	"MessagesDirs": {
@@ -99,11 +100,12 @@
 		"PortableInfobox\\Parser\\Nodes\\NodeImage": "includes/services/Parser/Nodes/NodeImage.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeMedia": "includes/services/Parser/Nodes/NodeMedia.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeNavigation": "includes/services/Parser/Nodes/NodeNavigation.php",
+		"PortableInfobox\\Parser\\Nodes\\NodePanel": "includes/services/Parser/Nodes/NodePanel.php",
+		"PortableInfobox\\Parser\\Nodes\\NodeSection": "includes/services/Parser/Nodes/NodeSection.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeTitle": "includes/services/Parser/Nodes/NodeTitle.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeVideo": "includes/services/Parser/Nodes/NodeVideo.php",
 		"PortableInfobox\\Parser\\Nodes\\NodeUnimplemented": "includes/services/Parser/Nodes/NodeUnimplemented.php",
 		"PortableInfobox\\Helpers\\FileNamespaceSanitizeHelper": "includes/services/Helpers/FileNamespaceSanitizeHelper.php",
-		"PortableInfobox\\Helpers\\HtmlHelper": "includes/services/Helpers/HtmlHelper.php",
 		"PortableInfobox\\Helpers\\InfoboxParamsValidator": "includes/services/Helpers/InfoboxParamsValidator.php",
 		"PortableInfobox\\Helpers\\PortableInfoboxDataBag": "includes/services/Helpers/PortableInfoboxDataBag.php",
 		"PortableInfobox\\Helpers\\PortableInfoboxTemplateEngine": "includes/services/Helpers/PortableInfoboxTemplateEngine.php",

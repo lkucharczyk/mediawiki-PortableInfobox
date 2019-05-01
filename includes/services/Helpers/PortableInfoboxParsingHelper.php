@@ -6,8 +6,16 @@ use MediaWiki\Logger\LoggerFactory;
 
 class PortableInfoboxParsingHelper {
 
+	protected $parserTagController;
+	protected $logger;
+
+	public function __construct() {
+		$this->parserTagController = \PortableInfoboxParserTagController::getInstance();
+		$this->logger = LoggerFactory::getInstance( 'PortableInfobox' );
+	}
+
 	/**
-	 * @desc Try to find out if infobox got "hidden" inside includeonly tag. Parse it if that's the case.
+	 * Try to find out if infobox got "hidden" inside includeonly tag. Parse it if that's the case.
 	 *
 	 * @param \Title $title
 	 *
@@ -15,7 +23,7 @@ class PortableInfoboxParsingHelper {
 	 */
 	public function parseIncludeonlyInfoboxes( $title ) {
 		// for templates we need to check for include tags
-		$templateText = $this->removeNowikiPre( $this->fetchArticleContent( $title ) );
+		$templateText = $this->fetchArticleContent( $title );
 
 		if ( $templateText ) {
 			$parser = new \Parser();
@@ -23,33 +31,35 @@ class PortableInfoboxParsingHelper {
 			$frame = $parser->getPreprocessor()->newFrame();
 
 			$includeonlyText = $parser->getPreloadText( $templateText, $title, $parserOptions );
-			$infoboxes = $this->getInfoboxes( $includeonlyText );
+			$infoboxes = $this->getInfoboxes( $this->removeNowikiPre( $includeonlyText ) );
 
 			if ( $infoboxes ) {
-				// clear up cache before parsing
 				foreach ( $infoboxes as $infobox ) {
 					try {
-						\PortableInfoboxParserTagController::getInstance()->render( $infobox, $parser, $frame );
+						$this->parserTagController->prepareInfobox( $infobox, $parser, $frame );
 					} catch ( \Exception $e ) {
-						LoggerFactory::getInstance( 'PortableInfobox' )->info( 'Invalid infobox syntax in includeonly tag' );
+						$this->logger->info( 'Invalid infobox syntax' );
 					}
 				}
 
-				return json_decode( $parser->getOutput()
-					->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ), true );
+				return json_decode(
+					$parser->getOutput()->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ),
+					true
+				);
 			}
 		}
-
 		return false;
 	}
 
-	public function reparseArticle( $title ) {
+	public function reparseArticle( \Title $title ) {
 		$parser = new \Parser();
 		$parserOptions = new \ParserOptions();
 		$parser->parse( $this->fetchArticleContent( $title ), $title, $parserOptions );
 
-		return json_decode( $parser->getOutput()
-			->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ), true );
+		return json_decode(
+			$parser->getOutput()->getProperty( \PortableInfoboxDataService::INFOBOXES_PROPERTY_NAME ),
+			true
+		);
 	}
 
 	/**
@@ -59,11 +69,9 @@ class PortableInfoboxParsingHelper {
 	 */
 	protected function fetchArticleContent( \Title $title ) {
 		if ( $title && $title->exists() ) {
-			$wikipage = \WikiPage::factory( $title );
-
-			if ( $wikipage && $wikipage->exists() ) {
-				$content = \ContentHandler::getContentText( $wikipage->getRevision()->getContent( \Revision::RAW ) );
-			}
+			$content = \WikiPage::factory( $title )
+				->getContent( \Revision::FOR_PUBLIC )
+				->getNativeData();
 		}
 
 		return isset( $content ) && $content ? $content : '';
@@ -79,21 +87,20 @@ class PortableInfoboxParsingHelper {
 	}
 
 	/**
-	 * @desc for given template text returns it without text in <nowiki> and <pre> tags
+	 * For given template text returns it without text in <nowiki> and <pre> tags
 	 *
 	 * @param string $text
 	 *
 	 * @return string
 	 */
 	protected function removeNowikiPre( $text ) {
-		$text = preg_replace( "/<nowiki>.+<\/nowiki>/sU", '', $text );
-		$text = preg_replace( "/<pre>.+<\/pre>/sU", '', $text );
+		$text = preg_replace( '/<(nowiki|pre)>.+<\/\g1>/sU', '', $text );
 
 		return $text;
 	}
 
 	/**
-	 * @desc From the template without <includeonly> tags, creates an array of
+	 * From the template without <includeonly> tags, creates an array of
 	 * strings containing only infoboxes. All template content which is not an infobox is removed.
 	 *
 	 * @param string $text Content of template which uses the <includeonly> tags
@@ -101,9 +108,7 @@ class PortableInfoboxParsingHelper {
 	 * @return array of striped infoboxes ready to parse
 	 */
 	protected function getInfoboxes( $text ) {
-		preg_match_all( "/<infobox[^>]*\\/>/sU", $text, $empty );
-		preg_match_all( "/<infobox.+<\/infobox>/sU", $text, $result );
-
-		return array_merge( $empty[0], $result[0] );
+		preg_match_all( '/<infobox(?:[^>]*\/>|.+<\/infobox>)/sU', $text, $result );
+		return $result[0];
 	}
 }

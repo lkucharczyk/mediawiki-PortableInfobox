@@ -7,6 +7,7 @@ use PortableInfobox\Parser\SimpleParser;
 class Node {
 
 	const DATA_SRC_ATTR_NAME = 'source';
+	const NAME_ATTR_NAME = 'name';
 	const DEFAULT_TAG_NAME = 'default';
 	const FORMAT_TAG_NAME = 'format';
 	const LABEL_TAG_NAME = 'label';
@@ -39,7 +40,9 @@ class Node {
 		$metadata = [];
 		$sources = $this->getSources();
 		$sourcesLength = count( $sources );
-		$baseLabel = \Sanitizer::stripAllTags( $this->getInnerValue( $this->xmlNode->{self::LABEL_TAG_NAME} ) );
+		$baseLabel = \Sanitizer::stripAllTags(
+			$this->getInnerValue( $this->xmlNode->{self::LABEL_TAG_NAME} )
+		);
 
 		foreach ( $sources as $source ) {
 			$metadata[$source] = [];
@@ -49,7 +52,8 @@ class Node {
 		}
 
 		if ( $sourcesLength > 0 && $this->hasPrimarySource( $this->xmlNode ) ) {
-			// self::extractSourcesFromNode() puts the value of the `source` attribute as the first element of $sources
+			// self::extractSourcesFromNode() puts the value of the `source` attribute
+			// as the first element of $sources
 			$firstSource = reset( $sources );
 			$metadata[$firstSource]['primary'] = true;
 		}
@@ -107,7 +111,11 @@ class Node {
 
 	public function getData() {
 		if ( !isset( $this->data ) ) {
-			$this->data = [ 'value' => (string)$this->xmlNode ];
+			$this->data = [
+				'value' => (string)$this->xmlNode,
+				'source' => $this->getPrimarySource(),
+				'item-name' => $this->getItemName()
+			];
 		}
 
 		return $this->data;
@@ -121,7 +129,7 @@ class Node {
 	}
 
 	/**
-	 * @desc Check if node is empty.
+	 * Check if node is empty.
 	 * Note that a '0' value cannot be treated like a null
 	 *
 	 * @return bool
@@ -201,7 +209,9 @@ class Node {
 	protected function getRawValueWithDefault( \SimpleXMLElement $xmlNode ) {
 		$value = $this->getRawInfoboxData( $this->getXmlAttribute( $xmlNode, self::DATA_SRC_ATTR_NAME ) );
 		if ( !$value && $xmlNode->{self::DEFAULT_TAG_NAME} ) {
-			$value = $this->getExternalParser()->replaceVariables( (string)$xmlNode->{self::DEFAULT_TAG_NAME} );
+			$value = $this->getExternalParser()->replaceVariables(
+				(string)$xmlNode->{self::DEFAULT_TAG_NAME}
+			);
 		}
 
 		return $value;
@@ -248,7 +258,6 @@ class Node {
 	 * @param \SimpleXMLElement $xmlNode
 	 *
 	 * @return array
-	 *
 	 */
 	protected function extractSourcesFromNode( \SimpleXMLElement $xmlNode ) {
 		$sources = $this->hasPrimarySource( $xmlNode ) ?
@@ -272,5 +281,13 @@ class Node {
 		preg_match_all( self::EXTRACT_SOURCE_REGEX, (string)$node, $sources );
 
 		return array_unique( array_merge( $source, $sources[1] ) );
+	}
+
+	protected function getPrimarySource() {
+		return $this->getXmlAttribute( $this->xmlNode, self::DATA_SRC_ATTR_NAME );
+	}
+
+	protected function getItemName() {
+		return $this->getXmlAttribute( $this->xmlNode, self::NAME_ATTR_NAME );
 	}
 }

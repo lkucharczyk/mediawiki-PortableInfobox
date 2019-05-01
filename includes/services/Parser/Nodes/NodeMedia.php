@@ -2,7 +2,6 @@
 namespace PortableInfobox\Parser\Nodes;
 
 use PortableInfobox\Helpers\FileNamespaceSanitizeHelper;
-use PortableInfobox\Helpers\HtmlHelper;
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
 use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
 
@@ -20,7 +19,8 @@ class NodeMedia extends Node {
 	private $helper;
 
 	public static function getMarkers( $value, $ext ) {
-		if ( preg_match_all( '/' . \Parser::MARKER_PREFIX . '-' . $ext . '-[A-F0-9]{8}' . \Parser::MARKER_SUFFIX . '/is', $value, $out ) ) {
+		$regex = '/' . \Parser::MARKER_PREFIX . "-$ext-[A-F0-9]{8}" . \Parser::MARKER_SUFFIX . '/i';
+		if ( preg_match_all( $regex, $value, $out ) ) {
 			return $out[0];
 		} else {
 			return [];
@@ -39,13 +39,22 @@ class NodeMedia extends Node {
 
 	public static function getTabberData( $html ) {
 		$data = [];
-		$doc = HtmlHelper::createDOMDocumentFromText( $html );
-		$sxml = simplexml_import_dom( $doc );
-		$divs = $sxml->xpath( '//div[@class=\'tabbertab\']' );
+
+		$doc = new \DOMDocument();
+		$libXmlErrorSetting = libxml_use_internal_errors( true );
+
+		// encode for correct load
+		$doc->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) );
+
+		libxml_clear_errors();
+		libxml_use_internal_errors( $libXmlErrorSetting );
+
+		$xpath = new \DOMXpath( $doc );
+		$divs = $xpath->query( '//div[@class=\'tabbertab\']' );
 		foreach ( $divs as $div ) {
-			if ( preg_match( '/ src="(?:[^"]*\/)?([^"]*?)"/', $div->asXML(), $out ) ) {
+			if ( preg_match( '# src="(?:[^"]*/)?(?:\d+px-)?([^"]*?)"#', $doc->saveXml( $div ), $out ) ) {
 				$data[] = [
-					'label' => (string)$div['title'],
+					'label' => $div->getAttribute( 'title' ),
 					'title' => $out[1]
 				];
 			}
@@ -75,12 +84,13 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc Checks if parser preprocessed string containg Tabber or Gallery extension
+	 * Checks if parser preprocessed string containg Tabber or Gallery extension
 	 * @param string $str String to check
 	 * @return bool
 	 */
 	private function containsTabberOrGallery( $str ) {
-		return !empty( self::getMarkers( $str, self::TABBER ) ) || !empty( self::getMarkers( $str, self::GALLERY ) );
+		return !empty( self::getMarkers( $str, self::TABBER ) ) ||
+			!empty( self::getMarkers( $str, self::GALLERY ) );
 	}
 
 	private function getImagesData( $value ) {
@@ -116,7 +126,7 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc prepare infobox image node data.
+	 * Prepare infobox image node data.
 	 *
 	 * @param $title
 	 * @param $alt
@@ -133,7 +143,7 @@ class NodeMedia extends Node {
 		}
 
 		if ( $titleObj instanceof \Title ) {
-			$this->getExternalParser()->addImage( $titleObj->getDBkey() );
+			$this->getExternalParser()->addImage( $titleObj );
 		}
 
 		$mediatype = $fileObj->getMediaType();
@@ -144,7 +154,9 @@ class NodeMedia extends Node {
 			'caption' => $caption ?: null,
 			'isImage' => in_array( $mediatype, [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] ),
 			'isVideo' => $mediatype === MEDIATYPE_VIDEO,
-			'isAudio' => $mediatype === MEDIATYPE_AUDIO
+			'isAudio' => $mediatype === MEDIATYPE_AUDIO,
+			'source' => $this->getPrimarySource(),
+			'item-name' => $this->getItemName()
 		];
 
 		if ( $image['isImage'] ) {
@@ -200,7 +212,7 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc returns image url for given image title
+	 * Returns image url for given image title
 	 * @param File|null $file
 	 * @return string url or '' if image doesn't exist
 	 */
@@ -209,7 +221,7 @@ class NodeMedia extends Node {
 	}
 
 	/**
-	 * @desc checks if file media type is allowed
+	 * Checks if file media type is allowed
 	 * @param string $type
 	 * @return bool
 	 */

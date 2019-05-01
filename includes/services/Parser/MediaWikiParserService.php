@@ -31,7 +31,7 @@ class MediaWikiParserService implements ExternalParser {
 	 * @return string HTML outcome
 	 */
 	public function parseRecursive( $wikitext ) {
-		if( isset( $this->cache[$wikitext] ) ) {
+		if ( isset( $this->cache[$wikitext] ) ) {
 			return $this->cache[$wikitext];
 		}
 
@@ -62,12 +62,22 @@ class MediaWikiParserService implements ExternalParser {
 	/**
 	 * Add image to parser output for later usage
 	 *
-	 * @param string $title
+	 * @param \Title $title
 	 */
 	public function addImage( $title ) {
 		$file = wfFindFile( $title );
 		$tmstmp = $file ? $file->getTimestamp() : false;
 		$sha1 = $file ? $file->getSha1() : false;
 		$this->parser->getOutput()->addImage( $title, $tmstmp, $sha1 );
+
+		// Pass PI images to PageImages extension if available (Popups and og:image)
+		if ( \method_exists(
+			'\PageImages\Hooks\ParserFileProcessingHookHandlers', 'onParserMakeImageParams'
+		) ) {
+			$params = [];
+			\PageImages\Hooks\ParserFileProcessingHookHandlers::onParserMakeImageParams(
+				$title, $file, $params, $this->parser
+			);
+		}
 	}
 }

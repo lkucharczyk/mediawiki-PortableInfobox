@@ -1,10 +1,14 @@
 <?php
 
+use PortableInfobox\Helpers\PagePropsProxy;
 
 class ApiQueryPortableInfobox extends ApiQueryBase {
 
+	protected $propsProxy;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'ib' );
+		$this->propsProxy = new PagePropsProxy( true );
 	}
 
 	public function execute() {
@@ -16,7 +20,9 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 		$res = $pageSet->getResult();
 
 		foreach ( $articles as $id => $articleTitle ) {
-			$parsedInfoboxes = PortableInfoboxDataService::newFromTitle( $articleTitle )->getData();
+			$parsedInfoboxes = PortableInfoboxDataService::newFromTitle( $articleTitle )
+				->setPagePropsProxy( $this->propsProxy )
+				->getData();
 
 			if ( is_array( $parsedInfoboxes ) && count( $parsedInfoboxes ) ) {
 				$inf = [];
@@ -54,6 +60,8 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 				}
 			}
 		}
+
+		$this->propsProxy->write();
 	}
 
 	/**
@@ -64,7 +72,9 @@ class ApiQueryPortableInfobox extends ApiQueryBase {
 	 * @param array $rootPath
 	 * @param ApiResult $result
 	 */
-	private function setIndexedTagNamesForGroupMetadata( array $metadata, array $rootPath, ApiResult $result ) {
+	private function setIndexedTagNamesForGroupMetadata(
+		array $metadata, array $rootPath, ApiResult $result
+	) {
 		foreach ( $metadata as $nodeCount => $node ) {
 			if ( $node['type'] === 'group' ) {
 				$path = array_merge( $rootPath, [ $nodeCount, 'metadata' ] );
