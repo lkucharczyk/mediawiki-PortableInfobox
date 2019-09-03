@@ -68,7 +68,7 @@ class MediaWikiParserService implements ExternalParser {
 		$file = wfFindFile( $title );
 		$tmstmp = $file ? $file->getTimestamp() : null;
 		$sha1 = $file ? $file->getSha1() : null;
-		$this->parser->getOutput()->addImage( $title, $tmstmp, $sha1 );
+		$this->parser->getOutput()->addImage( $title->getDBkey(), $tmstmp, $sha1 );
 
 		// Pass PI images to PageImages extension if available (Popups and og:image)
 		if ( \method_exists(
