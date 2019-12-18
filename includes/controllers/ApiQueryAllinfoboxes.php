@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 class ApiQueryAllinfoboxes extends ApiQueryBase {
 
 	const CACHE_TTL = 86400;
@@ -8,7 +10,7 @@ class ApiQueryAllinfoboxes extends ApiQueryBase {
 	public function execute() {
 		$db = $this->getDB();
 		$res = $this->getResult();
-		$cache = ObjectCache::getMainWANInstance();
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$cachekey = $cache->makeKey( self::MCACHE_KEY );
 
 		$data = $cache->getWithSetCallback( $cachekey, self::CACHE_TTL, function () use ( $db ) {
