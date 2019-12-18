@@ -2,7 +2,9 @@
 
 namespace PortableInfobox\Helpers;
 
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Logger\LoggerFactory;
+
 
 class PortableInfoboxTemplateEngine {
 	const CACHE_TTL = 86400;
@@ -29,7 +31,7 @@ class PortableInfoboxTemplateEngine {
 
 	public function __construct() {
 		if ( !isset( self::$memcache ) ) {
-			self::$memcache = \ObjectCache::getMainWANInstance();
+			self::$memcache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		}
 	}
 
