@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use PortableInfobox\Helpers\PagePropsProxy;
 use PortableInfobox\Helpers\PortableInfoboxParsingHelper;
 use PortableInfobox\Parser\Nodes\NodeInfobox;
@@ -26,7 +27,7 @@ class PortableInfoboxDataService {
 		$this->title = $title !== null ? $title : new Title();
 		$this->parsingHelper = new PortableInfoboxParsingHelper();
 		$this->propsProxy = new PagePropsProxy();
-		$this->memcached = ObjectCache::getMainWANInstance();
+		$this->memcached = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$this->cachekey = $this->memcached->makeKey(
 			__CLASS__,
 			$this->title->getArticleID(),
