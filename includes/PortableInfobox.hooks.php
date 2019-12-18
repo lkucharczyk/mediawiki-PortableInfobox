@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 // phpcs:ignore MediaWiki.Files.ClassMatchesFilename.NotMatch
 class PortableInfoboxHooks {
 
@@ -22,7 +24,7 @@ class PortableInfoboxHooks {
 	}
 
 	public static function onAllInfoboxesQueryRecached() {
-		$cache = ObjectCache::getMainWANInstance();
+		$cache = MediaWikiServices::getInstance()->getMainWANObjectCache();
 		$cache->delete( $cache->makeKey( ApiQueryAllinfoboxes::MCACHE_KEY ) );
 
 		return true;
