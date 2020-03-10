@@ -137,6 +137,9 @@ class PortableInfoboxParserTagController {
 			);
 		}
 
+		// Convert text to language variant
+		$renderedValue = $parser->getTargetLanguage()->convert( $renderedValue );
+
 		return [ $renderedValue, 'markerType' => 'nowiki' ];
 	}
 
@@ -180,9 +183,6 @@ class PortableInfoboxParserTagController {
 			$renderedValue = $errorRenderer->renderArticleMsgView();
 		}
 
-		// Convert text to language variant
-		$renderedValue = $parser->getTargetLanguage()->convert( $renderedValue );
-		
 		return [ $renderedValue, 'markerType' => 'nowiki' ];
 	}
 
