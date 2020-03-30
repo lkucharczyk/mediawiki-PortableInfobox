@@ -13,12 +13,12 @@
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "開始和結束標記不匹配",
 	"portable-infobox-xml-parse-error-tag-not-finished": "標記結束得過早",
 	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "<infobox>標記不支持屬性\"$1\"",
-	"allinfoboxes": "All infoboxes",
-	"apihelp-infobox-summary": "This module provides infobox parser",
-	"apihelp-infobox-param-text": "Infobox to parse (xml string)",
+	"allinfoboxes": "所有資訊框",
+	"apihelp-infobox-summary": "此模組提供資訊框解析器",
+	"apihelp-infobox-param-text": "要解析的資訊框（xml字串）",
 	"apihelp-infobox-param-title": "Title of page the text belongs to",
 	"apihelp-infobox-param-args": "Variable list to use during parse (json format)",
-	"apihelp-query+allinfoboxes-summary": "List all infoboxes",
-	"apihelp-query+infobox-summary": "Get infobox metadata",
+	"apihelp-query+allinfoboxes-summary": "所有資訊框清單",
+	"apihelp-query+infobox-summary": "取得資訊框元資料",
 	"apiwarn-infobox-invalidargs": "Args param format is incorrect"
 }
