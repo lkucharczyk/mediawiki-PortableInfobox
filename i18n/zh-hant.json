@@ -1,8 +1,8 @@
 {
 	"portable-infobox-desc": "您可以使用類似XML標記創建簡便的信息表格，並且可以使用清晰的語義特性HTML標記在任何皮膚或者平台進行呈現",
 	"portable-infobox-unimplemented-infobox-tag": "未生效的信息框標籤：<$1>",
-	"portable-infobox-xml-parse-error": "XML標記不正確。請驗證。",
 	"portable-infobox-xml-parse-error-info": "解析資訊框時出問題",
+	"portable-infobox-xml-parse-error": "XML標記不正確。請驗證。",
 	"portable-infobox-xml-parse-error-document-end": "文檔末尾的內容多餘",
 	"portable-infobox-xml-parse-error-undeclared-entity": "未申報的實體（例如：&nbsp;）",
 	"portable-infobox-xml-parse-error-attribute-not-started": "屬性值應該在引號內",
@@ -12,5 +12,13 @@
 	"portable-infobox-xml-parse-error-gt-required": "標記的定義結束得不正確",
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "開始和結束標記不匹配",
 	"portable-infobox-xml-parse-error-tag-not-finished": "標記結束得過早",
-	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "<infobox>標記不支持屬性\"$1\""
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "<infobox>標記不支持屬性\"$1\"",
+	"allinfoboxes": "All infoboxes",
+	"apihelp-infobox-summary": "This module provides infobox parser",
+	"apihelp-infobox-param-text": "Infobox to parse (xml string)",
+	"apihelp-infobox-param-title": "Title of page the text belongs to",
+	"apihelp-infobox-param-args": "Variable list to use during parse (json format)",
+	"apihelp-query+allinfoboxes-summary": "List all infoboxes",
+	"apihelp-query+infobox-summary": "Get infobox metadata",
+	"apiwarn-infobox-invalidargs": "Args param format is incorrect"
 }
