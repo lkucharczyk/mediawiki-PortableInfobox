@@ -1,8 +1,8 @@
 {
 	"portable-infobox-desc": "Cria infoboxes portáteis usando marcadores semânticos de HTML claros em qualquer skin/ plataforma usando marcadores XML de fácil compreensão",
 	"portable-infobox-unimplemented-infobox-tag": "Etiqueta de infobox não implementada: <$1>",
-	"portable-infobox-xml-parse-error": "Marcador XML incorreto. Por favor, confirme o seu XML",
 	"portable-infobox-xml-parse-error-info": "Há um problema com a análise da infobox",
+	"portable-infobox-xml-parse-error": "Marcador XML incorreto. Por favor, confirme o seu XML",
 	"portable-infobox-xml-parse-error-document-end": "Conteúdo extra no final do documento",
 	"portable-infobox-xml-parse-error-undeclared-entity": "Entidade não declarada (por exemplo: &nbsp;)",
 	"portable-infobox-xml-parse-error-attribute-not-started": "O valor do atributo deve estar dentro de aspas",
@@ -12,5 +12,13 @@
 	"portable-infobox-xml-parse-error-gt-required": "A definição da marcação não está finalizada adequadamente",
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "A marcação de abertura e fechamento não correspondem",
 	"portable-infobox-xml-parse-error-tag-not-finished": "Fim prematuro da marcação",
-	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "O atributo \"$1\" não é suportado na marcação <infobox>"
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "O atributo \"$1\" não é suportado na marcação <infobox>",
+	"allinfoboxes": "All infoboxes",
+	"apihelp-infobox-summary": "This module provides infobox parser",
+	"apihelp-infobox-param-text": "Infobox to parse (xml string)",
+	"apihelp-infobox-param-title": "Title of page the text belongs to",
+	"apihelp-infobox-param-args": "Variable list to use during parse (json format)",
+	"apihelp-query+allinfoboxes-summary": "List all infoboxes",
+	"apihelp-query+infobox-summary": "Get infobox metadata",
+	"apiwarn-infobox-invalidargs": "Args param format is incorrect"
 }

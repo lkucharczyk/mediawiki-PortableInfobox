@@ -1,8 +1,8 @@
 {
 	"portable-infobox-desc": "À l'aide d'un balisage de type XML facile à comprendre et simple, permet de créer des infoboxes portables et de les afficher sur n'importe quelle apparence/plateforme",
 	"portable-infobox-unimplemented-infobox-tag": "Balise d'infobox non reconnue : <$1>",
-	"portable-infobox-xml-parse-error": "Code XML incorrect. Veuillez valider votre code.",
 	"portable-infobox-xml-parse-error-info": "Un problème est survenu lors de l'analyse de l’infobox.",
+	"portable-infobox-xml-parse-error": "Code XML incorrect. Veuillez valider votre code.",
 	"portable-infobox-xml-parse-error-document-end": "Contenu supplémentaire à la fin du document",
 	"portable-infobox-xml-parse-error-undeclared-entity": "Entité non déclarée (par exemple : &nbsp;)",
 	"portable-infobox-xml-parse-error-attribute-not-started": "Vous devez spécifier la valeur de l'attribut entre guillemets.",
@@ -12,5 +12,13 @@
 	"portable-infobox-xml-parse-error-gt-required": "Vous devez spécifier une fin à la définition de la balise.",
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "Les balises d'ouverture et de fermeture ne correspondent pas.",
 	"portable-infobox-xml-parse-error-tag-not-finished": "Fin de balise prématurée",
-	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "L'attribut \"$1\" n'est pas pris en charge dans la balise <infobox>"
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "L'attribut \"$1\" n'est pas pris en charge dans la balise <infobox>",
+	"allinfoboxes": "All infoboxes",
+	"apihelp-infobox-summary": "This module provides infobox parser",
+	"apihelp-infobox-param-text": "Infobox to parse (xml string)",
+	"apihelp-infobox-param-title": "Title of page the text belongs to",
+	"apihelp-infobox-param-args": "Variable list to use during parse (json format)",
+	"apihelp-query+allinfoboxes-summary": "List all infoboxes",
+	"apihelp-query+infobox-summary": "Get infobox metadata",
+	"apiwarn-infobox-invalidargs": "Args param format is incorrect"
 }

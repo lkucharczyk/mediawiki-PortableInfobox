@@ -1,8 +1,8 @@
 {
 	"portable-infobox-desc": "分かりやすくてパワフルなXML的マークアップを使ってポータブル・インフォボックスを作成し、どんなスキンやプラットフォーム上でも整ったセマンティックHTMLでの表示を可能にします",
 	"portable-infobox-unimplemented-infobox-tag": "実装されていないインフォボックスのタグです：<$1>",
-	"portable-infobox-xml-parse-error": "XMLマークアップに誤りがあります。XMLをもう一度ご確認ください",
 	"portable-infobox-xml-parse-error-info": "インフォボックスの解析中にエラーが発生しました",
+	"portable-infobox-xml-parse-error": "XMLマークアップに誤りがあります。XMLをもう一度ご確認ください",
 	"portable-infobox-xml-parse-error-document-end": "ドキュメントの末尾に余分なコンテンツがあるようです",
 	"portable-infobox-xml-parse-error-undeclared-entity": "宣言されていないエンティティです（例：&nbsp;）",
 	"portable-infobox-xml-parse-error-attribute-not-started": "属性値は引用符で囲む必要があります",
@@ -12,5 +12,13 @@
 	"portable-infobox-xml-parse-error-gt-required": "タグの定義が正しく終了していません",
 	"portable-infobox-xml-parse-error-tag-name-mismatch": "開始タグと終了タグが一致していません",
 	"portable-infobox-xml-parse-error-tag-not-finished": "タグが未完成です",
-	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "属性「$1」は<infobox>タグでサポートされていません"
+	"portable-infobox-xml-parse-error-infobox-tag-attribute-unsupported": "属性「$1」は<infobox>タグでサポートされていません",
+	"allinfoboxes": "All infoboxes",
+	"apihelp-infobox-summary": "This module provides infobox parser",
+	"apihelp-infobox-param-text": "Infobox to parse (xml string)",
+	"apihelp-infobox-param-title": "Title of page the text belongs to",
+	"apihelp-infobox-param-args": "Variable list to use during parse (json format)",
+	"apihelp-query+allinfoboxes-summary": "List all infoboxes",
+	"apihelp-query+infobox-summary": "Get infobox metadata",
+	"apiwarn-infobox-invalidargs": "Args param format is incorrect"
 }
