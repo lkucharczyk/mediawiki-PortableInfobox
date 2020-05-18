@@ -2,6 +2,7 @@
 
 namespace PortableInfobox\Helpers;
 
+use LightnCandy\LightnCandy;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Logger\LoggerFactory;
 
@@ -9,7 +10,7 @@ use MediaWiki\Logger\LoggerFactory;
 class PortableInfoboxTemplateEngine {
 	const CACHE_TTL = 86400;
 	const TYPE_NOT_SUPPORTED_MESSAGE = 'portable-infobox-render-not-supported-type';
-	const COMPILE_FLAGS = \LightnCandy::FLAG_BESTPERFORMANCE | \LightnCandy::FLAG_PARENT;
+	const COMPILE_FLAGS = LightnCandy::FLAG_BESTPERFORMANCE | LightnCandy::FLAG_PARENT;
 
 	private static $cache = [];
 	private static $memcache;
@@ -70,18 +71,18 @@ class PortableInfoboxTemplateEngine {
 				$template = self::$memcache->getWithSetCallback(
 					$cachekey, self::CACHE_TTL, function () use ( $path ) {
 						// @see https://github.com/wikimedia/mediawiki-vendor/tree/master/zordius/lightncandy
-						return \LightnCandy::compile( file_get_contents( $path ), [
+						return LightnCandy::compile( file_get_contents( $path ), [
 							'flags' => self::COMPILE_FLAGS
 						] );
 					}
 				);
 			} else {
-				$template = \LightnCandy::compile( file_get_contents( $path ), [
+				$template = LightnCandy::compile( file_get_contents( $path ), [
 					'flags' => self::COMPILE_FLAGS
 				] );
 			}
 
-			self::$cache[$type] = \LightnCandy::prepare( $template );
+			self::$cache[$type] = LightnCandy::prepare( $template );
 		}
 
 		return self::$cache[$type];
