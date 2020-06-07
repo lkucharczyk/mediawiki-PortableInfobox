@@ -67,7 +67,7 @@ class PortableInfoboxTemplateEngine {
 			$path = self::getTemplatesDir() . DIRECTORY_SEPARATOR . static::getTemplates()[$type];
 
 			$lightnCandyClass = class_exists( 'LightnCandy\LightnCandy' ) ?
-				\LightnCandy : LightnCandy;
+				LightnCandy : \LightnCandy;
 			if ( $wgPortableInfoboxCacheRenderers ) {
 				$cachekey = self::$memcache->makeKey(
 					__CLASS__, \PortableInfoboxParserTagController::PARSER_TAG_VERSION, $type
