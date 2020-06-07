@@ -19,7 +19,7 @@ class PortableInfoboxImagesHelper {
 		$file = $this->getFile( $file );
 
 		if ( !$file || !in_array( $file->getMediaType(), [ MEDIATYPE_BITMAP, MEDIATYPE_DRAWING ] ) ) {
-			return false;
+			return [];
 		}
 
 		// get dimensions
@@ -53,7 +53,7 @@ class PortableInfoboxImagesHelper {
 			'height' => round( $fileDimensions['height'] * $ratio * 2 ),
 		] );
 		if ( !$thumbnail || $thumbnail->isError() || !$thumbnail2x || $thumbnail2x->isError() ) {
-			return false;
+			return [];
 		}
 
 		return [
