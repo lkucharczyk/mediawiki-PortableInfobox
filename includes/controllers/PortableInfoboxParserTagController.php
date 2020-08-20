@@ -137,6 +137,9 @@ class PortableInfoboxParserTagController {
 			);
 		}
 
+		// Convert text to language variant
+		$renderedValue = $parser->getTargetLanguage()->convert( $renderedValue );
+
 		return [ $renderedValue, 'markerType' => 'nowiki' ];
 	}
 
