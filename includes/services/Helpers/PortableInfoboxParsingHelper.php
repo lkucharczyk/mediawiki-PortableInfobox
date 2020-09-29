@@ -27,6 +27,7 @@ class PortableInfoboxParsingHelper {
 
 		if ( $templateText ) {
 			$parser = new \Parser();
+			$parser->setTitle( $title );
 			$parserOptions = new \ParserOptions();
 			$frame = $parser->getPreprocessor()->newFrame();
 

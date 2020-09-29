@@ -32,7 +32,7 @@ class PortableInfoboxTemplateEngine {
 	public function __construct() {
 		if ( !isset( self::$lightncandy ) ) {
 			self::$lightncandy = class_exists( '\LightnCandy\LightnCandy' ) ? \LightnCandy\LightnCandy::class : \LightnCandy::class;
-			self::$compileFlags = self::$lightncandy::FLAG_BESTPERFORMANCE | self::$lightncandy::FLAG_PARENT;
+			self::$compileFlags = self::$lightncandy::FLAG_BESTPERFORMANCE | self::$lightncandy::FLAG_PARENT | self::$lightncandy::FLAG_HANDLEBARS;
 		}
 
 		if ( !isset( self::$memcache ) ) {

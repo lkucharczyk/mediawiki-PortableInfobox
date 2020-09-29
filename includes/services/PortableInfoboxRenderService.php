@@ -215,7 +215,7 @@ class PortableInfoboxRenderService {
 					break;
 			}
 		}
-		if ( $collapse !== null && count( $tabContents ) > 0 && !empty( $header ) ) {
+		if ( $collapse !== null && count( $sections ) > 0 && !empty( $header ) ) {
 			$cssClasses[] = 'pi-collapse';
 			$cssClasses[] = 'pi-collapse-' . $collapse;
 		}
