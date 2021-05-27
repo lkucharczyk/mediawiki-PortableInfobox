@@ -16,10 +16,7 @@ class MediaWikiParserService implements ExternalParser {
 		$this->frame = $frame;
 
 		if ( $wgPortableInfoboxUseTidy && class_exists( '\MediaWiki\Tidy\RemexDriver' ) ) {
-			$this->tidyDriver = \MWTidy::factory( [
-				'driver' => 'RemexHtml',
-				'pwrap' => false
-			] );
+			$this->tidyDriver = MediaWiki\MediaWikiServices::getInstance()->getTidy();
 		}
 	}
 
