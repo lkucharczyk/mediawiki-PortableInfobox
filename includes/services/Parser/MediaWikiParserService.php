@@ -17,7 +17,7 @@ class MediaWikiParserService implements ExternalParser {
 
 		if ( $wgPortableInfoboxUseTidy && class_exists( '\MediaWiki\Tidy\RemexDriver' ) ) {
 			if ( version_compare( MW_VERSION, '1.36', '>=' ) ) {
-				$this->tidyDriver = MediaWiki\MediaWikiServices::getInstance()->getTidy();
+				$this->tidyDriver = \MediaWiki\MediaWikiServices::getInstance()->getTidy();
 			} else {
 				$this->tidyDriver = \MWTidy::factory( [
 					'driver' => 'RemexHtml',
