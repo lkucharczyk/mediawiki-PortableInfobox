@@ -1,5 +1,8 @@
 <?php
+
 namespace PortableInfobox\Parser;
+
+use MediaWiki\MediaWikiServices;
 
 class MediaWikiParserService implements ExternalParser {
 
@@ -16,10 +19,14 @@ class MediaWikiParserService implements ExternalParser {
 		$this->frame = $frame;
 
 		if ( $wgPortableInfoboxUseTidy && class_exists( '\MediaWiki\Tidy\RemexDriver' ) ) {
-			$this->tidyDriver = \MWTidy::factory( [
-				'driver' => 'RemexHtml',
-				'pwrap' => false
-			] );
+			if ( version_compare( MW_VERSION, '1.36', '>=' ) ) {
+				$this->tidyDriver = MediaWikiServices::getInstance()->getTidy();
+			} else {
+				$this->tidyDriver = \MWTidy::factory( [
+					'driver' => 'RemexHtml',
+					'pwrap' => false
+				] );
+			}
 		}
 	}
 
