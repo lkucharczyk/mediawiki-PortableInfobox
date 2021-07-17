@@ -3,6 +3,7 @@
 namespace PortableInfobox\Parser\Nodes;
 
 use MediaWiki\MediaWikiServices;
+use PortableInfoboxUtils;
 use PortableInfobox\Helpers\FileNamespaceSanitizeHelper;
 use PortableInfobox\Helpers\PortableInfoboxDataBag;
 use PortableInfobox\Helpers\PortableInfoboxImagesHelper;
@@ -197,7 +198,7 @@ class NodeMedia extends Node {
 	}
 
 	private function getImageAsTitleObject( $imageName ) {
-		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+		$contLang = PortableInfoboxUtils::getContentLanguage();
 
 		$title = \Title::makeTitleSafe(
 			NS_FILE,
