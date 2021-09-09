@@ -22,7 +22,7 @@ class PortableInfoboxParsingHelper {
 	 *
 	 * @return mixed false when no infoboxes found, Array with infoboxes on success
 	 */
-	public function parseIncludeonlyInfoboxes( $title) {
+	public function parseIncludeonlyInfoboxes( $title ) {
 		// for templates we need to check for include tags
 		$templateText = $this->fetchArticleContent( $title );
 
