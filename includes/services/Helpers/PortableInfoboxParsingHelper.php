@@ -19,11 +19,10 @@ class PortableInfoboxParsingHelper {
 	 * Try to find out if infobox got "hidden" inside includeonly tag. Parse it if that's the case.
 	 *
 	 * @param \Title $title
-	 * @param \User $user
 	 *
 	 * @return mixed false when no infoboxes found, Array with infoboxes on success
 	 */
-	public function parseIncludeonlyInfoboxes( $title, $user ) {
+	public function parseIncludeonlyInfoboxes( $title) {
 		// for templates we need to check for include tags
 		$templateText = $this->fetchArticleContent( $title );
 
