@@ -30,7 +30,7 @@ class PortableInfoboxParsingHelper {
 			$parser = MediaWikiServices::getInstance()->getParser();
 			$parser->setTitle( $title );
 			$parserOptions = new \ParserOptions();
-			if ( $parserOptions->getOptions() === null ) {
+			if ( $parser->getOptions() === null ) {
 				$parserOptions = ParserOptions::newFromAnon();
 				$parser->setOptions( $parserOptions );
 			}
