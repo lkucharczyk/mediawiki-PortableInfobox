@@ -29,7 +29,6 @@ class PortableInfoboxParsingHelper {
 		if ( $templateText ) {
 			$parser = MediaWikiServices::getInstance()->getParser();
 			$parser->setTitle( $title );
-			$parserOptions = new \ParserOptions();
 			$parserOptions = \ParserOptions::newFromAnon();
 			$parser->setOptions( $parserOptions );
 			$frame = $parser->getPreprocessor()->newFrame();
