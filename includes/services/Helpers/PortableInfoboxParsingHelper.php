@@ -30,10 +30,8 @@ class PortableInfoboxParsingHelper {
 			$parser = MediaWikiServices::getInstance()->getParser();
 			$parser->setTitle( $title );
 			$parserOptions = new \ParserOptions();
-			if ( $parser->getOptions() === null ) {
-				$parserOptions = ParserOptions::newFromAnon();
-				$parser->setOptions( $parserOptions );
-			}
+			$parserOptions = \ParserOptions::newFromAnon();
+			$parser->setOptions( $parserOptions );
 			$frame = $parser->getPreprocessor()->newFrame();
 
 			$includeonlyText = $parser->getPreloadText( $templateText, $title, $parserOptions );
