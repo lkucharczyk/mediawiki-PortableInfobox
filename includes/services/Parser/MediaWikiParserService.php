@@ -47,8 +47,16 @@ class MediaWikiParserService implements ExternalParser {
 			//fix for first item list elements
 			$parsed = "\n" . $parsed;
 		}
-		$output = $this->parser->doBlockLevels( $parsed, false );
-		$ready = $this->parser->mStripState->unstripBoth( $output );
+		if  ( method_exists( '\BlockLevelPass', 'doBlockLevels' ) ) {
+			$output = \BlockLevelPass::doBlockLevels( $parsed, false );
+		} else {
+			$output = $this->parser->doBlockLevels( $parsed, false );
+		}
+		if  ( method_exists( '\Parser', 'getStripState' ) ) {
+			$ready = $this->parser->getStripState()->unstripBoth( $output );
+		} else {
+			$ready = $this->parser->mStripState->unstripBoth( $output );
+		}
 		$this->parser->replaceLinkHolders( $ready );
 		if ( isset( $this->tidyDriver ) ) {
 			$ready = $this->tidyDriver->tidy( $ready );
