@@ -266,21 +266,22 @@ class PortableInfoboxRenderService {
 
 		foreach ( $groupData as $item ) {
 			$data = $item['data'];
+			$type = $item['type'];
 
-			if ( $item['type'] === 'data' ) {
+			if ( $type === 'header' ) {
+				$horizontalGroupData['header'] = $data['value'];
+				$horizontalGroupData['inlineStyles'] = $this->inlineStyles;
+			}else{
 				$horizontalGroupData['data'][] = [
 					'label' => $data['label'],
-					'value' => $data['value'],
-					'source' => $item['data']['source'] ?? "",
-					'item-name' => $item['data']['item-name']
+					'value' => $data['value'] ?? $this->renderItem($type,$data),
+					'source' => $data['source'] ?? "",
+					'item-name' => $data['item-name']
 				];
 
 				if ( !empty( $data['label'] ) ) {
 					$horizontalGroupData['renderLabels'] = true;
 				}
-			} elseif ( $item['type'] === 'header' ) {
-				$horizontalGroupData['header'] = $data['value'];
-				$horizontalGroupData['inlineStyles'] = $this->inlineStyles;
 			}
 		}
 
